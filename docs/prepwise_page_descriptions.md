@@ -1,37 +1,37 @@
-# PrepWise UXPilot Page Descriptions
+# PrepWise UXPilot Page Descriptions - Minimalist
 
 ## 1. Landing Page
-Create a professional landing page with clean design inspired by institutional websites. Top section has white navigation bar with PrepWise logo (left), menu items (How It Works, Features, Universities, Login) center-aligned, and "Start Free Trial" teal button (#17B0A7) on right. Hero section features large headline "Master Your Interview Skills with AI-Powered Practice" in Deep Blue (#1A4D8C), subtext explaining the platform, and two CTAs: primary "Start My Interview Simulation" button and secondary "Watch Demo" link. Include trust indicators with university partner logos, student testimonials in card format, and key statistics (95% improvement rate). Feature section uses 3-column grid showcasing core benefits with outline icons. Footer matches navigation color scheme with links organized in columns.
+Light gray background. White header bar with PrepWise logo left, "Start Free" teal button right. Center content: Large blue heading "AI Interview Practice", subtext one line, single teal "Start Now" button. Three feature cards below with icon and one-line text each. Minimal footer with essential links only.
 
-## 2. Student Login/Register
-Design a split-screen layout with left side showing inspiring student image with overlay text "Join 50,000+ students preparing smarter". Right side has white background with PrepWise logo, toggle between Login/Register tabs. Login form includes email and password fields with minimal bottom-border style, "Remember me" checkbox, "Forgot password?" link, and full-width Deep Blue login button. Register form adds university dropdown, name fields, and terms checkbox. Include social login options (Google, LinkedIn) with outline buttons. Bottom text links to alternate action (login/register).
+## 2. Login
+Light gray background. Centered white card (400px max-width). PrepWise logo top. Email and password inputs with light borders. "Forgot password?" link right-aligned. Teal "Sign In" button full-width. "New user? Sign up" link below. No decorations.
 
-## 3. Student Dashboard
-Create a welcoming dashboard with personalized greeting "Welcome back, [Name]!" in large Deep Blue text. Top section shows progress overview cards: "Interviews Completed" (number + mini chart), "Average Score" (circular progress), "Improvement Rate" (percentage with arrow). Main action area features prominent "Start New Interview" teal button with icon. Recent activity section displays last 3 interview sessions as cards with date, job title, score, and "View Feedback" link. Right sidebar shows upcoming interviews scheduled, tips of the day in light blue card, and achievement badges earned. Use generous whitespace and card-based layout throughout.
+## 3. Dashboard
+White header with logo and user avatar. Light gray background. Welcome text "Hi [Name]" only. Single white card with big teal "Start Interview" button center. Below: "Recent Interviews" text, 3 simple rows showing date, score, "View" link. No charts or extra metrics.
 
 ## 4. Document Upload
-Design a step-by-step upload interface with progress indicator at top (3 steps: Upload Documents, Review, Start Interview). Main area has large drop zone with dashed border, upload icon, and text "Drag and drop your files here or click to browse". Support CV (required) and Cover Letter (optional) with separate upload areas. Show file preview cards after upload with filename, size, and remove option. Right panel displays document quality tips in bullet points. Bottom has "Skip this step" link and prominent "Continue" button (disabled until CV uploaded). Include real-time document parsing feedback.
+White card centered. "Upload Your CV" heading. Dashed border drop zone with upload icon. File name appears when uploaded. Skip link and Continue button at bottom. No tips or extra text.
 
-## 5. Job Scenario Setup
-Create a form-based setup page with clear sections. Job details section includes job title input, company name (optional), and job description textarea with character count. Interview preferences section has type selector (General, Technical, Behavioral), difficulty level (Entry, Intermediate, Senior) as radio cards, duration dropdown (15, 30, 45, 60 minutes), and input method toggle (Text/Voice) with icons. Preview panel on right shows selected options summary. Bottom has "Back" link and "Start Interview" teal button. Use cards to group related options with subtle borders.
+## 5. Job Setup
+White card. "Job Details" heading. Three inputs: Job Title (required), Company, Description. "Interview Type" with 3 radio buttons. Teal "Start" button. All single column, minimal spacing.
 
-## 6. Interview Simulation Interface
-Design a focused interview environment with minimal distractions. Top bar shows progress (Question 3 of 10), time remaining, and "End Interview" link. Main area uses chat-style interface: AI interviewer messages appear on left with professional avatar, student responses on right. Current question displayed in larger text with question type badge. Response area has large text input with character/word count, or voice recording interface with waveform visualization. Include "Submit Answer" button that changes to "Next Question" after submission. Subtle animations for message appearances.
+## 6. Interview Simulation
+Light gray background (#F5F7FA). White header bar (60px) with PrepWise logo left, "Interview Simulation" text and avatar right. Centered white card (880px max, 12px radius, subtle shadow). Inside card: "Question 3 of 10" with thin progress bar (teal fill), timer "04:12", orange "End Interview" link. Small teal "BEHAVIORAL" badge above large blue question text (20px). "Your Response" label with Text/Voice toggle pills. Clean textarea with light border, placeholder text. Single "Submit Answer" button (light blue-gray). Copyright footer below card.
 
-## 7. Interview Feedback Summary
-Create a comprehensive feedback page with hero section showing overall score in large circular progress indicator (0-100) with performance label (Excellent/Good/Needs Work). Performance breakdown section uses horizontal bar charts for categories: Communication Skills, Technical Knowledge, Problem Solving, Cultural Fit. Each bar shows score with color coding (green for strong, orange for improve). Key insights section displays 3 strength cards and 3 improvement cards with specific examples from responses. Bottom has two CTAs: "View Detailed Feedback" (primary) and "Try Another Interview" (secondary).
+## 7. Feedback Summary
+White card centered. Large score number with circle progress. "Performance" heading with 4 simple bars showing category scores. Two buttons: "View Details" (teal) and "New Interview" (gray). No decorative elements.
 
-## 8. Detailed Feedback View
-Design a structured feedback page with question-by-question analysis. Each question block shows the question text, student's response (with key phrases highlighted), AI feedback in expandable sections, and score breakdown. Use color-coded highlighting: green for good points, orange for areas to improve. Right sidebar shows performance trends graph, suggested resources links, and "Download PDF Report" button. Include examples of better responses and specific improvement tips. Navigation allows jumping between questions. Bottom has "Practice Similar Questions" CTA.
+## 8. Detailed Feedback
+White background. Question shown, then your answer in light gray box. "Feedback" heading with bullet points. "Suggested Improvement" in separate box. "Next Question" link bottom right. Clean, scannable layout.
 
-## 9. Organization Admin Dashboard
-Create a data-focused admin interface with top metrics row: Active Students, Interviews This Month, Average Score, Improvement Rate. Main area has tabbed sections: Students (searchable table with name, email, last active, interviews count), Analytics (usage graphs, performance distributions), Settings (organization branding upload). Charts use organization's custom colors if set. Include export buttons for data, bulk invite students feature, and activity feed of recent student actions. Maintain professional appearance similar to enterprise dashboards.
+## 9. Organization Admin
+White header. Table with columns: Name, Email, Last Active, Interviews. Search box above. "Invite Students" button top right. Pagination bottom. No charts or complex metrics.
 
-## 10. Superadmin Panel
-Design a comprehensive control panel with sidebar navigation for different sections. Organizations overview shows cards for each org with logo, admin name, student count, and "Manage" button. System metrics dashboard displays platform-wide statistics with real-time charts. User management section has searchable tables with filters, bulk actions, and quick edit capabilities. Settings area includes platform configuration, email templates, and feature flags. Use data tables with sorting, pagination, and inline actions. Maintain clean, technical aesthetic with plenty of data visualization.
+## 10. Settings
+White background. Left menu with sections. Right content area shows selected section. Form inputs with labels above. Single "Save" button at form bottom. No descriptions unless essential.
 
-## 11. Profile Settings
-Create a tabbed settings interface with sections for Personal Info (name, email, university), Interview Preferences (default duration, difficulty, topics of interest), Notification Settings (email toggles for feedback, reminders, tips), Account Security (password change, two-factor auth). Each section uses form groups with clear labels and help text. Include profile picture upload with crop functionality. Bottom of each tab has "Save Changes" button. Right sidebar shows account stats: member since, total interviews, current streak.
+## 11. Interview History
+White background. Search and date filter top. Table: Date, Job, Score, Action. Rows have "View" link only. Clean pagination. No visualizations.
 
-## 12. Interview History
-Design a comprehensive history page with filter bar at top (date range, job type, score range). Main content shows interview sessions as rows with columns: Date, Job Title, Company, Duration, Score, Actions (View Feedback, Download Report, Retry). Include pagination and results per page selector. Each row expands to show quick summary on click. Export options for data in CSV/PDF. Summary stats at top show total interviews, average score trend, most practiced job types. Use alternating row colors for readability.
+## 12. Student Registration
+Same style as login. White card. University dropdown, name, email, password fields. Terms checkbox. "Create Account" button. Minimal text throughout.
