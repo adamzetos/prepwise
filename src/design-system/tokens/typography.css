@@ -1,0 +1,63 @@
+/* Auto-generated typography system */
+:root {
+  /* heading-1 */
+  --font-heading-1-family: "Inter";
+  --font-heading-1-size: 40px;
+  --font-heading-1-weight: 700;
+  --font-heading-1-line-height: 40px;
+
+  /* heading-2 */
+  --font-heading-2-family: "Inter";
+  --font-heading-2-size: 36px;
+  --font-heading-2-weight: 700;
+  --font-heading-2-line-height: 36px;
+
+  /* heading-3 */
+  --font-heading-3-family: "Inter";
+  --font-heading-3-size: 32px;
+  --font-heading-3-weight: 700;
+  --font-heading-3-line-height: 32px;
+
+  /* body-large */
+  --font-body-large-family: "Inter";
+  --font-body-large-size: 28px;
+  --font-body-large-weight: 700;
+  --font-body-large-line-height: 28px;
+
+  /* body-large */
+  --font-body-large-family: "Inter";
+  --font-body-large-size: 24px;
+  --font-body-large-weight: 700;
+  --font-body-large-line-height: 24px;
+
+  /* body-large */
+  --font-body-large-family: "Inter";
+  --font-body-large-size: 20px;
+  --font-body-large-weight: 700;
+  --font-body-large-line-height: 20px;
+
+  /* body-large */
+  --font-body-large-family: "Inter";
+  --font-body-large-size: 18px;
+  --font-body-large-weight: 700;
+  --font-body-large-line-height: 26px;
+
+  /* body */
+  --font-body-family: "Inter";
+  --font-body-size: 16px;
+  --font-body-weight: 400;
+  --font-body-line-height: 19.363636016845703px;
+
+  /* body-small */
+  --font-body-small-family: "Inter";
+  --font-body-small-size: 14px;
+  --font-body-small-weight: 400;
+  --font-body-small-line-height: 14px;
+
+  /* caption */
+  --font-caption-family: "Inter";
+  --font-caption-size: 12px;
+  --font-caption-weight: 400;
+  --font-caption-line-height: 14px;
+
+}

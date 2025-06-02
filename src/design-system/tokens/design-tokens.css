@@ -1,0 +1,47 @@
+/* ADAMCHINS PrepWise Design Tokens */
+/* Classification: ADAMCHINS-CONFIDENTIAL ▲ */
+/* Auto-generated from Figma */
+
+/* Import all token files */
+@import './colors.css';
+@import './typography.css';
+
+/* Additional custom properties for consistency */
+:root {
+  /* Semantic color mapping */
+  --color-primary: var(--frame-11); /* #1a4d8c - Blue */
+  --color-secondary: var(--frame-12); /* #17b0a7 - Teal */
+  --color-text-primary: var(--frame-19); /* #1f2d3d - Dark */
+  --color-text-secondary: var(--frame-20); /* #6b7b8f - Gray */
+  --color-background: var(--frame-10); /* #ffffff - White */
+  --color-background-alt: var(--frame-14); /* #f7f9fc - Light */
+  --color-border: var(--frame-21); /* #e8ecf0 - Border */
+  --color-success: var(--frame-24); /* #3cb371 - Green */
+  --color-warning: var(--frame-25); /* #ff9d5c - Orange */
+  --color-info: var(--frame-29); /* #4f6fe5 - Blue */
+  
+  /* Spacing scale (8px base) */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem;  /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem;    /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem;  /* 24px */
+  --space-8: 2rem;    /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem;   /* 48px */
+  --space-16: 4rem;   /* 64px */
+  
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
