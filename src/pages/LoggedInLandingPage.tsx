@@ -1,17 +1,17 @@
 /**
  * ADAMCHINS PrepWise
  * Classification: ADAMCHINS-CONFIDENTIAL ▲
- * Page: Landing Page
- * Purpose: Main landing page for non-authenticated users
- * Why Needed: Primary conversion and information page
+ * Component: LoggedInLandingPage
+ * Purpose: Landing page for authenticated users
+ * Why Needed: Initialize interview process for logged-in users
  */
 
-import { Navigation } from '@/components/landing/Navigation';
-import { HeroSection } from '@/components/landing/HeroSection';
-import { FeaturesSection } from '@/components/landing/FeaturesSection';
-import { Footer } from '@/components/landing/Footer';
+import { LoggedInNavigation } from '../components/landing/LoggedInNavigation';
+import { HeroSection } from '../components/landing/HeroSection';
+import { FeaturesSection } from '../components/landing/FeaturesSection';
+import { Footer } from '../components/landing/Footer';
 
-export function LandingPage() {
+export function LoggedInLandingPage() {
   const pageStyle = {
     minHeight: '100vh',
     backgroundColor: '#ffffff',
@@ -24,7 +24,7 @@ export function LandingPage() {
 
   return (
     <div style={pageStyle}>
-      <Navigation />
+      <LoggedInNavigation />
       <HeroSection />
       <FeaturesSection />
       <Footer />

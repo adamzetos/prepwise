@@ -2,89 +2,105 @@
  * ADAMCHINS PrepWise
  * Classification: ADAMCHINS-CONFIDENTIAL ▲
  * Component: Footer
- * Purpose: Site footer with links and information
- * Why Needed: Navigation and legal information
+ * Purpose: Site footer with copyright and social links
+ * Why Needed: Legal information and social media presence
  */
 
-import { Link } from 'react-router-dom';
-
 export function Footer() {
+  const footerStyle = {
+    backgroundColor: '#ffffff',
+    borderTop: '1px solid #e5e7eb',
+    padding: '2rem 0',
+    marginTop: 'auto', // Push footer to bottom
+  };
+
+  const containerStyle = {
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '0 2rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap' as const,
+    gap: '1rem',
+  };
+
+  const logoImgStyle = {
+    height: '24px',
+    width: 'auto',
+  };
+
+  const copyrightStyle = {
+    fontSize: '14px',
+    color: '#6b7b8f',
+  };
+
+  const socialLinksStyle = {
+    display: 'flex',
+    gap: '1.5rem',
+    alignItems: 'center',
+  };
+
+  const socialLinkStyle = {
+    color: '#6b7b8f',
+    transition: 'color 0.2s',
+    cursor: 'pointer',
+  };
+
   return (
-    <footer className="bg-text-primary text-white py-12">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">PrepWise</h3>
-            <p className="text-gray-400">
-              AI-powered interview preparation platform for ambitious professionals.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Product</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/features" className="text-gray-400 hover:text-white transition-colors">
-                  Features
-                </Link>
-              </li>
-              <li>
-                <Link to="/pricing" className="text-gray-400 hover:text-white transition-colors">
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link to="/demo" className="text-gray-400 hover:text-white transition-colors">
-                  Demo
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Support</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/help" className="text-gray-400 hover:text-white transition-colors">
-                  Help Center
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/faq" className="text-gray-400 hover:text-white transition-colors">
-                  FAQ
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Legal</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-gray-400 hover:text-white transition-colors">
-                  Terms of Service
-                </Link>
-              </li>
-            </ul>
-          </div>
+    <footer style={footerStyle}>
+      <div style={containerStyle}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <img src="/logo.svg" alt="Prepwise" style={logoImgStyle} />
+          <span style={copyrightStyle}>
+            © 2025 Prepwise. All rights reserved.
+          </span>
         </div>
 
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 PrepWise. All rights reserved.</p>
+        <div style={socialLinksStyle}>
+          {/* LinkedIn */}
+          <a 
+            href="https://linkedin.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={socialLinkStyle}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#0077b5'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+
+          {/* Twitter */}
+          <a 
+            href="https://twitter.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={socialLinkStyle}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#1da1f2'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+            </svg>
+          </a>
+
+          {/* Instagram */}
+          <a 
+            href="https://instagram.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={socialLinkStyle}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#e4405f'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="white"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" strokeWidth="2"/>
+            </svg>
+          </a>
         </div>
       </div>
     </footer>

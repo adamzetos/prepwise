@@ -2,67 +2,103 @@
  * ADAMCHINS PrepWise
  * Classification: ADAMCHINS-CONFIDENTIAL ▲
  * Component: Features Section
- * Purpose: Showcase key features with hover effects
+ * Purpose: Showcase key features
  * Why Needed: Communicate product value propositions
  */
-
-import { motion } from 'framer-motion';
 
 const features = [
   {
     title: 'AI Practice & Feedback',
-    description: 'Get instant, personalized feedback on your interview responses powered by advanced AI.',
-    icon: '🤖',
-    color: 'bg-blue-100',
-    hoverColor: 'hover:bg-blue-200'
+    description: 'Experience realistic interviews with instant, actionable feedback to help you grow confidently.',
+    iconPath: '/icons/ai-practice-icon.svg',
   },
   {
     title: 'Track Your Progress',
-    description: 'Monitor your improvement over time with detailed analytics and performance metrics.',
-    icon: '📊',
-    color: 'bg-green-100',
-    hoverColor: 'hover:bg-green-200'
+    description: 'Visual dashboards show your strengths and areas to improve, so you always know where you stand.',
+    iconPath: '/icons/track-progress-icon.svg',
   },
   {
     title: 'Real-World Simulation',
-    description: 'Experience authentic interview scenarios tailored to your industry and role.',
-    icon: '🎯',
-    color: 'bg-purple-100',
-    hoverColor: 'hover:bg-purple-200'
+    description: 'Practice in a lifelike interview environment to build your confidence before the real thing.',
+    iconPath: '/icons/real-world-icon.svg',
   }
 ];
 
 export function FeaturesSection() {
-  return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-text-primary mb-4">
-            Why Choose PrepWise?
-          </h2>
-          <p className="text-xl text-text-secondary max-w-3xl mx-auto">
-            Our AI-powered platform provides everything you need to excel in your interviews
-          </p>
-        </div>
+  const sectionStyle = {
+    backgroundColor: '#ffffff', // White background
+    marginTop: '-100px', // Overlap with hero section
+    position: 'relative' as const,
+    zIndex: 20,
+    paddingTop: '0',
+    paddingBottom: '80px', // Add padding at bottom for content
+  };
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+  const containerStyle = {
+    maxWidth: 'none', // Full width to fit browser
+    width: '100%',
+    margin: '0 auto',
+    padding: '0 2rem',
+    display: 'flex',
+    justifyContent: 'center', // Center the grid
+  };
+
+  const gridStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 300px)', // Fixed 300px width for each card
+    gap: '20px', // 20px margin between cards
+    justifyContent: 'center', // Center the grid itself
+  };
+
+  const cardStyle = {
+    backgroundColor: '#ffffff',
+    borderRadius: '12px',
+    padding: '2.5rem',
+    textAlign: 'center' as const,
+    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+    border: '1px solid rgba(0, 0, 0, 0.08)',
+    width: '300px', // Fixed width
+    maxWidth: '300px', // Maximum width constraint
+  };
+
+  const iconStyle = {
+    width: '48px',
+    height: '48px',
+    margin: '0 auto 1.5rem',
+    display: 'block',
+  };
+
+  const titleStyle = {
+    fontSize: '20px',
+    fontWeight: '600',
+    color: '#1f2d3d',
+    marginBottom: '1rem',
+  };
+
+  const descriptionStyle = {
+    fontSize: '14px',
+    color: '#6b7b8f',
+    lineHeight: '1.6',
+  };
+
+  return (
+    <section style={sectionStyle}>
+      <div style={containerStyle}>
+        <div style={gridStyle}>
           {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className={`p-8 rounded-2xl ${feature.color} ${feature.hoverColor} transition-all duration-300 transform hover:scale-105 hover:shadow-lg cursor-pointer`}
-            >
-              <div className="text-5xl mb-4">{feature.icon}</div>
-              <h3 className="text-2xl font-semibold text-text-primary mb-3">
+            <div key={index} style={cardStyle}>
+              <img 
+                src={feature.iconPath} 
+                alt={feature.title}
+                style={iconStyle}
+              />
+              <h3 style={titleStyle}>
                 {feature.title}
               </h3>
-              <p className="text-text-secondary">
+              <p style={descriptionStyle}>
                 {feature.description}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

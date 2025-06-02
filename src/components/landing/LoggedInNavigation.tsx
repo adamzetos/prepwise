@@ -1,14 +1,14 @@
 /**
  * ADAMCHINS PrepWise
  * Classification: ADAMCHINS-CONFIDENTIAL ▲
- * Component: Navigation
- * Purpose: Main navigation bar for landing page
- * Why Needed: Primary navigation and branding
+ * Component: LoggedInNavigation
+ * Purpose: Navigation bar for logged-in users
+ * Why Needed: Display user-specific navigation with avatar
  */
 
 import { Link } from 'react-router-dom';
 
-export function Navigation() {
+export function LoggedInNavigation() {
   const navStyle = {
     position: 'relative' as const,
     backgroundColor: '#ffffff',
@@ -38,7 +38,7 @@ export function Navigation() {
 
   const menuStyle = {
     display: 'flex',
-    gap: '2rem',
+    gap: '2.5rem',
     alignItems: 'center',
   };
 
@@ -50,9 +50,12 @@ export function Navigation() {
     transition: 'color 0.2s',
   };
 
-  const loginLinkStyle = {
-    ...linkStyle,
-    fontWeight: '500',
+  const avatarStyle = {
+    width: '36px',
+    height: '36px',
+    borderRadius: '50%',
+    cursor: 'pointer',
+    transition: 'opacity 0.2s',
   };
 
   return (
@@ -66,20 +69,20 @@ export function Navigation() {
         {/* Menu Items */}
         <div style={menuStyle}>
           <Link 
-            to="/how-it-works" 
+            to="/" 
             style={linkStyle}
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            How it works
+            Home
           </Link>
           <Link 
-            to="/benefits" 
+            to="/features" 
             style={linkStyle}
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            Benefits
+            Features
           </Link>
           <Link 
             to="/pricing" 
@@ -90,13 +93,30 @@ export function Navigation() {
             Pricing
           </Link>
           <Link 
-            to="/login" 
-            style={loginLinkStyle}
+            to="/admin" 
+            style={linkStyle}
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            Login
+            For Admins
           </Link>
+          <Link 
+            to="/help" 
+            style={linkStyle}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
+          >
+            Help
+          </Link>
+          
+          {/* User Avatar */}
+          <img 
+            src="/icons/avatar.svg" 
+            alt="User profile" 
+            style={avatarStyle}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+          />
         </div>
       </div>
     </nav>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Server Test</title>
+</head>
+<body>
+    <h1>Testing Server Connection</h1>
+    <p>If you can see this, the file system is accessible.</p>
+    <button onclick="testServer()">Test Vite Server</button>
+    <div id="result"></div>
+    
+    <script>
+        function testServer() {
+            fetch('http://localhost:5173')
+                .then(response => {
+                    document.getElementById('result').innerHTML = 'Server is running! Status: ' + response.status;
+                })
+                .catch(error => {
+                    document.getElementById('result').innerHTML = 'Server not accessible: ' + error.message;
+                });
+        }
+    </script>
+</body>
+</html>
