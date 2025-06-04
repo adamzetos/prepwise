@@ -81,7 +81,9 @@
       "linkedin": "Continue with LinkedIn",
       "noAccount": "Don't have an account?",
       "signUp": "Register",
-      "heroTitle": "Join 50,000+ students preparing smarter",
+      "emailPlaceholder": "Please enter",
+      "passwordPlaceholder": "Please enter",
+      "heroTitle": "Join 50,000+<br />students<br />preparing smarter",
       "heroSubtitle": "Empower your next interview with PrepWise's AI-driven tools."
     },
     "register": {
@@ -228,7 +230,8 @@
       "teamworkResponse": "Absolutely. At BrightEye Media, we were working on a tight deadline to launch a social media campaign. Halfway through, we realized our content calendar didn't align with the target audience's peak engagement times. I suggested we re-analyze the data in Google Analytics and adjust posting schedules. I collaborated with the team to revise the calendar and reallocate tasks quickly. Despite the adjustment period, by shifting during the campaign, and the client was really pleased with our responsiveness.",
       "whyInterested": "Sounds like you're very data-driven — love that. So, why are you interested in this Marketing Associate position?",
       "whyInterestedResponse": "What really excites me about this role is the chance to work on cross-functional campaigns and learn from a seasoned marketing team. I'm drawn to your brand's recent product launches and love how creative and cohesive they are across channels. This role feels like the perfect next step — a place where I can keep learning, contribute new ideas, and grow within a fast-moving company.",
-      "priorities": "One more — in marketing, priorities shift a lot. How do you manage multiple projects or deadlines at once?"
+      "priorities": "One more — in marketing, priorities shift a lot. How do you manage multiple projects or deadlines at once?",
+      "waitingForResponse": "Waiting for interviewer response..."
     }
   },
   "complete": {

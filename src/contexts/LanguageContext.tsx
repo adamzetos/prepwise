@@ -26,10 +26,17 @@ const translations = {
 };
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // Get initial language from localStorage or default to 'en'
+  // Get initial language from localStorage or browser preference
   const [language, setLanguageState] = useState<Language>(() => {
     const savedLang = localStorage.getItem('prepwise-language');
-    return (savedLang === 'fr' ? 'fr' : 'en') as Language;
+    if (savedLang === 'en' || savedLang === 'fr') {
+      return savedLang as Language;
+    }
+    
+    // Detect browser language
+    const browserLang = navigator.language || navigator.languages?.[0] || 'en';
+    // Check if browser language is French (fr, fr-FR, fr-CA, etc.)
+    return browserLang.toLowerCase().startsWith('fr') ? 'fr' : 'en';
   });
 
   // Save language preference to localStorage

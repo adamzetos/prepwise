@@ -226,7 +226,7 @@ export function LoginForm() {
           <label style={labelStyle}>{t('auth.login.email')}</label>
           <input
             type="email"
-            placeholder="Please enter"
+            placeholder={t('auth.login.emailPlaceholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             style={inputStyle}
@@ -240,7 +240,7 @@ export function LoginForm() {
           <div style={passwordContainerStyle}>
             <input
               type={showPassword ? 'text' : 'password'}
-              placeholder="Please enter"
+              placeholder={t('auth.login.passwordPlaceholder')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{...inputStyle, paddingRight: '48px'}}

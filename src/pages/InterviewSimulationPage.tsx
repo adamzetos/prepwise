@@ -7,8 +7,9 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getInterviewResponse, isOpenAIConfigured } from '../services/openai';
 
 interface ChatMessage {
   id: number;
@@ -19,12 +20,18 @@ interface ChatMessage {
 export function InterviewSimulationPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentResponse, setCurrentResponse] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [time, setTime] = useState(252); // 4:12 in seconds
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [isAIMode] = useState(isOpenAIConfigured());
+  const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Get job role from navigation state (default to Software Engineer)
+  const jobRole = location.state?.jobRole || 'Software Engineer';
 
   // Predefined interview flow
   const interviewFlow = [
@@ -302,14 +309,47 @@ export function InterviewSimulationPage() {
 
   // Initialize first message
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessages([{
-        id: 1,
-        type: 'interviewer',
-        content: interviewFlow[0].interviewer
-      }]);
-    }, 1000);
-    return () => clearTimeout(timer);
+    const initializeInterview = async () => {
+      if (isAIMode) {
+        setIsLoading(true);
+        try {
+          // Get initial greeting from AI
+          const aiGreeting = await getInterviewResponse([], {
+            jobRole: jobRole,
+            cvContent: location.state?.cvContent,
+            coverLetterContent: location.state?.coverLetterContent
+          });
+          
+          setMessages([{
+            id: 1,
+            type: 'interviewer',
+            content: aiGreeting
+          }]);
+        } catch (error) {
+          console.error('Failed to get initial AI greeting:', error);
+          // Fallback to predefined greeting
+          setMessages([{
+            id: 1,
+            type: 'interviewer',
+            content: interviewFlow[0].interviewer
+          }]);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        // Use predefined greeting with delay
+        const timer = setTimeout(() => {
+          setMessages([{
+            id: 1,
+            type: 'interviewer',
+            content: interviewFlow[0].interviewer
+          }]);
+        }, 1000);
+        return () => clearTimeout(timer);
+      }
+    };
+    
+    initializeInterview();
   }, []);
 
   const formatTime = (seconds: number) => {
@@ -318,7 +358,7 @@ export function InterviewSimulationPage() {
     return `${mins.toString().padStart(2, '0')} : ${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (currentResponse.trim() || currentQuestionIndex < interviewFlow.length) {
       // Add user response
       const userMessage: ChatMessage = {
@@ -330,21 +370,66 @@ export function InterviewSimulationPage() {
       setMessages(prev => [...prev, userMessage]);
       setCurrentResponse('');
       
-      // Move to next question after delay
-      if (currentQuestionIndex < interviewFlow.length - 1) {
-        setTimeout(() => {
-          const nextIndex = currentQuestionIndex + 1;
-          setCurrentQuestionIndex(nextIndex);
+      // If AI mode is enabled, get AI response
+      if (isAIMode) {
+        setIsLoading(true);
+        try {
+          // Convert messages to OpenAI format
+          const openAIMessages = messages.map(msg => ({
+            role: msg.type === 'interviewer' ? 'assistant' as const : 'user' as const,
+            content: msg.content
+          }));
           
+          // Add the current user message
+          openAIMessages.push({
+            role: 'user' as const,
+            content: userMessage.content
+          });
+          
+          // Get AI response
+          const aiResponse = await getInterviewResponse(openAIMessages, {
+            jobRole: jobRole,
+            cvContent: location.state?.cvContent,
+            coverLetterContent: location.state?.coverLetterContent
+          });
+          
+          // Add AI response to messages
           const interviewerMessage: ChatMessage = {
             id: messages.length + 2,
             type: 'interviewer',
-            content: interviewFlow[nextIndex].interviewer
+            content: aiResponse
           };
           
           setMessages(prev => [...prev, interviewerMessage]);
-        }, 1500);
+        } catch (error) {
+          console.error('Failed to get AI response:', error);
+          // Fallback to predefined flow
+          usePreDefinedFlow();
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        // Use predefined flow
+        usePreDefinedFlow();
       }
+    }
+  };
+  
+  const usePreDefinedFlow = () => {
+    // Move to next question after delay
+    if (currentQuestionIndex < interviewFlow.length - 1) {
+      setTimeout(() => {
+        const nextIndex = currentQuestionIndex + 1;
+        setCurrentQuestionIndex(nextIndex);
+        
+        const interviewerMessage: ChatMessage = {
+          id: messages.length + 2,
+          type: 'interviewer',
+          content: interviewFlow[nextIndex].interviewer
+        };
+        
+        setMessages(prev => [...prev, interviewerMessage]);
+      }, 1500);
     }
   };
 
@@ -426,15 +511,16 @@ export function InterviewSimulationPage() {
           <div style={inputContainerStyle}>
             <textarea
               style={textAreaStyle}
-              placeholder={t('interview.typeResponse')}
+              placeholder={isLoading ? t('interview.waitingForResponse') || 'Waiting for response...' : t('interview.typeResponse')}
               value={currentResponse}
               onChange={(e) => setCurrentResponse(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
+                if (e.key === 'Enter' && !e.shiftKey && !isLoading) {
                   e.preventDefault();
                   handleSubmit();
                 }
               }}
+              disabled={isLoading}
               onFocus={(e) => e.target.style.borderColor = '#17B0A7'}
               onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
             />
@@ -459,7 +545,7 @@ export function InterviewSimulationPage() {
                   cursor: currentResponse.trim() || currentQuestionIndex < interviewFlow.length ? 'pointer' : 'not-allowed'
                 }}
                 onClick={handleSubmit}
-                disabled={!currentResponse.trim() && currentQuestionIndex >= interviewFlow.length}
+                disabled={(!currentResponse.trim() && currentQuestionIndex >= interviewFlow.length) || isLoading}
                 onMouseEnter={(e) => {
                   if (currentResponse.trim() || currentQuestionIndex < interviewFlow.length) {
                     e.currentTarget.style.backgroundColor = '#15a097';

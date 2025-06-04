@@ -71,14 +71,9 @@ export function LoginHero() {
       <div style={backgroundStyle}></div>
       <div style={overlayStyle}></div>
       <div style={contentStyle}>
-        <h1 style={headingStyle}>
-          {t('auth.login.heroTitle').split(' ').map((word, i) => {
-            if (i === 1) return <>{word}<br /></>;
-            if (i === 2) return <>{word}<br /></>;
-            if (i === 3) return <>{word}<br /></>;
-            return <>{word} </>;
-          })}
-        </h1>
+        <h1 style={headingStyle} dangerouslySetInnerHTML={{ 
+          __html: t('auth.login.heroTitle')
+        }} />
         <p style={subheadingStyle}>
           {t('auth.login.heroSubtitle')}
         </p>

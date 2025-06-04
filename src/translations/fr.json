@@ -81,7 +81,9 @@
       "linkedin": "Continuer avec LinkedIn",
       "noAccount": "Vous n'avez pas de compte ?",
       "signUp": "S'inscrire",
-      "heroTitle": "Rejoignez plus de 50 000 étudiants qui se préparent intelligemment",
+      "emailPlaceholder": "Veuillez saisir",
+      "passwordPlaceholder": "Veuillez saisir",
+      "heroTitle": "Rejoignez plus de 50 000<br />étudiants qui se<br />préparent intelligemment",
       "heroSubtitle": "Renforcez votre prochain entretien avec les outils alimentés par l'IA de PrepWise."
     },
     "register": {
@@ -228,7 +230,8 @@
       "teamworkResponse": "Absolument. Chez BrightEye Media, nous travaillions sur un délai serré pour lancer une campagne sur les réseaux sociaux. À mi-chemin, nous avons réalisé que notre calendrier de contenu ne correspondait pas aux heures de pointe d'engagement du public cible. J'ai suggéré de réanalyser les données dans Google Analytics et d'ajuster les horaires de publication. J'ai collaboré avec l'équipe pour réviser rapidement le calendrier et réaffecter les tâches. Malgré la période d'ajustement, en changeant pendant la campagne, le client était vraiment satisfait de notre réactivité.",
       "whyInterested": "On dirait que vous êtes très axé sur les données - j'adore ça. Alors, pourquoi êtes-vous intéressé par ce poste d'Associé Marketing ?",
       "whyInterestedResponse": "Ce qui m'enthousiasme vraiment dans ce rôle, c'est la chance de travailler sur des campagnes transversales et d'apprendre d'une équipe marketing chevronnée. Je suis attiré par les récents lancements de produits de votre marque et j'adore à quel point ils sont créatifs et cohérents sur tous les canaux. Ce rôle semble être la prochaine étape parfaite - un endroit où je peux continuer à apprendre, apporter de nouvelles idées et grandir au sein d'une entreprise en mouvement rapide.",
-      "priorities": "Une dernière question - en marketing, les priorités changent beaucoup. Comment gérez-vous plusieurs projets ou échéances à la fois ?"
+      "priorities": "Une dernière question - en marketing, les priorités changent beaucoup. Comment gérez-vous plusieurs projets ou échéances à la fois ?",
+      "waitingForResponse": "En attente de la réponse de l'intervieweur..."
     }
   },
   "complete": {
