@@ -529,13 +529,6 @@ export function InterviewSimulationPage() {
             ))}
           </div>
 
-          {getCurrentQuestion() && (
-            <div style={currentQuestionStyle}>
-              <div style={questionLabelStyle}>{t('interview.behavioral')}</div>
-              <div style={questionTextStyle}>{getCurrentQuestion()}</div>
-            </div>
-          )}
-
           <div style={inputContainerStyle}>
             <textarea
               ref={textAreaRef}
