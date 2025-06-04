@@ -7,8 +7,11 @@
  */
 
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { LanguageSelector } from '../common/LanguageSelector';
 
 export function LoggedInNavigation() {
+  const { t } = useLanguage();
   const navStyle = {
     position: 'relative' as const,
     backgroundColor: '#ffffff',
@@ -74,7 +77,7 @@ export function LoggedInNavigation() {
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            Home
+            {t('navigation.home')}
           </Link>
           <Link 
             to="/features" 
@@ -82,7 +85,7 @@ export function LoggedInNavigation() {
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            Features
+            {t('navigation.features')}
           </Link>
           <Link 
             to="/pricing" 
@@ -90,7 +93,7 @@ export function LoggedInNavigation() {
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            Pricing
+            {t('navigation.pricing')}
           </Link>
           <Link 
             to="/admin" 
@@ -98,7 +101,7 @@ export function LoggedInNavigation() {
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            For Admins
+            {t('navigation.forAdmins')}
           </Link>
           <Link 
             to="/help" 
@@ -106,8 +109,10 @@ export function LoggedInNavigation() {
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            Help
+            {t('navigation.help')}
           </Link>
+          
+          <LanguageSelector />
           
           {/* User Avatar */}
           <img 

@@ -7,9 +7,11 @@
  */
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { LoggedInNavigation } from '../components/landing/LoggedInNavigation';
 import { Footer } from '../components/landing/Footer';
+import { useLanguage } from '../contexts/LanguageContext';
+import { generatePDF } from '../utils/generatePDF';
+import { FAVICON_BASE64 } from '../utils/faviconBase64';
 
 interface Question {
   id: string;
@@ -22,33 +24,33 @@ interface Question {
 }
 
 export function DetailedSuggestionsPage() {
-  const navigate = useNavigate();
+  const { t } = useLanguage();
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
 
   const questions: Question[] = [
     {
       id: 'q1',
       number: 'Q1',
-      text: 'Tell me about yourself',
-      type: 'Fit Question',
-      answer: "I'm a recent business graduate from Riverside University with experience in student government and twomarketing internships. I'm passionate about helping organizations grow and excited to apply my skills in a real-world environment.",
-      feedback: 'Good structure and clear academic background. You highlighted relevant experiences and showed enthusiasm. Consider quantifying achievements for more impact.',
+      text: t('suggestions.questions.q1.text'),
+      type: t('suggestions.questionTypes.fit'),
+      answer: t('suggestions.questions.q1.answer'),
+      feedback: t('suggestions.questions.q1.feedback'),
       suggestions: [
-        'Include an achievement with results (e.g., "increased event attendance by 30%")',
-        'Briefly connect your experience to the target role'
+        t('suggestions.questions.q1.suggestions.0'),
+        t('suggestions.questions.q1.suggestions.1')
       ]
     },
     {
       id: 'q2',
       number: 'Q2',
-      text: 'Describe a time you solved a problem in a team',
-      type: 'Behavioral Question'
+      text: t('suggestions.questions.q2.text'),
+      type: t('suggestions.questionTypes.behavioral')
     },
     {
       id: 'q3',
       number: 'Q3',
-      text: 'What interests you about this position?',
-      type: 'Fit Question'
+      text: t('suggestions.questions.q3.text'),
+      type: t('suggestions.questionTypes.fit')
     }
   ];
 
@@ -62,6 +64,76 @@ export function DetailedSuggestionsPage() {
       }
       return newSet;
     });
+  };
+
+  const handleDownloadPDF = () => {
+    // Prepare PDF content
+    const pdfContent = {
+      userAvatar: FAVICON_BASE64, // Use favicon.png as avatar
+      cvReview: {
+        documentName: t('cvReview.cvTab.documentName'),
+        strengths: t('cvReview.cvTab.strengthsContent'),
+        areasForImprovement: t('cvReview.cvTab.areasContent'),
+        overall: t('cvReview.cvTab.overallContent')
+      },
+      coverLetterReview: {
+        content: `${t('cvReview.coverLetterTab.greeting')}
+
+${t('cvReview.coverLetterTab.content.line1')} ${t('cvReview.coverLetterTab.content.interest')} ${t('cvReview.coverLetterTab.content.line1End')}
+
+${t('cvReview.coverLetterTab.content.line2')} ${t('cvReview.coverLetterTab.content.line2Mid')}
+
+${t('cvReview.coverLetterTab.content.line3')}
+
+${t('cvReview.coverLetterTab.content.closing')}
+
+${t('cvReview.coverLetterTab.content.signoff')}
+${t('cvReview.coverLetterTab.content.name')}`,
+        insights: {
+          clarityIssue: t('cvReview.sidebar.clarityContent'),
+          impactMissing: t('cvReview.sidebar.impactContent'),
+          repetitiveLanguage: t('cvReview.sidebar.repetitiveContent'),
+          formatting: t('cvReview.sidebar.formattingContent')
+        },
+        suggestions: [
+          `${t('cvReview.sidebar.suggestion1')} ${t('cvReview.sidebar.suggestion1Link')}`,
+          `${t('cvReview.sidebar.suggestion2')} ${t('cvReview.sidebar.suggestion2Link')} ${t('cvReview.sidebar.suggestion2End')}`,
+          `${t('cvReview.sidebar.suggestion3')} ${t('cvReview.sidebar.suggestion3Link')} ${t('cvReview.sidebar.suggestion3End')}`,
+          `${t('cvReview.sidebar.suggestion4')} ${t('cvReview.sidebar.suggestion4Link')} ${t('cvReview.sidebar.suggestion4End')}`
+        ]
+      },
+      interviewConversation: {
+        messages: [
+          { type: 'interviewer' as const, content: t('interview.messages.greeting') },
+          { type: 'user' as const, content: t('interview.messages.yes') },
+          { type: 'interviewer' as const, content: t('interview.messages.introduction') },
+          { type: 'user' as const, content: t('interview.messages.introResponse') },
+          { type: 'interviewer' as const, content: t('interview.messages.teamwork') },
+          { type: 'user' as const, content: t('interview.messages.teamworkResponse') },
+          { type: 'interviewer' as const, content: t('interview.messages.whyInterested') },
+          { type: 'user' as const, content: t('interview.messages.whyInterestedResponse') },
+          { type: 'interviewer' as const, content: t('interview.messages.priorities') }
+        ]
+      },
+      feedback: {
+        overallScore: 84,
+        categories: [
+          { name: t('score.categories.experienceClarity'), score: 91 },
+          { name: t('score.categories.fitMotivation'), score: 78 },
+          { name: t('score.categories.technicalStrength'), score: 82 },
+          { name: t('score.categories.communication'), score: 67 }
+        ],
+        questions: questions.map(q => ({
+          question: q.text,
+          type: q.type,
+          answer: q.answer,
+          feedback: q.feedback,
+          suggestions: q.suggestions
+        }))
+      }
+    };
+
+    generatePDF(pdfContent);
   };
 
   const pageStyle = {
@@ -248,9 +320,9 @@ export function DetailedSuggestionsPage() {
             />
           </div>
           <div style={feedbackHeaderTextStyle}>
-            <h1 style={feedbackTitleStyle}>Feedback Details</h1>
+            <h1 style={feedbackTitleStyle}>{t('suggestions.title')}</h1>
             <p style={feedbackDescriptionStyle}>
-              Here's your detailed, AI-powered feedback for each interview question. Review improvement suggestions and see where you can grow!
+              {t('suggestions.subtitle')}
             </p>
           </div>
         </div>
@@ -290,7 +362,7 @@ export function DetailedSuggestionsPage() {
                       <circle cx="12" cy="12" r="10" stroke="#1f2d3d" strokeWidth="2"/>
                       <path d="M12 6v6l4 2" stroke="#1f2d3d" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
-                    Your Answer
+                    {t('suggestions.yourAnswer')}
                   </div>
                   <div style={answerTextStyle}>
                     {question.answer}
@@ -300,7 +372,7 @@ export function DetailedSuggestionsPage() {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                       <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke="#17B0A7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    AI Feedback
+                    {t('suggestions.aiFeedback')}
                   </div>
                   <div style={feedbackContainerStyle}>
                     <p style={feedbackTextStyle}>{question.feedback}</p>
@@ -324,7 +396,7 @@ export function DetailedSuggestionsPage() {
 
         <button
           style={downloadButtonStyle}
-          onClick={() => console.log('Download PDF clicked')}
+          onClick={handleDownloadPDF}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#1a4d8c';
             e.currentTarget.style.color = '#ffffff';
@@ -337,7 +409,7 @@ export function DetailedSuggestionsPage() {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Download PDF
+          {t('suggestions.downloadPDF')}
         </button>
       </div>
 

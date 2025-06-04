@@ -1,0 +1,323 @@
+{
+  "navigation": {
+    "home": "Home",
+    "features": "Features",
+    "pricing": "Pricing",
+    "benefits": "Benefits",
+    "howItWorks": "How it works",
+    "forAdmins": "For Admins",
+    "help": "Help",
+    "login": "Login",
+    "getStarted": "Get Started",
+    "dashboard": "Dashboard",
+    "interviews": "Interviews",
+    "feedback": "Feedback",
+    "profile": "Profile",
+    "students": "Students",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "landing": {
+    "hero": {
+      "title": "Train Smarter. Interview Better.",
+      "subtitle": "Prepwise is your AI-powered practice partner for real-world job interviews. Get instant, friendly feedback and track your progress over time.",
+      "cta": "Start Interview Simulation",
+      "loginPrompt": "Already have an account?",
+      "loginLink": "Sign in"
+    },
+    "features": {
+      "title": "Everything You Need to Interview with Confidence",
+      "aiPractice": {
+        "title": "AI Practice & Feedback",
+        "description": "Experience realistic interviews with instant, actionable feedback to help you grow confidently."
+      },
+      "trackProgress": {
+        "title": "Track Your Progress",
+        "description": "Visual dashboards show your strengths and areas to improve, so you always know where you stand."
+      },
+      "realWorld": {
+        "title": "Real-World Simulation",
+        "description": "Practice in a lifelike interview environment to build your confidence before the real thing."
+      }
+    },
+    "testimonials": {
+      "title": "Join Thousands of Successful Students",
+      "sarah": {
+        "text": "PrepWise transformed my interview skills. I went from nervous to confident in just 2 weeks!",
+        "name": "Sarah Chen",
+        "role": "MBA Student",
+        "school": "Wharton"
+      },
+      "michael": {
+        "text": "The AI feedback was incredibly detailed. It helped me land my dream consulting job.",
+        "name": "Michael Rodriguez",
+        "role": "Business Analytics",
+        "school": "Columbia"
+      },
+      "priya": {
+        "text": "Better than any mock interview service. The convenience and quality are unmatched.",
+        "name": "Priya Patel",
+        "role": "Finance Major",
+        "school": "Booth"
+      }
+    },
+    "cta": {
+      "title": "Ready to Land Your Dream Job?",
+      "subtitle": "Start practicing with PrepWise today and interview with confidence.",
+      "button": "Get Started Free"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Login to your account",
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Login",
+      "or": "or",
+      "google": "Continue with Google",
+      "linkedin": "Continue with LinkedIn",
+      "noAccount": "Don't have an account?",
+      "signUp": "Register",
+      "heroTitle": "Join 50,000+ students preparing smarter",
+      "heroSubtitle": "Empower your next interview with PrepWise's AI-driven tools."
+    },
+    "register": {
+      "title": "Register",
+      "subtitle": "Join thousands of successful students",
+      "userName": "User name",
+      "email": "Email",
+      "password": "Password",
+      "passwordAgain": "Password again",
+      "terms": "I agree to the Terms & Conditions",
+      "submit": "Register now",
+      "or": "or",
+      "google": "Google",
+      "linkedin": "LinkedIn",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back!",
+    "cta": "Practice for your dream job",
+    "startPractice": "Start Practice Session"
+  },
+  "upload": {
+    "title": "Upload Your Documents",
+    "subtitle": "Add your CV、cover letter or job description to help Prepwise personalize your interview experience.",
+    "dragDrop": "Drag & drop to upload",
+    "or": "or",
+    "browse": "browse files",
+    "formats": "(PDF, DOCX)",
+    "uploadedFiles": "Uploaded Files",
+    "next": "Next",
+    "progress": {
+      "upload": "Upload",
+      "review": "Review",
+      "interview": "Interview"
+    }
+  },
+  "sessions": {
+    "welcome": "Welcome back, Alex!",
+    "subtitle": "Track your interview practice progress",
+    "ready": "Ready to practice?",
+    "readyDescription": "Start a new mock interview session to improve your skills",
+    "startNew": "Start New Interview",
+    "recentSessions": "Recent Interview Sessions",
+    "table": {
+      "date": "Date",
+      "jobRole": "Job Role",
+      "company": "Company",
+      "score": "Score",
+      "actions": "Actions",
+      "viewDetails": "View Details"
+    }
+  },
+  "cvReview": {
+    "title": "CV & Cover Letter Review",
+    "tabs": {
+      "cv": "CV review",
+      "coverLetter": "Cover letter review"
+    },
+    "cvTab": {
+      "documentName": "CV Review - Alex Taylor (with bullet points)",
+      "strengths": "Strengths",
+      "strengthsContent": "Strong opening design with a professional headshot and modern layout. Clear, concise summary outlining career goals, relevant skills, and enthusiasm. Relevant experience section showcasing marketing internships and leadership in student government.\n\nWell-chosen skills such as digital marketing tools and communication.",
+      "areasForImprovement": "Areas for Improvement",
+      "areasContent": "Multiple typos and spelling errors (e.g., \"solying,\" \"oriemted,\" \"initiaves\"). Inaccurate or incomplete details, such as \"Graduated: May 204\" instead of 2024. Inconsistent formatting and punctuation in bullets and section alignment.\n\nMinor software name errors (e.g., \"Canva\" should be \"Canva,\" \"Google\" → \"Google\").",
+      "overall": "Overall",
+      "overallContent": "A strong, entry-level CV with solid content and a professional look, but it needs proofreading and polishing to reflect the candidate's attention to detail."
+    },
+    "coverLetterTab": {
+      "greeting": "Dear Recruiter,",
+      "content": {
+        "line1": "I am writing to express my",
+        "interest": "interest",
+        "line1End": "in the Marketing Analyst position at Acme Corp.",
+        "line2": "My previous role",
+        "line2Mid": "involved various tasks , such as coordinating campaigns and conducting market research. I believe my skills would be a great fit for your team",
+        "line3": "In my CV, I have listed achievements, but did not include quantifiable impact .",
+        "closing": "Thank you for considering my application.",
+        "signoff": "Sincerely",
+        "name": "Jamie Lee"
+      },
+      "tooltip": "Overused phrase: try to differentiate your introduction"
+    },
+    "sidebar": {
+      "title": "Automated Review Insights",
+      "clarityIssue": "Clarity Issue:",
+      "clarityContent": "Phrases are too vague; include specific examples and details.",
+      "impactMissing": "Impact Missing:",
+      "impactContent": "Your CV lacks quantifiable achievements; add numbers/results.",
+      "repetitiveLanguage": "Repetitive Language:",
+      "repetitiveContent": "Avoid overused intro phrases; make your opening unique.",
+      "formatting": "Formatting:",
+      "formattingContent": "Structure and layout are clear and easy to read.",
+      "suggestions": "Suggestions for Improvement",
+      "suggestion1": "Replace generic phrases with",
+      "suggestion1Link": "unique, role-specific language",
+      "suggestion2": "Add",
+      "suggestion2Link": "specific measurable results",
+      "suggestion2End": "for each experience.",
+      "suggestion3": "Use",
+      "suggestion3Link": "active verbs",
+      "suggestion3End": "to clearly convey your contributions.",
+      "suggestion4": "Briefly mention",
+      "suggestion4Link": "how your skills align",
+      "suggestion4End": "with the company's goals."
+    },
+    "buttons": {
+      "uploadNew": "Upload New Document",
+      "regenerate": "Regenerate Review",
+      "next": "Next"
+    }
+  },
+  "jobRole": {
+    "title": "What position are you applying for?",
+    "subtitle": "Select your job role to tailor your interview simulation. Start typing or pick a popular one below.",
+    "placeholder": "e.g. Product Manager",
+    "tooltip": "You had not upload a job description along with his CV and cover letter",
+    "next": "Next",
+    "roles": {
+      "auditIntern": "Audit Intern",
+      "financialAnalyst": "Financial Analyst",
+      "productManager": "Product Manager",
+      "softwareEngineer": "Software Engineer",
+      "marketingAssociate": "Marketing Associate"
+    }
+  },
+  "interview": {
+    "title": "Interview Simulation",
+    "endInterview": "End Interview",
+    "behavioral": "Behavioral",
+    "typeResponse": "Type your response here...",
+    "recordAnswer": "Record your answer",
+    "submitAnswer": "Submit Answer",
+    "interviewer": "Interviewer",
+    "you": "You",
+    "messages": {
+      "greeting": "Hi Alex, hope you're doing great ! Are you ready to start the interview ?",
+      "yes": "Yes",
+      "introduction": "Hi Alex,  I see that you've applied for the position of Marketing Associate. I'm Lukas Schneider, Marketing Manager at Horizon Brands. I've been here for a few years leading digital campaigns. I'm going to run the interview today. It should last between 45 and 60 minutes. If you're ok we can then start. Can you please begin with introducing yourself ?",
+      "introResponse": "Sure! I'm a recent Business graduate from Riverside University, where I concentrated in marketing and served as Vice President of the Student Government Association. I've completed two marketing internships — one at FreshFuel Beverages, focusing on brand awareness, and most recently at BrightEye Media, where I helped with digital campaigns and analytics. I'm passionate about creative strategy and communication, and I'm excited to bring that energy into a full-time role to help you contribute to real marketing impact.",
+      "teamwork": "That's great to hear. Let's talk about teamwork. Can you tell me about a time you solved a problem in a group setting?",
+      "teamworkResponse": "Absolutely. At BrightEye Media, we were working on a tight deadline to launch a social media campaign. Halfway through, we realized our content calendar didn't align with the target audience's peak engagement times. I suggested we re-analyze the data in Google Analytics and adjust posting schedules. I collaborated with the team to revise the calendar and reallocate tasks quickly. Despite the adjustment period, by shifting during the campaign, and the client was really pleased with our responsiveness.",
+      "whyInterested": "Sounds like you're very data-driven — love that. So, why are you interested in this Marketing Associate position?",
+      "whyInterestedResponse": "What really excites me about this role is the chance to work on cross-functional campaigns and learn from a seasoned marketing team. I'm drawn to your brand's recent product launches and love how creative and cohesive they are across channels. This role feels like the perfect next step — a place where I can keep learning, contribute new ideas, and grow within a fast-moving company.",
+      "priorities": "One more — in marketing, priorities shift a lot. How do you manage multiple projects or deadlines at once?"
+    }
+  },
+  "complete": {
+    "title": "Interview Completed",
+    "message": "Congratulations on finishing your mock interview! You're one step closer to your dream job. 🎉",
+    "getFeedback": "Get Your Feedback"
+  },
+  "score": {
+    "title": "Feedback Summary",
+    "subtitle": "Here's how you performed in this interview. Review your strengths and areas for growth.",
+    "overallScore": "Overall Score",
+    "greatJob": "Great job! Keep improving",
+    "viewDetails": "View Details",
+    "newInterview": "New Interview",
+    "categories": {
+      "experienceClarity": "Experience Clarity",
+      "fitMotivation": "Fit & Motivation",
+      "technicalStrength": "Technical Strength",
+      "communication": "Communication"
+    }
+  },
+  "suggestions": {
+    "title": "Feedback Details",
+    "subtitle": "Here's your detailed, AI-powered feedback for each interview question. Review improvement suggestions and see where you can grow!",
+    "yourAnswer": "Your Answer",
+    "aiFeedback": "AI Feedback",
+    "downloadPDF": "Download PDF",
+    "questionTypes": {
+      "fit": "Fit Question",
+      "behavioral": "Behavioral Question"
+    },
+    "questions": {
+      "q1": {
+        "text": "Tell me about yourself",
+        "answer": "I'm a recent business graduate from Riverside University with experience in student government and two marketing internships. I'm passionate about helping organizations grow and excited to apply my skills in a real-world environment.",
+        "feedback": "Good structure and clear academic background. You highlighted relevant experiences and showed enthusiasm. Consider quantifying achievements for more impact.",
+        "suggestions": [
+          "Include an achievement with results (e.g., \"increased event attendance by 30%\")",
+          "Briefly connect your experience to the target role"
+        ]
+      },
+      "q2": {
+        "text": "Describe a time you solved a problem in a team"
+      },
+      "q3": {
+        "text": "What interests you about this position?"
+      }
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "inviteStudents": "Invite Students",
+      "totalStudents": "Total Students",
+      "totalInterviews": "Total Interviews",
+      "avgScore": "Avg Score",
+      "platformUsage": "Platform Usage (Last 7 Days)",
+      "dailyActive": "Daily active students & interviews",
+      "activeStudents": "Active Students",
+      "interviews": "Interviews"
+    },
+    "students": {
+      "title": "Student Management",
+      "subtitle": "Monitor and manage student accounts",
+      "addStudent": "Add Student",
+      "table": {
+        "name": "Name",
+        "email": "Email",
+        "group": "Group",
+        "lastActive": "Last Active",
+        "interviewCount": "Interview Count",
+        "actions": "Actions",
+        "resetPassword": "Reset Password"
+      },
+      "groups": {
+        "business": "Business",
+        "engineering": "Engineering",
+        "law": "Law",
+        "medicine": "Medicine"
+      },
+      "showing": "Showing",
+      "of": "of",
+      "students": "students",
+      "hoursAgo": "hours ago"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 Prepwise. All rights reserved.",
+    "about": "About",
+    "privacy": "Privacy",
+    "contact": "Contact"
+  }
+}

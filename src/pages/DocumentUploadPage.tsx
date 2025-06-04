@@ -11,8 +11,10 @@ import { useNavigate } from 'react-router-dom';
 import { LoggedInNavigation } from '../components/landing/LoggedInNavigation';
 import { ProgressIndicator } from '../components/upload/ProgressIndicator';
 import { Footer } from '../components/landing/Footer';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export function DocumentUploadPage() {
+  const { t } = useLanguage();
   const [isDragging, setIsDragging] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -204,9 +206,9 @@ export function DocumentUploadPage() {
       <div style={contentStyle}>
         <ProgressIndicator currentStep={1} />
         
-        <h1 style={titleStyle}>Upload Your Documents</h1>
+        <h1 style={titleStyle}>{t('upload.title')}</h1>
         <p style={subtitleStyle}>
-          Add your CV, cover letter or job description to help Prepwise personalize your interview experience.
+          {t('upload.subtitle')}
         </p>
 
         <div
@@ -223,15 +225,15 @@ export function DocumentUploadPage() {
           </svg>
           
           <div style={uploadTextStyle}>
-            Drag & drop to upload
+            {t('upload.dragDrop')}
           </div>
           
           <div>
-            or <span style={browseButtonStyle}>browse files</span>
+            {t('upload.or')} <span style={browseButtonStyle}>{t('upload.browse')}</span>
           </div>
           
           <div style={fileTypesStyle}>
-            (PDF, DOCX)
+            {t('upload.formats')}
           </div>
         </div>
 
@@ -294,7 +296,7 @@ export function DocumentUploadPage() {
             }
           }}
         >
-          Next
+          {t('upload.next')}
         </button>
       </div>
 

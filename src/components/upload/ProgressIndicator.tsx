@@ -6,15 +6,18 @@
  * Why Needed: Visual feedback for multi-step process
  */
 
+import { useLanguage } from '../../contexts/LanguageContext';
+
 interface ProgressIndicatorProps {
   currentStep: 1 | 2 | 3;
 }
 
 export function ProgressIndicator({ currentStep }: ProgressIndicatorProps) {
+  const { t } = useLanguage();
   const steps = [
-    { number: 1, label: 'Upload' },
-    { number: 2, label: 'Review' },
-    { number: 3, label: 'Interview' },
+    { number: 1, label: t('upload.progress.upload') },
+    { number: 2, label: t('upload.progress.review') },
+    { number: 3, label: t('upload.progress.interview') },
   ];
 
   const containerStyle = {

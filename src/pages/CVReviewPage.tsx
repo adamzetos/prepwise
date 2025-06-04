@@ -10,8 +10,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoggedInNavigation } from '../components/landing/LoggedInNavigation';
 import { Footer } from '../components/landing/Footer';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export function CVReviewPage() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'cv' | 'cover'>('cv');
   const [showTooltip, setShowTooltip] = useState(false);
@@ -221,7 +223,7 @@ export function CVReviewPage() {
         <div style={headerContentStyle}>
           <h1 style={titleStyle}>
             <img src="/icons/CV&CoverLetterReview.svg" alt="CV & Cover Letter Review" style={{ width: '24px', height: '24px' }} />
-            CV & Cover Letter Review
+            {t('cvReview.title')}
           </h1>
         </div>
       </div>
@@ -233,70 +235,64 @@ export function CVReviewPage() {
               style={getTabStyle(activeTab === 'cv')}
               onClick={() => setActiveTab('cv')}
             >
-              CV review
+              {t('cvReview.tabs.cv')}
             </div>
             <div 
               style={getTabStyle(activeTab === 'cover')}
               onClick={() => setActiveTab('cover')}
             >
-              Cover letter review
+              {t('cvReview.tabs.coverLetter')}
             </div>
           </div>
 
           {activeTab === 'cv' ? (
             <>
               <div style={documentNameStyle}>
-                CV Review - Alex Taylor (with bullet points)
+                {t('cvReview.cvTab.documentName')}
               </div>
 
               <section style={sectionStyle}>
                 <h2 style={sectionTitleStyle}>
                   <img src="/icons/Strengths.svg" alt="Strengths" style={{ width: '20px', height: '20px' }} />
-                  Strengths
+                  {t('cvReview.cvTab.strengths')}
                 </h2>
                 <div style={sectionContentStyle}>
-                  Strong opening design with a professional headshot and modern layout. 
-                  Clear, concise summary outlining career goals, relevant skills, and enthusiasm. 
-                  Relevant experience section showcasing marketing internships and leadership in 
-                  student government.<br /><br />
-                  Strong education section with GPA and honors included.<br />
-                  Well-chosen skills such as digital marketing tools and communication.
+                  {t('cvReview.cvTab.strengthsContent').split('\n').map((line, i, arr) => (
+                    <span key={i}>{line}{i < arr.length - 1 && <><br /><br /></>}</span>
+                  ))}
                 </div>
               </section>
 
               <section style={sectionStyle}>
                 <h2 style={sectionTitleStyle}>
                   <img src="/icons/Areas_for_Improvement.svg" alt="Areas for Improvement" style={{ width: '20px', height: '20px' }} />
-                  Areas for Improvement
+                  {t('cvReview.cvTab.areasForImprovement')}
                 </h2>
                 <div style={sectionContentStyle}>
-                  Multiple typos and spelling errors (e.g., "solying," "oriemted," "initiaves"). 
-                  Inaccurate or incomplete details, such as "Graduated: May 204" instead of 2024. 
-                  Inconsistent formatting and punctuation in bullets and section alignment.<br /><br />
-                  Minor software name errors (e.g., "Canva" should be "Canva," "Google" → 
-                  "Google").
+                  {t('cvReview.cvTab.areasContent').split('\n').map((line, i, arr) => (
+                    <span key={i}>{line}{i < arr.length - 1 && <><br /><br /></>}</span>
+                  ))}
                 </div>
               </section>
 
               <section style={sectionStyle}>
                 <h2 style={sectionTitleStyle}>
                   <img src="/icons/Overall.svg" alt="Overall" style={{ width: '20px', height: '20px' }} />
-                  Overall
+                  {t('cvReview.cvTab.overall')}
                 </h2>
                 <div style={sectionContentStyle}>
-                  A strong, entry-level CV with solid content and a professional look, but it needs 
-                  proofreading and polishing to reflect the candidate's attention to detail.
+                  {t('cvReview.cvTab.overallContent')}
                 </div>
               </section>
             </>
           ) : (
             <>
               <div style={{ fontSize: '14px', lineHeight: '1.8', color: '#1f2d3d' }}>
-                <p style={{ marginBottom: '1.5rem' }}>Dear Recruiter,</p>
+                <p style={{ marginBottom: '1.5rem' }}>{t('cvReview.coverLetterTab.greeting')}</p>
                 
                 <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
                   <p>
-                    I am writing to express my{' '}
+                    {t('cvReview.coverLetterTab.content.line1')}{' '}
                     <span 
                       style={{ 
                         backgroundColor: '#fef3c7', 
@@ -308,7 +304,7 @@ export function CVReviewPage() {
                       onMouseEnter={() => setShowTooltip(true)}
                       onMouseLeave={() => setShowTooltip(false)}
                     >
-                      👋 interest
+                      👋 {t('cvReview.coverLetterTab.content.interest')}
                       {showTooltip && (
                         <span style={{
                           position: 'absolute',
@@ -323,17 +319,17 @@ export function CVReviewPage() {
                           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
                           zIndex: 10,
                         }}>
-                          Overused phrase: try to differentiate your introduction
+                          {t('cvReview.coverLetterTab.tooltip')}
                         </span>
                       )}
                     </span>
-                    {' '}in the Marketing Analyst position at Acme Corp.
+                    {' '}{t('cvReview.coverLetterTab.content.line1End')}
                   </p>
                 </div>
 
                 <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
                   <p>
-                    My previous role{' '}
+                    {t('cvReview.coverLetterTab.content.line2')}{' '}
                     <span style={{ 
                       backgroundColor: '#fef3c7', 
                       padding: '2px 4px',
@@ -341,8 +337,7 @@ export function CVReviewPage() {
                     }}>
                       ⚡
                     </span>
-                    {' '}involved various tasks , such as coordinating campaigns and 
-                    conducting market research. I believe my skills would be a great fit for your team{' '}
+                    {' '}{t('cvReview.coverLetterTab.content.line2Mid')}{' '}
                     <span style={{ 
                       backgroundColor: '#fee2e2', 
                       padding: '2px 4px',
@@ -355,7 +350,7 @@ export function CVReviewPage() {
 
                 <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
                   <p>
-                    In my CV, I have listed achievements, but did not include quantifiable impact .{' '}
+                    {t('cvReview.coverLetterTab.content.line3')}{' '}
                     <span style={{ 
                       backgroundColor: '#fee2e2', 
                       padding: '2px 4px',
@@ -366,9 +361,9 @@ export function CVReviewPage() {
                   </p>
                 </div>
 
-                <p style={{ marginBottom: '0.5rem' }}>Thank you for considering my application.</p>
-                <p style={{ marginBottom: '0.5rem' }}>Sincerely</p>
-                <p>Jamie Lee</p>
+                <p style={{ marginBottom: '0.5rem' }}>{t('cvReview.coverLetterTab.content.closing')}</p>
+                <p style={{ marginBottom: '0.5rem' }}>{t('cvReview.coverLetterTab.content.signoff')}</p>
+                <p>{t('cvReview.coverLetterTab.content.name')}</p>
               </div>
             </>
           )}
@@ -386,7 +381,7 @@ export function CVReviewPage() {
                 e.currentTarget.style.backgroundColor = '#ffffff';
               }}
             >
-              Upload New Document
+              {t('cvReview.buttons.uploadNew')}
             </button>
             <button
               style={tertiaryButtonStyle}
@@ -400,7 +395,7 @@ export function CVReviewPage() {
                 e.currentTarget.style.backgroundColor = 'transparent';
               }}
             >
-              Regenerate Review
+              {t('cvReview.buttons.regenerate')}
             </button>
           </div>
         </div>
@@ -410,7 +405,7 @@ export function CVReviewPage() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#17B0A7" strokeWidth="2">
               <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            Automated Review Insights
+            {t('cvReview.sidebar.title')}
           </h2>
 
           <div style={insightItemStyle}>
@@ -420,10 +415,10 @@ export function CVReviewPage() {
                 <line x1="12" y1="9" x2="12" y2="13"/>
                 <line x1="12" y1="17" x2="12.01" y2="17"/>
               </svg>
-              Clarity Issue:
+              {t('cvReview.sidebar.clarityIssue')}
             </h3>
             <p style={insightTextStyle}>
-              Phrases are too vague; include specific examples and details.
+              {t('cvReview.sidebar.clarityContent')}
             </p>
           </div>
 
@@ -434,10 +429,10 @@ export function CVReviewPage() {
                 <line x1="12" y1="8" x2="12" y2="12"/>
                 <line x1="12" y1="16" x2="12.01" y2="16"/>
               </svg>
-              Impact Missing:
+              {t('cvReview.sidebar.impactMissing')}
             </h3>
             <p style={insightTextStyle}>
-              Your CV lacks quantifiable achievements; add numbers/results.
+              {t('cvReview.sidebar.impactContent')}
             </p>
           </div>
 
@@ -448,10 +443,10 @@ export function CVReviewPage() {
                 <line x1="12" y1="9" x2="12" y2="13"/>
                 <line x1="12" y1="17" x2="12.01" y2="17"/>
               </svg>
-              Repetitive Language:
+              {t('cvReview.sidebar.repetitiveLanguage')}
             </h3>
             <p style={insightTextStyle}>
-              Avoid overused intro phrases; make your opening unique.
+              {t('cvReview.sidebar.repetitiveContent')}
             </p>
           </div>
 
@@ -460,10 +455,10 @@ export function CVReviewPage() {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
-              Formatting:
+              {t('cvReview.sidebar.formatting')}
             </h3>
             <p style={insightTextStyle}>
-              Structure and layout are clear and easy to read.
+              {t('cvReview.sidebar.formattingContent')}
             </p>
           </div>
 
@@ -473,19 +468,19 @@ export function CVReviewPage() {
                 <circle cx="12" cy="12" r="10"/>
                 <polyline points="12 6 12 12 16 14"/>
               </svg>
-              Suggestions for Improvement
+              {t('cvReview.sidebar.suggestions')}
             </h3>
             <p style={insightTextStyle}>
-              Replace generic phrases with <a href="#" style={linkStyle}>unique, role-specific language</a>.
+              {t('cvReview.sidebar.suggestion1')} <a href="#" style={linkStyle}>{t('cvReview.sidebar.suggestion1Link')}</a>.
             </p>
             <p style={{...insightTextStyle, marginTop: '0.75rem'}}>
-              Add <a href="#" style={linkStyle}>specific measurable results</a> for each experience.
+              {t('cvReview.sidebar.suggestion2')} <a href="#" style={linkStyle}>{t('cvReview.sidebar.suggestion2Link')}</a> {t('cvReview.sidebar.suggestion2End')}
             </p>
             <p style={{...insightTextStyle, marginTop: '0.75rem'}}>
-              Use <a href="#" style={linkStyle}>active verbs</a> to clearly convey your contributions.
+              {t('cvReview.sidebar.suggestion3')} <a href="#" style={linkStyle}>{t('cvReview.sidebar.suggestion3Link')}</a> {t('cvReview.sidebar.suggestion3End')}
             </p>
             <p style={{...insightTextStyle, marginTop: '0.75rem'}}>
-              Briefly mention <a href="#" style={linkStyle}>how your skills align</a> with the company's goals.
+              {t('cvReview.sidebar.suggestion4')} <a href="#" style={linkStyle}>{t('cvReview.sidebar.suggestion4Link')}</a> {t('cvReview.sidebar.suggestion4End')}
             </p>
           </div>
 
@@ -501,7 +496,7 @@ export function CVReviewPage() {
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            Next
+            {t('cvReview.buttons.next')}
           </button>
         </aside>
       </div>

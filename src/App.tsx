@@ -7,6 +7,7 @@
  */
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -24,24 +25,26 @@ import { StudentManagementPage } from './pages/StudentManagementPage';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<LoggedInLandingPage />} />
-        <Route path="/upload" element={<DocumentUploadPage />} />
-        <Route path="/sessions" element={<InterviewSessionsPage />} />
-        <Route path="/cv-review" element={<CVReviewPage />} />
-        <Route path="/job-role-selection" element={<JobRoleSelectionPage />} />
-        <Route path="/interview" element={<InterviewSimulationPage />} />
-        <Route path="/interview-complete" element={<InterviewCompletePage />} />
-        <Route path="/score-breakdown" element={<ScoreBreakdownPage />} />
-        <Route path="/detailed-suggestions" element={<DetailedSuggestionsPage />} />
-        <Route path="/admin" element={<AdminDashboardPage />} />
-        <Route path="/admin/students" element={<StudentManagementPage />} />
-      </Routes>
-    </Router>
+    <LanguageProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/dashboard" element={<LoggedInLandingPage />} />
+          <Route path="/upload" element={<DocumentUploadPage />} />
+          <Route path="/sessions" element={<InterviewSessionsPage />} />
+          <Route path="/cv-review" element={<CVReviewPage />} />
+          <Route path="/job-role-selection" element={<JobRoleSelectionPage />} />
+          <Route path="/interview" element={<InterviewSimulationPage />} />
+          <Route path="/interview-complete" element={<InterviewCompletePage />} />
+          <Route path="/score-breakdown" element={<ScoreBreakdownPage />} />
+          <Route path="/detailed-suggestions" element={<DetailedSuggestionsPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/admin/students" element={<StudentManagementPage />} />
+        </Routes>
+      </Router>
+    </LanguageProvider>
   );
 }
 

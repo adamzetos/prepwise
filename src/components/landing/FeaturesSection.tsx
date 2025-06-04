@@ -6,31 +6,34 @@
  * Why Needed: Communicate product value propositions
  */
 
-const features = [
-  {
-    title: 'AI Practice & Feedback',
-    description: 'Experience realistic interviews with instant, actionable feedback to help you grow confidently.',
-    iconPath: '/icons/ai-practice-icon.svg',
-  },
-  {
-    title: 'Track Your Progress',
-    description: 'Visual dashboards show your strengths and areas to improve, so you always know where you stand.',
-    iconPath: '/icons/track-progress-icon.svg',
-  },
-  {
-    title: 'Real-World Simulation',
-    description: 'Practice in a lifelike interview environment to build your confidence before the real thing.',
-    iconPath: '/icons/real-world-icon.svg',
-  }
-];
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function FeaturesSection() {
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      title: t('landing.features.aiPractice.title'),
+      description: t('landing.features.aiPractice.description'),
+      iconPath: '/icons/ai-practice-icon.svg',
+    },
+    {
+      title: t('landing.features.trackProgress.title'),
+      description: t('landing.features.trackProgress.description'),
+      iconPath: '/icons/track-progress-icon.svg',
+    },
+    {
+      title: t('landing.features.realWorld.title'),
+      description: t('landing.features.realWorld.description'),
+      iconPath: '/icons/real-world-icon.svg',
+    }
+  ];
   const sectionStyle = {
     backgroundColor: '#ffffff', // White background
     marginTop: '-100px', // Overlap with hero section
     position: 'relative' as const,
     zIndex: 20,
-    paddingTop: '0',
+    paddingTop: '100px',
     paddingBottom: '80px', // Add padding at bottom for content
   };
 
@@ -39,8 +42,15 @@ export function FeaturesSection() {
     width: '100%',
     margin: '0 auto',
     padding: '0 2rem',
-    display: 'flex',
-    justifyContent: 'center', // Center the grid
+    textAlign: 'center' as const,
+  };
+
+  const sectionTitleStyle = {
+    fontSize: '36px',
+    fontWeight: '700',
+    color: '#1f2d3d',
+    marginBottom: '3rem',
+    textAlign: 'center' as const,
   };
 
   const gridStyle = {
@@ -84,6 +94,9 @@ export function FeaturesSection() {
   return (
     <section style={sectionStyle}>
       <div style={containerStyle}>
+        <h2 style={sectionTitleStyle}>
+          {t('landing.features.title')}
+        </h2>
         <div style={gridStyle}>
           {features.map((feature, index) => (
             <div key={index} style={cardStyle}>

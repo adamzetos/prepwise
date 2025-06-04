@@ -9,8 +9,10 @@
 import { useNavigate } from 'react-router-dom';
 import { LoggedInNavigation } from '../components/landing/LoggedInNavigation';
 import { Footer } from '../components/landing/Footer';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export function InterviewCompletePage() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const pageStyle = {
@@ -90,11 +92,10 @@ export function InterviewCompletePage() {
           />
         </div>
 
-        <h1 style={titleStyle}>Interview Completed</h1>
+        <h1 style={titleStyle}>{t('complete.title')}</h1>
         
         <p style={messageStyle}>
-          Congratulations on finishing your mock interview! You're<br />
-          one step closer to your dream job. 🎉
+          {t('complete.message')}
         </p>
 
         <button
@@ -103,7 +104,7 @@ export function InterviewCompletePage() {
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#163e70'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1a4d8c'}
         >
-          Get Your Feedback
+          {t('complete.getFeedback')}
         </button>
       </div>
 

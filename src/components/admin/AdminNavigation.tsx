@@ -7,10 +7,13 @@
  */
 
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { LanguageSelector } from '../common/LanguageSelector';
 
 export function AdminNavigation() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
 
   const navStyle = {
     backgroundColor: '#ffffff',
@@ -68,10 +71,10 @@ export function AdminNavigation() {
   };
 
   const menuItems = [
-    { name: 'Dashboard', path: '/admin' },
-    { name: 'Students', path: '/admin/students' },
-    { name: 'Reports', path: '/admin/reports' },
-    { name: 'Settings', path: '/admin/settings' },
+    { name: t('navigation.dashboard'), path: '/admin' },
+    { name: t('navigation.students'), path: '/admin/students' },
+    { name: t('navigation.reports'), path: '/admin/reports' },
+    { name: t('navigation.settings'), path: '/admin/settings' },
   ];
 
   return (
@@ -113,12 +116,15 @@ export function AdminNavigation() {
           </ul>
         </div>
 
-        <img 
-          src="/icons/avatar.svg" 
-          alt="User profile" 
-          style={avatarStyle}
-          onClick={() => navigate('/profile')}
-        />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <LanguageSelector />
+          <img 
+            src="/icons/avatar.svg" 
+            alt="User profile" 
+            style={avatarStyle}
+            onClick={() => navigate('/profile')}
+          />
+        </div>
       </div>
     </nav>
   );

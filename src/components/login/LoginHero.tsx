@@ -6,7 +6,10 @@
  * Why Needed: Visual branding and value proposition
  */
 
+import { useLanguage } from '../../contexts/LanguageContext';
+
 export function LoginHero() {
+  const { t } = useLanguage();
   const sectionStyle = {
     position: 'relative' as const,
     height: '100%',
@@ -69,13 +72,15 @@ export function LoginHero() {
       <div style={overlayStyle}></div>
       <div style={contentStyle}>
         <h1 style={headingStyle}>
-          Join 50,000+<br />
-          students<br />
-          preparing<br />
-          smarter
+          {t('auth.login.heroTitle').split(' ').map((word, i) => {
+            if (i === 1) return <>{word}<br /></>;
+            if (i === 2) return <>{word}<br /></>;
+            if (i === 3) return <>{word}<br /></>;
+            return <>{word} </>;
+          })}
         </h1>
         <p style={subheadingStyle}>
-          Empower your next interview with PrepWise's AI-driven tools.
+          {t('auth.login.heroSubtitle')}
         </p>
       </div>
     </section>

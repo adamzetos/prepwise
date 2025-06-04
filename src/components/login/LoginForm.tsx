@@ -8,9 +8,11 @@
 
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -208,20 +210,20 @@ export function LoginForm() {
             setActiveTab('login');
           }}
         >
-          Login
+          {t('navigation.login')}
         </Link>
         <Link 
           to="/register" 
           style={getTabStyle(activeTab === 'register')}
         >
-          Register
+          {t('auth.register.title')}
         </Link>
       </div>
 
       {/* Form */}
       <form style={formStyle} onSubmit={(e) => e.preventDefault()}>
         <div style={inputGroupStyle}>
-          <label style={labelStyle}>Email</label>
+          <label style={labelStyle}>{t('auth.login.email')}</label>
           <input
             type="email"
             placeholder="Please enter"
@@ -234,7 +236,7 @@ export function LoginForm() {
         </div>
 
         <div style={inputGroupStyle}>
-          <label style={labelStyle}>Password</label>
+          <label style={labelStyle}>{t('auth.login.password')}</label>
           <div style={passwordContainerStyle}>
             <input
               type={showPassword ? 'text' : 'password'}
@@ -263,7 +265,7 @@ export function LoginForm() {
               onChange={(e) => setRememberMe(e.target.checked)}
               style={checkboxStyle}
             />
-            Remember me
+            {t('auth.login.rememberMe')}
           </label>
           <Link 
             to="/forgot-password" 
@@ -271,7 +273,7 @@ export function LoginForm() {
             onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
             onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
           >
-            Forgot password?
+            {t('auth.login.forgotPassword')}
           </Link>
         </div>
 
@@ -281,14 +283,14 @@ export function LoginForm() {
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#7a9bc0'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#9bb3d0'}
         >
-          Login
+          {t('navigation.login')}
         </button>
       </form>
 
       {/* Divider */}
       <div style={dividerStyle}>
         <div style={dividerLineStyle}></div>
-        <span style={dividerTextStyle}>or</span>
+        <span style={dividerTextStyle}>{t('auth.login.or')}</span>
         <div style={dividerLineStyle}></div>
       </div>
 
@@ -307,7 +309,7 @@ export function LoginForm() {
           }}
         >
           <img src="/icons/google_icon.svg" alt="Google" style={socialIconStyle} />
-          Continue with Google
+          {t('auth.login.google')}
         </button>
 
         <button
@@ -323,20 +325,20 @@ export function LoginForm() {
           }}
         >
           <img src="/icons/linkedin_icon.svg" alt="LinkedIn" style={socialIconStyle} />
-          Continue with LinkedIn
+          {t('auth.login.linkedin')}
         </button>
       </div>
 
       {/* Footer */}
       <div style={footerStyle}>
-        Don't have an account?{' '}
+        {t('auth.login.noAccount')}{' '}
         <Link 
           to="/register" 
           style={registerLinkStyle}
           onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
           onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
         >
-          Register
+          {t('auth.login.signUp')}
         </Link>
       </div>
     </div>

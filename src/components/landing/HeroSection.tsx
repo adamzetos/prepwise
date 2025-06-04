@@ -7,8 +7,10 @@
  */
 
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function HeroSection() {
+  const { t } = useLanguage();
   const sectionStyle = {
     position: 'relative' as const,
     height: '80vh', // 80% of viewport height
@@ -111,11 +113,10 @@ export function HeroSection() {
       
       <div style={contentStyle}>
         <h1 style={headingStyle}>
-          Train Smarter. Interview Better.
+          {t('landing.hero.title')}
         </h1>
         <p style={paragraphStyle}>
-          Prepwise is your AI-powered practice partner for real-world job interviews.
-          Get instant, friendly feedback and track your progress over time.
+          {t('landing.hero.subtitle')}
         </p>
         <Link
           to="/upload"
@@ -132,7 +133,7 @@ export function HeroSection() {
           <div style={playIconContainerStyle}>
             <div style={playIconStyle}></div>
           </div>
-          Start Interview Simulation
+          {t('landing.hero.cta')}
         </Link>
       </div>
     </section>

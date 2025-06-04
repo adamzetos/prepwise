@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoggedInNavigation } from '../components/landing/LoggedInNavigation';
 import { Footer } from '../components/landing/Footer';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface JobRole {
   id: string;
@@ -18,16 +19,17 @@ interface JobRole {
 }
 
 export function JobRoleSelectionPage() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const jobRoles: JobRole[] = [
-    { id: 'audit-intern', name: 'Audit Intern', icon: '/icons/Audit_Intern.svg' },
-    { id: 'financial-analyst', name: 'Financial Analyst', icon: '/icons/Financial_Analyst.svg' },
-    { id: 'product-manager', name: 'Product Manager', icon: '/icons/Product_Manager.svg' },
-    { id: 'software-engineer', name: 'Software Engineer', icon: '/icons/Software_Engineer.svg' },
-    { id: 'marketing-associate', name: 'Marketing Associate', icon: '/icons/Marketing_Associate.svg' },
+    { id: 'audit-intern', name: t('jobRole.roles.auditIntern'), icon: '/icons/Audit_Intern.svg' },
+    { id: 'financial-analyst', name: t('jobRole.roles.financialAnalyst'), icon: '/icons/Financial_Analyst.svg' },
+    { id: 'product-manager', name: t('jobRole.roles.productManager'), icon: '/icons/Product_Manager.svg' },
+    { id: 'software-engineer', name: t('jobRole.roles.softwareEngineer'), icon: '/icons/Software_Engineer.svg' },
+    { id: 'marketing-associate', name: t('jobRole.roles.marketingAssociate'), icon: '/icons/Marketing_Associate.svg' },
   ];
 
   const pageStyle = {
@@ -205,15 +207,15 @@ export function JobRoleSelectionPage() {
           />
         </div>
 
-        <h1 style={titleStyle}>What position are you applying for?</h1>
+        <h1 style={titleStyle}>{t('jobRole.title')}</h1>
         <p style={subtitleStyle}>
-          Select your job role to tailor your interview simulation. Start typing or pick a popular one below.
+          {t('jobRole.subtitle')}
         </p>
 
         <div style={inputContainerStyle}>
           <input
             type="text"
-            placeholder="e.g. Product Manager"
+            placeholder={t('jobRole.placeholder')}
             style={inputStyle}
             onFocus={(e) => e.target.style.borderColor = '#17B0A7'}
             onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
@@ -227,7 +229,7 @@ export function JobRoleSelectionPage() {
           </div>
           {showTooltip && (
             <div style={tooltipStyle}>
-              You had not upload a job description along with his CV and cover letter
+              {t('jobRole.tooltip')}
             </div>
           )}
         </div>
@@ -277,7 +279,7 @@ export function JobRoleSelectionPage() {
             }
           }}
         >
-          Next
+          {t('jobRole.next')}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
           </svg>

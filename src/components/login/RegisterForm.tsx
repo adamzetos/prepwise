@@ -8,8 +8,10 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export function RegisterForm() {
+  const { t } = useLanguage();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -192,7 +194,7 @@ export function RegisterForm() {
           to="/login" 
           style={getTabStyle(activeTab === 'login')}
         >
-          Login
+          {t('auth.login.title')}
         </Link>
         <Link 
           to="/register" 
@@ -202,14 +204,14 @@ export function RegisterForm() {
             setActiveTab('register');
           }}
         >
-          Register
+          {t('auth.register.title')}
         </Link>
       </div>
 
       {/* Form */}
       <form style={formStyle} onSubmit={(e) => e.preventDefault()}>
         <div style={inputGroupStyle}>
-          <label style={labelStyle}>User name</label>
+          <label style={labelStyle}>{t('auth.register.userName')}</label>
           <input
             type="text"
             placeholder="Please enter"
@@ -222,7 +224,7 @@ export function RegisterForm() {
         </div>
 
         <div style={inputGroupStyle}>
-          <label style={labelStyle}>Email</label>
+          <label style={labelStyle}>{t('auth.register.email')}</label>
           <input
             type="email"
             placeholder="Please enter"
@@ -235,7 +237,7 @@ export function RegisterForm() {
         </div>
 
         <div style={inputGroupStyle}>
-          <label style={labelStyle}>Password</label>
+          <label style={labelStyle}>{t('auth.register.password')}</label>
           <div style={passwordContainerStyle}>
             <input
               type={showPassword ? 'text' : 'password'}
@@ -257,7 +259,7 @@ export function RegisterForm() {
         </div>
 
         <div style={inputGroupStyle}>
-          <label style={labelStyle}>Password again</label>
+          <label style={labelStyle}>{t('auth.register.passwordAgain')}</label>
           <div style={passwordContainerStyle}>
             <input
               type={showConfirmPassword ? 'text' : 'password'}
@@ -284,14 +286,14 @@ export function RegisterForm() {
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#7a9bc0'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#9bb3d0'}
         >
-          Register now
+          {t('auth.register.submit')}
         </button>
       </form>
 
       {/* Divider */}
       <div style={dividerStyle}>
         <div style={dividerLineStyle}></div>
-        <span style={dividerTextStyle}>or</span>
+        <span style={dividerTextStyle}>{t('auth.register.or')}</span>
         <div style={dividerLineStyle}></div>
       </div>
 
@@ -309,7 +311,7 @@ export function RegisterForm() {
           }}
         >
           <img src="/icons/google_icon.svg" alt="Google" style={socialIconStyle} />
-          Google
+          {t('auth.register.google')}
         </button>
 
         <button
@@ -324,7 +326,7 @@ export function RegisterForm() {
           }}
         >
           <img src="/icons/linkedin_icon.svg" alt="LinkedIn" style={socialIconStyle} />
-          LinkedIn
+          {t('auth.register.linkedin')}
         </button>
       </div>
 

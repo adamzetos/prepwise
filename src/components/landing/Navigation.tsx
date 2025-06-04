@@ -7,8 +7,11 @@
  */
 
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { LanguageSelector } from '../common/LanguageSelector';
 
 export function Navigation() {
+  const { t } = useLanguage();
   const navStyle = {
     position: 'relative' as const,
     backgroundColor: '#ffffff',
@@ -71,7 +74,7 @@ export function Navigation() {
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            How it works
+            {t('navigation.howItWorks')}
           </Link>
           <Link 
             to="/benefits" 
@@ -79,7 +82,7 @@ export function Navigation() {
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            Benefits
+            {t('navigation.benefits')}
           </Link>
           <Link 
             to="/pricing" 
@@ -87,15 +90,16 @@ export function Navigation() {
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            Pricing
+            {t('navigation.pricing')}
           </Link>
+          <LanguageSelector />
           <Link 
             to="/login" 
             style={loginLinkStyle}
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}
           >
-            Login
+            {t('navigation.login')}
           </Link>
         </div>
       </div>

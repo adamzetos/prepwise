@@ -6,19 +6,21 @@
  * Why Needed: Provides detailed feedback breakdown after interview completion
  */
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoggedInNavigation } from '../components/landing/LoggedInNavigation';
 import { Footer } from '../components/landing/Footer';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface ScoreCategory {
   name: string;
   score: number;
   color: string;
-  icon: JSX.Element;
+  icon: React.ReactElement;
 }
 
 export function ScoreBreakdownPage() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [animatedOverallScore, setAnimatedOverallScore] = useState(0);
   const [animatedCategoryScores, setAnimatedCategoryScores] = useState<number[]>([0, 0, 0, 0]);
@@ -26,7 +28,7 @@ export function ScoreBreakdownPage() {
   const overallScore = 84;
   const categories: ScoreCategory[] = [
     {
-      name: 'Experience Clarity',
+      name: t('score.categories.experienceClarity'),
       score: 91,
       color: '#1a4d8c',
       icon: (
@@ -37,7 +39,7 @@ export function ScoreBreakdownPage() {
       )
     },
     {
-      name: 'Fit & Motivation',
+      name: t('score.categories.fitMotivation'),
       score: 78,
       color: '#17B0A7',
       icon: (
@@ -47,7 +49,7 @@ export function ScoreBreakdownPage() {
       )
     },
     {
-      name: 'Technical Strength',
+      name: t('score.categories.technicalStrength'),
       score: 82,
       color: '#5b6ee1',
       icon: (
@@ -57,7 +59,7 @@ export function ScoreBreakdownPage() {
       )
     },
     {
-      name: 'Communication',
+      name: t('score.categories.communication'),
       score: 67,
       color: '#ff8c42',
       icon: (
@@ -321,14 +323,14 @@ export function ScoreBreakdownPage() {
       <LoggedInNavigation />
       
       <div style={contentStyle}>
-        <h1 style={titleStyle}>Feedback Summary</h1>
-        <p style={subtitleStyle}>Here's how you performed in this interview. Review your strengths and areas for growth.</p>
+        <h1 style={titleStyle}>{t('score.title')}</h1>
+        <p style={subtitleStyle}>{t('score.subtitle')}</p>
         
         <div style={scoresContainerStyle}>
           <div style={overallScoreContainerStyle}>
-            <h2 style={overallScoreTitleStyle}>Overall Score</h2>
+            <h2 style={overallScoreTitleStyle}>{t('score.overallScore')}</h2>
             {createCircularProgress(animatedOverallScore, 100, 120, 12, '#1a4d8c')}
-            <p style={overallScoreSubtitleStyle}>Great job! Keep improving</p>
+            <p style={overallScoreSubtitleStyle}>{t('score.greatJob')}</p>
           </div>
           
           <div style={categoriesContainerStyle}>
@@ -351,7 +353,7 @@ export function ScoreBreakdownPage() {
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#15a097'}
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#17B0A7'}
           >
-            View Details
+            {t('score.viewDetails')}
           </button>
           
           <button
@@ -366,7 +368,7 @@ export function ScoreBreakdownPage() {
               e.currentTarget.style.color = '#1a4d8c';
             }}
           >
-            New Interview
+            {t('score.newInterview')}
           </button>
         </div>
       </div>

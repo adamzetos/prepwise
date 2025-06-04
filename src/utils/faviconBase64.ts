@@ -1,0 +1,11 @@
+/**
+ * ADAMCHINS PrepWise
+ * Classification: ADAMCHINS-CONFIDENTIAL ▲
+ * Utility: faviconBase64
+ * Purpose: Base64 encoded favicon for PDF generation
+ * Why Needed: Direct embedding of favicon.png in PDF
+ */
+
+// Base64 encoded version of /public/icons/favicon.png
+// This is the PrepWise "P" logo icon
+export const FAVICON_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH6AYEEhgZPsGzLwAAAexJREFUWMPtlzFoFEEUhv83s7t3e3sXc4kxiYqKIiIiYiEWFhYWFhYWFhYWFhYWFhYWNjY2goWFhYWFhYiIiIiIiBgRMRpNTEwu5s69u9udGYu9Xc8kl1MRC/3hMbMz7/3fvHkzOwP/S/8kSvwR4bouQghEo1FarRbNZhPf91FKDQzEMAyEEITDYaLRKJZlEQqFsCwL0zQxxCAAvu/TaDSo1WpUq1VqtRq+7w8EIBaLkUgkSCaTxONxhBD4vo/nebiui2EMAqD7QFEUBc/z8DwPpRT9npIQAsMwME0TIQRCCEzTbO/pN+grgBCi7TTHcXBdF8/zOv77DSCEQNd1dF0nFAoRCoUwDKP9LL0CaCG6K1dK4bourutSr9dxHAdN0/oOEIlEiEajhMNhwuEwuq4jhOhZ1rsD0C3ftu224yzLGhiAaZpYloVpmhiGgaZpPa1j36AxxVCUUrTa0mh0/fhebQXa5D+Dzq5N9Eo/APzZ2R8q+YUAli1b8kMBJienGBoqfBPA1u4RNzU1x759h3j+/A1Kyb4ATE1VWLNmPdu27eb58zeEQnpP694TwOTkHIcPH6NSqbF+/UZOn77A48evupd+0aJzjwDT0xWOHTvDjRtPGBnZwokT55idfUsut4Tz5690XYpfnhtfAQGBd3gm/OcfAAAAAElFTkSuQmCC';

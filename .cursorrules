@@ -1,281 +1,458 @@
-# PrepWise Project - Cursor AI Rules
+# 🎓 PrepWise AI Mock Interview Platform - Cursor Rules
 # Classification: ADAMCHINS-CONFIDENTIAL ▲
-# Last Updated: Complete Website Implementation - All 15 Pages
+# Project: PrepWise - AI-powered mock interview platform for business schools
+# Version: 1.0
+# Created: 2025-01-27
+# Purpose: AI coding assistant rules for consistent development
 
-## Project Context
-You are working on PrepWise - an AI-powered mock interview platform for business schools. The entire website has been successfully imported from Figma designs into React code with pixel-perfect accuracy.
+## 📚 Project Context
 
-## CRITICAL RULES - FIGMA TO CODE IMPORTS
+You are working on **PrepWise**, an AI-powered mock interview and job preparation platform designed to help students train for professional interviews at scale. This is a B2B SaaS solution primarily targeted at business schools.
 
-### 1. BEFORE WRITING ANY CODE
-ALWAYS:
-- Analyze the Figma design/PNG thoroughly
-- List ALL components visible in the design
-- Request export of ALL assets (images, icons, logos) FIRST
-- Verify asset filenames have NO SPACES (use underscores)
-- Note exact text content from the design
-- Create a component checklist
-- Plan component reusability across pages
+### Core Value Proposition:
+- **For Business Schools**: Offer personalized, high-quality career coaching at low operational cost
+- **For Students**: 24/7 access to realistic interview practice with AI feedback
+- **Scalability**: No human bottleneck, unlimited concurrent sessions
+- **Data-Driven**: Analytics and insights for career services departments
 
-NEVER:
-- Start coding before assets are exported
-- Create components that don't exist in the design
-- Use placeholder/stock images
-- Guess at colors or spacing
-- Use filenames with spaces
+### Technical Stack:
+- **Frontend**: React 18.x with TypeScript, Zustand, React Query
+- **Styling**: Tailwind CSS + Shadcn/ui components
+- **AI/ML**: OpenAI API / Custom LLMs for interview simulation
+- **Backend**: FastAPI (Python) for API services
+- **Database**: PostgreSQL with Prisma ORM
+- **Real-time**: WebSockets for live interview sessions
+- **Authentication**: Auth0 for B2B multi-tenant setup
+- **Infrastructure**: AWS/Vercel for deployment
 
-### 2. ASSET PATHS & STRUCTURE
+## 🏗️ Architecture Patterns
+
+### 1. Domain-Driven Design Structure
 ```
-/public/
-├── logo.svg              # Main PrepWise logo
-├── hero-bg.jpg          # Hero background
-├── Interviewer.jpg      # Interview simulation
-├── You.jpg              # User video placeholder
-└── icons/
-    ├── favicon.svg      # Browser tab icon
-    ├── avatar.svg       # User avatar
-    ├── [feature].svg    # Feature icons
-    ├── [student].svg/png # Student avatars
-    └── [icon_name].svg  # Various UI icons
-```
-**CRITICAL**: Replace spaces with underscores in ALL filenames
-
-### 3. CODING STANDARDS
-
-#### MANDATORY: Use Inline Styles
-```typescript
-// ✅ CORRECT - Always use inline styles
-const style = {
-  backgroundColor: '#ffffff',
-  padding: '20px',
-};
-
-// ❌ WRONG - Never use Tailwind/className
-<div className="bg-white p-5">
+src/
+├── modules/                    # Feature modules
+│   ├── auth/                  # Authentication & authorization
+│   ├── interviews/            # Core interview functionality  
+│   ├── analytics/             # Performance tracking
+│   ├── schools/               # B2B tenant management
+│   └── students/              # User management
+├── design-system/             # Design system from Figma
+├── components/                # Shared components
+├── lib/                       # Utility libraries
+├── hooks/                     # Global hooks
+├── stores/                    # Global state (Zustand)
+└── types/                     # Global TypeScript types
 ```
 
-#### Component Template
+### 2. Component Architecture
+- Use **functional components** with hooks
+- Implement **compound components** for complex UI
+- Follow **container/presentation** pattern
+- Use **React.memo** for performance optimization
+
+### 3. State Management
+- **Zustand** for global state (simple, performant)
+- **React Query** for server state management
+- **Local state** for component-specific data
+- **Context** only for theme/auth providers
+
+## 📝 Coding Standards
+
+### 1. File Headers (MANDATORY)
 ```typescript
 /**
  * ADAMCHINS PrepWise
  * Classification: ADAMCHINS-CONFIDENTIAL ▲
- * Component: [Name]
- * Purpose: [What it does]
- * Why Needed: [Business reason]
+ * Component: [ComponentName]
+ * Purpose: [What this component does]
+ * Why Needed: [Why this exists in the system]
  */
+```
 
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+### 2. TypeScript Requirements
+- **ALWAYS** use TypeScript with strict mode
+- **MANDATORY** type hints for all functions
+- Use **interfaces** for object shapes
+- Use **union types** for controlled values
+- Prefer **type** over **interface** for simple shapes
 
-export function ComponentName() {
-  const navigate = useNavigate();
+### 3. Component Structure
+```typescript
+// 1. Imports (organized by source)
+import { useState, useEffect, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import { interviewService } from '../services/InterviewService';
+
+// 2. Types/Interfaces
+interface ComponentProps {
+  id: string;
+  onComplete: (result: InterviewResult) => void;
+}
+
+// 3. Component
+export function ComponentName({ id, onComplete }: ComponentProps) {
+  // 4. State
+  const [isLoading, setIsLoading] = useState(false);
   
-  const sectionStyle = {
-    // Use exact values from Figma
-  };
+  // 5. Queries/Mutations
+  const { data, isLoading: queryLoading } = useQuery({
+    queryKey: ['interview', id],
+    queryFn: () => interviewService.getInterview(id),
+  });
   
+  // 6. Effects
+  useEffect(() => {
+    // Effect logic
+  }, [id]);
+  
+  // 7. Handlers
+  const handleSubmit = useCallback(async () => {
+    // Handler logic
+  }, []);
+  
+  // 8. Render
   return (
-    <section style={sectionStyle}>
-      {/* Content */}
-    </section>
+    <div className="space-y-4">
+      {/* Component JSX */}
+    </div>
   );
 }
 ```
 
-### 4. NAVIGATION COMPONENTS
-Three distinct navigation types:
-1. **Navigation** - Public pages (landing, login, register)
-2. **LoggedInNavigation** - Authenticated users
-3. **AdminNavigation** - Admin dashboard pages
-
-Route Structure:
-```
-/                    # Landing page
-/login              # Login page  
-/register           # Register page
-/dashboard          # User dashboard
-/upload             # Document upload
-/sessions           # Interview history
-/cv-review          # Document review
-/job-role-selection # Role selection
-/interview          # Interview simulation
-/interview-complete # Completion screen
-/score-breakdown    # Performance scores
-/detailed-suggestions # Feedback details
-/admin              # Admin dashboard
-/admin/students     # Student management
-```
-
-### 5. COLOR PALETTE
+### 4. Import Organization
 ```typescript
-const colors = {
-  primaryBlue: '#1a4d8c',      // Main brand color
-  secondaryTeal: '#17B0A7',    // CTAs, highlights
-  textDark: '#1f2d3d',         // Primary text
-  textLight: '#6b7b8f',        // Secondary text
-  background: '#f9fafb',       // Page background
-  white: '#ffffff',            // Cards, sections
-  border: '#e5e7eb',           // Borders
-  borderLight: '#f3f4f6',      // Light borders
-  formButton: '#9bb3d0',       // Form submit buttons
-};
+// 1. React and React ecosystem
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+// 2. Third-party libraries
+import { motion } from 'framer-motion';
+import { z } from 'zod';
+
+// 3. Internal UI components
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+
+// 4. Internal modules (by domain)
+import { interviewService } from '@/modules/interviews/services';
+import { useAuthStore } from '@/modules/auth/stores';
+
+// 5. Types and constants
+import type { Interview, Student } from '@/types';
+import { INTERVIEW_TYPES } from '@/lib/constants';
 ```
 
-### 6. TYPOGRAPHY & SPACING
-Font Stack:
+## 🎨 Design System Integration
+
+### 1. Figma Design Tokens
+- Use **CSS custom properties** from design tokens
+- Follow **design system components** exactly
+- Implement **responsive design** patterns
+- Use **Tailwind CSS** with design system classes
+
+### 2. Component Variants
 ```typescript
-fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+// Use class-variance-authority for component variants
+import { cva, type VariantProps } from 'class-variance-authority';
+
+const buttonVariants = cva(
+  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+      },
+      size: {
+        sm: 'h-9 px-3',
+        md: 'h-10 px-4 py-2',
+        lg: 'h-11 px-8',
+      },
+    },
+    defaultVariants: {
+      variant: 'primary',
+      size: 'md',
+    },
+  }
+);
 ```
 
-Standard Sizes:
-- Title: 32px, weight 600
-- Subtitle: 16-18px, weight 400
-- Body: 14-15px, weight 400
-- Small: 12-13px, weight 400
+### 3. Accessibility Requirements
+- **WCAG 2.1 AA** compliance mandatory
+- Use **semantic HTML** elements
+- Implement **keyboard navigation**
+- Add **ARIA labels** and descriptions
+- Test with **screen readers**
 
-Spacing System:
-- Section padding: 3rem 2rem
-- Card padding: 2rem
-- Button padding: 12px 24px (small), 14px 36px (large)
-- Input padding: 12px 16px
-- Border radius: 40px (primary buttons), 8px (secondary), 12px (cards)
+## 🤖 AI/ML Integration Patterns
 
-### 7. COMMON PATTERNS
-
-#### Hover Effects
+### 1. Interview AI Service
 ```typescript
-onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#163e70'}
-onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1a4d8c'}
-```
-
-#### Page Container
-```typescript
-const pageStyle = {
-  minHeight: '100vh',
-  backgroundColor: '#f9fafb',
-  display: 'flex',
-  flexDirection: 'column' as const,
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-  WebkitFontSmoothing: 'antialiased' as const,
-  MozOsxFontSmoothing: 'grayscale' as const,
-};
-```
-
-#### Content Container
-```typescript
-const contentStyle = {
-  flex: 1,
-  padding: '3rem 2rem',
-  maxWidth: '1200px', // or 1400px for admin
-  margin: '0 auto',
-  width: '100%',
-};
-```
-
-### 8. ANIMATION PATTERNS
-
-#### Progress Counter Animation
-```typescript
-useEffect(() => {
-  const interval = setInterval(() => {
-    setProgress(prev => {
-      if (prev < target) {
-        return Math.min(prev + 2, target);
-      }
-      clearInterval(interval);
-      return prev;
+// Real-time AI feedback with WebSocket
+class InterviewAIService {
+  private wsService: WebSocketService;
+  
+  async startInterview(params: InterviewParams): Promise<InterviewSession> {
+    const session = await api.post('/api/interviews/start', params);
+    await this.wsService.connect(`/interviews/${session.id}`);
+    return session;
+  }
+  
+  async submitResponse(sessionId: string, response: StudentResponse): Promise<AIFeedback> {
+    this.wsService.emit('response:submit', { sessionId, ...response });
+    return new Promise((resolve) => {
+      this.wsService.once('feedback:ready', resolve);
     });
-  }, 20);
-}, []);
+  }
+}
 ```
 
-#### SVG Circle Progress
+### 2. Performance Optimization
+- Use **React.memo** for expensive components
+- Implement **lazy loading** for heavy features
+- Use **Suspense** with loading states
+- Optimize **bundle splitting** by route/feature
+
+### 3. Error Handling
 ```typescript
-const circumference = radius * 2 * Math.PI;
-const strokeDashoffset = circumference - (progress / 100) * circumference;
-
-<circle
-  stroke={color}
-  fill="transparent"
-  strokeWidth={strokeWidth}
-  strokeDasharray={circumference + ' ' + circumference}
-  style={{
-    strokeDashoffset,
-    transition: 'stroke-dashoffset 0.5s ease',
-    transform: 'rotate(-90deg)',
-    transformOrigin: '50% 50%',
-  }}
-/>
+// Comprehensive error boundaries
+class InterviewErrorBoundary extends Component {
+  state = { hasError: false, error: null };
+  
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+  
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // Log to monitoring service
+    console.error('Interview error:', error, errorInfo);
+  }
+}
 ```
 
-### 9. COMPLETED PAGES STATUS
-✅ ALL PAGES COMPLETED (15 Total):
-1. Landing Page - Hero, features, navigation
-2. Login Page - Split layout with validation
-3. Register Page - Reused login components
-4. Logged-in Landing Page - Dashboard entry
-5. Document Upload Page - Multi-file support
-6. Interview Sessions Page - History table
-7. CV Review Page - Tabbed interface
-8. Job Role Selection Page - Icon grid
-9. Interview Simulation Page - Video chat UI
-10. Interview Complete Page - Success screen
-11. Score Breakdown Page - Animated charts
-12. Detailed Suggestions Page - Expandable feedback
-13. Admin Dashboard - Stats & line charts
-14. Student Management Page - Paginated table
+## 🏢 B2B SaaS Considerations
 
-### 10. COMMON ISSUES & SOLUTIONS
+### 1. Multi-Tenant Architecture
+```typescript
+// Tenant context throughout the app
+interface TenantContext {
+  school: School;
+  features: FeatureFlags;
+  branding: BrandingConfig;
+}
 
-| Issue | Solution |
-|-------|----------|
-| Layout broken | Use inline styles, check overflow |
-| Assets not showing | Ensure paths start with `/` |
-| Wrong colors | Use exact hex from Figma |
-| Spacing off | Use exact px values |
-| White SVGs invisible | Add filter or background |
-| File not found | Check spaces in filename |
-| Navigation fails | Import useNavigate correctly |
-| Animation choppy | Use requestAnimationFrame |
+// Apply tenant-specific styling
+function applyTenantBranding(school: School) {
+  document.documentElement.style.setProperty('--primary-color', school.primaryColor);
+  document.documentElement.style.setProperty('--secondary-color', school.secondaryColor);
+}
+```
 
-### 11. QUALITY CHECKLIST
-Before marking any component complete:
-- [ ] Matches Figma design pixel-perfectly
-- [ ] All assets loading correctly
-- [ ] Exact colors and spacing
-- [ ] Hover states implemented
-- [ ] Click handlers working
-- [ ] Navigation flows correctly
-- [ ] Animations smooth
-- [ ] Responsive behavior works
-- [ ] No console errors
-- [ ] Form validations working
+### 2. Feature Flags
+```typescript
+// Feature availability based on subscription
+function useFeatureFlag(feature: string): boolean {
+  const { currentTenant } = useTenantStore();
+  return currentTenant?.features[feature] ?? false;
+}
 
-### 12. KEY LEARNINGS
+// Conditional rendering
+function AdvancedAnalytics() {
+  const hasAdvancedAnalytics = useFeatureFlag('advancedAnalytics');
+  
+  if (!hasAdvancedAnalytics) {
+    return <UpgradePrompt feature="Advanced Analytics" />;
+  }
+  
+  return <AnalyticsDashboard />;
+}
+```
 
-DO's:
-- Plan component reusability upfront
-- Check all assets exist before coding
-- Use exact Figma values
-- Test each component immediately
-- Create consistent hover/active states
-- Implement smooth animations
-- Think about navigation flow
+### 3. SSO Integration
+- Support **SAML 2.0**, **OAuth 2.0**, and **LDAP**
+- Implement **seamless authentication** flows
+- Handle **tenant-specific** auth configurations
 
-DON'Ts:
-- Don't use spaces in filenames
-- Don't approximate colors/spacing
-- Don't skip hover states
-- Don't hardcode repeated values
-- Don't ignore console warnings
-- Don't rush - quality over speed
+## 🧪 Testing Requirements
 
-## REMEMBER
-- Export assets BEFORE coding
-- Match Figma EXACTLY
-- Use INLINE STYLES only
-- Test FREQUENTLY
-- ASK when uncertain
-- REUSE components when possible
+### 1. Testing Strategy
+- **60% Unit Tests**: Components, hooks, services
+- **30% Integration Tests**: API interactions, user flows
+- **10% E2E Tests**: Critical user journeys
 
-The PrepWise platform is now fully implemented with pixel-perfect accuracy!
+### 2. Test Structure
+```typescript
+// Component testing with React Testing Library
+describe('InterviewRoom', () => {
+  it('starts recording when button is clicked', async () => {
+    const onStart = vi.fn();
+    render(<InterviewRoom onStartRecording={onStart} />);
+    
+    await user.click(screen.getByRole('button', { name: /start recording/i }));
+    
+    expect(onStart).toHaveBeenCalledTimes(1);
+  });
+});
+```
+
+### 3. Mock Patterns
+```typescript
+// Service mocking
+vi.mock('@/modules/interviews/services/InterviewService', () => ({
+  interviewService: {
+    startInterview: vi.fn(),
+    getNextQuestion: vi.fn(),
+    submitResponse: vi.fn(),
+  },
+}));
+```
+
+## 🔒 Security & Privacy
+
+### 1. Data Protection
+- **FERPA compliance** for educational records
+- **GDPR compliance** for EU users
+- **Client-side encryption** for sensitive data
+- **Secure token storage** with encryption
+
+### 2. Content Security Policy
+```typescript
+// Strict CSP headers
+const cspHeaders = {
+  'Content-Security-Policy': [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' https://www.google-analytics.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "connect-src 'self' https://api.prepwise.com wss://api.prepwise.com",
+    "media-src 'self' blob:",
+  ].join('; '),
+};
+```
+
+### 3. Input Sanitization
+```typescript
+// Sanitize all user inputs
+function sanitizeInput(input: string): string {
+  return input
+    .replace(/[<>]/g, '')
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+\s*=/gi, '')
+    .trim();
+}
+```
+
+## 📊 Performance Standards
+
+### 1. Core Web Vitals Targets
+- **LCP**: < 2.5s (Largest Contentful Paint)
+- **FID**: < 100ms (First Input Delay)
+- **CLS**: < 0.1 (Cumulative Layout Shift)
+
+### 2. Bundle Size Limits
+- **Initial bundle**: < 250KB gzipped
+- **Route chunks**: < 100KB gzipped
+- **Vendor chunks**: Split by usage frequency
+
+### 3. Image Optimization
+```typescript
+// Responsive images with WebP support
+<picture>
+  <source type="image/webp" srcSet={generateWebPSrcSet(src)} />
+  <img src={src} alt={alt} loading="lazy" />
+</picture>
+```
+
+## 🚀 Development Workflow
+
+### 1. Git Workflow
+```bash
+# Branch naming
+feature/PREP-123-add-video-analysis
+bugfix/PREP-456-fix-login-error
+hotfix/PREP-789-security-patch
+
+# Commit messages (Conventional Commits)
+feat(interviews): add facial expression analysis
+fix(auth): resolve token refresh issue
+docs(readme): update setup instructions
+```
+
+### 2. Code Quality Gates
+- **TypeScript**: No errors, strict mode
+- **ESLint**: No warnings or errors
+- **Prettier**: Consistent formatting
+- **Tests**: 80%+ coverage for new code
+
+### 3. Pre-commit Hooks
+```json
+{
+  "lint-staged": {
+    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,css}": ["prettier --write"]
+  }
+}
+```
+
+## 🎯 Teaching Methodology
+
+### 1. Step-by-Step Approach
+- **Theory First**: Explain WHY before HOW
+- **Checkpoint Questions**: Verify understanding
+- **Practical Application**: Hands-on implementation
+- **Verification**: Test what was built
+
+### 2. Interactive Development
+- Ask **clarifying questions** before proceeding
+- Explain **design decisions** and alternatives
+- Provide **learning context** for patterns
+- Include **checkpoint confirmations**
+
+### 3. No Black Boxes
+- Explain **every component** and its purpose
+- Show **how pieces connect** together
+- Discuss **trade-offs** and alternatives
+- Provide **context** for architectural decisions
+
+## 📋 Quick Reference Checklist
+
+### Before Starting Any Task:
+- [ ] Understand the **business context**
+- [ ] Check **existing patterns** in codebase
+- [ ] Verify **design system** components available
+- [ ] Consider **multi-tenant** implications
+- [ ] Plan **testing strategy**
+
+### For New Components:
+- [ ] Add proper **file header**
+- [ ] Use **TypeScript** with full typing
+- [ ] Follow **component structure** pattern
+- [ ] Implement **accessibility** features
+- [ ] Add **unit tests**
+- [ ] Update **Storybook** if applicable
+
+### For API Integration:
+- [ ] Use **React Query** for server state
+- [ ] Implement **error handling**
+- [ ] Add **loading states**
+- [ ] Consider **caching strategy**
+- [ ] Handle **tenant context**
+
+### For Styling:
+- [ ] Use **design system** components first
+- [ ] Follow **Tailwind CSS** patterns
+- [ ] Implement **responsive design**
+- [ ] Test **accessibility**
+- [ ] Verify **brand consistency**
+
+## 🎓 Remember: This is an Educational Platform
+
+Always consider:
+- **Student privacy** and data protection
+- **School administrator** needs and workflows
+- **Scalability** for multiple institutions
+- **Accessibility** for diverse users
+- **Performance** for global usage
+- **Security** for sensitive educational data
+
+When in doubt, ask questions and explain your reasoning. The goal is to build a robust, scalable, and user-friendly platform that truly helps students succeed in their career preparation. 

@@ -6,7 +6,10 @@
  * Why Needed: Legal information and social media presence
  */
 
+import { useLanguage } from '../../contexts/LanguageContext';
+
 export function Footer() {
+  const { t } = useLanguage();
   const footerStyle = {
     backgroundColor: '#ffffff',
     borderTop: '1px solid #e5e7eb',
@@ -53,7 +56,7 @@ export function Footer() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
           <img src="/logo.svg" alt="Prepwise" style={logoImgStyle} />
           <span style={copyrightStyle}>
-            © 2025 Prepwise. All rights reserved.
+            {t('footer.copyright')}
           </span>
         </div>
 

@@ -8,6 +8,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface ChatMessage {
   id: number;
@@ -16,6 +17,7 @@ interface ChatMessage {
 }
 
 export function InterviewSimulationPage() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentResponse, setCurrentResponse] = useState('');
@@ -27,23 +29,23 @@ export function InterviewSimulationPage() {
   // Predefined interview flow
   const interviewFlow = [
     {
-      interviewer: "Hi Alex, hope you're doing great ! Are you ready to start the interview ?",
-      userResponse: "Yes"
+      interviewer: t('interview.messages.greeting'),
+      userResponse: t('interview.messages.yes')
     },
     {
-      interviewer: "Hi Alex,  I see that you've applied for the position of Marketing Associate. I'm Lukas Schneider, Marketing Manager at Horizon Brands. I've been here for a few years leading digital campaigns. I'm going to run the interview today. It should last between 45 and 60 minutes. If you're ok we can then start. Can you please begin with introducing yourself ?",
-      userResponse: "Sure! I'm a recent Business graduate from Riverside University, where I concentrated in marketing and served as Vice President of the Student Government Association. I've completed two marketing internships — one at FreshFuel Beverages, focusing on brand awareness, and most recently at BrightEye Media, where I helped with digital campaigns and analytics. I'm passionate about creative strategy and communication, and I'm excited to bring that energy into a full-time role to help you contribute to real marketing impact."
+      interviewer: t('interview.messages.introduction'),
+      userResponse: t('interview.messages.introResponse')
     },
     {
-      interviewer: "That's great to hear. Let's talk about teamwork. Can you tell me about a time you solved a problem in a group setting?",
-      userResponse: "Absolutely. At BrightEye Media, we were working on a tight deadline to launch a social media campaign. Halfway through, we realized our content calendar didn't align with the target audience's peak engagement times. I suggested we re-analyze the data in Google Analytics and adjust posting schedules. I collaborated with the team to revise the calendar and reallocate tasks quickly. Despite the adjustment period, by shifting during the campaign, and the client was really pleased with our responsiveness."
+      interviewer: t('interview.messages.teamwork'),
+      userResponse: t('interview.messages.teamworkResponse')
     },
     {
-      interviewer: "Sounds like you're very data-driven — love that. So, why are you interested in this Marketing Associate position?",
-      userResponse: "What really excites me about this role is the chance to work on cross-functional campaigns and learn from a seasoned marketing team. I'm drawn to your brand's recent product launches and love how creative and cohesive they are across channels. This role feels like the perfect next step — a place where I can keep learning, contribute new ideas, and grow within a fast-moving company."
+      interviewer: t('interview.messages.whyInterested'),
+      userResponse: t('interview.messages.whyInterestedResponse')
     },
     {
-      interviewer: "One more — in marketing, priorities shift a lot. How do you manage multiple projects or deadlines at once?",
+      interviewer: t('interview.messages.priorities'),
       userResponse: ""
     }
   ];
@@ -358,7 +360,7 @@ export function InterviewSimulationPage() {
       <header style={headerStyle}>
         <div style={logoContainerStyle}>
           <img src="/logo.svg" alt="PrepWise" style={logoStyle} />
-          <h1 style={titleStyle}>Interview Simulation</h1>
+          <h1 style={titleStyle}>{t('interview.title')}</h1>
         </div>
         
         <div style={timerContainerStyle}>
@@ -374,7 +376,7 @@ export function InterviewSimulationPage() {
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1a4d8c'}
           >
             <img src="/icons/End_interview.svg" alt="End" style={{ width: '16px', height: '16px', filter: 'brightness(0) invert(1)' }} />
-            End Interview
+            {t('interview.endInterview')}
           </button>
         </div>
       </header>
@@ -385,7 +387,7 @@ export function InterviewSimulationPage() {
             <img src="/Interviewer.jpg" alt="Interviewer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             <div style={videoLabelStyle}>
               <img src="/icons/Interview_icon.svg" alt="Interviewer" style={{ width: '16px', height: '16px', filter: 'brightness(0) invert(1)' }} />
-              Interviewer
+              {t('interview.interviewer')}
             </div>
           </div>
           
@@ -393,7 +395,7 @@ export function InterviewSimulationPage() {
             <img src="/You.jpg" alt="You" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             <div style={videoLabelStyle}>
               <img src="/icons/You_icon.svg" alt="You" style={{ width: '16px', height: '16px', filter: 'brightness(0) invert(1)' }} />
-              You
+              {t('interview.you')}
             </div>
           </div>
         </div>
@@ -416,7 +418,7 @@ export function InterviewSimulationPage() {
 
           {getCurrentQuestion() && (
             <div style={currentQuestionStyle}>
-              <div style={questionLabelStyle}>Behavioral</div>
+              <div style={questionLabelStyle}>{t('interview.behavioral')}</div>
               <div style={questionTextStyle}>{getCurrentQuestion()}</div>
             </div>
           )}
@@ -424,7 +426,7 @@ export function InterviewSimulationPage() {
           <div style={inputContainerStyle}>
             <textarea
               style={textAreaStyle}
-              placeholder="Type your response here..."
+              placeholder={t('interview.typeResponse')}
               value={currentResponse}
               onChange={(e) => setCurrentResponse(e.target.value)}
               onKeyDown={(e) => {
@@ -447,7 +449,7 @@ export function InterviewSimulationPage() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zM8 12a4 4 0 0 0 8 0M12 19v4M8 23h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
                 </svg>
-                Record your answer
+                {t('interview.recordAnswer')}
               </button>
               
               <button
@@ -469,7 +471,7 @@ export function InterviewSimulationPage() {
                   }
                 }}
               >
-                Submit Answer
+                {t('interview.submitAnswer')}
               </button>
             </div>
           </div>

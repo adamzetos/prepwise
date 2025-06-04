@@ -1,0 +1,323 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "features": "Fonctionnalités",
+    "pricing": "Tarifs",
+    "benefits": "Avantages",
+    "howItWorks": "Comment ça marche",
+    "forAdmins": "Pour les administrateurs",
+    "help": "Aide",
+    "login": "Connexion",
+    "getStarted": "Commencer",
+    "dashboard": "Tableau de bord",
+    "interviews": "Entretiens",
+    "feedback": "Feedback",
+    "profile": "Profil",
+    "students": "Étudiants",
+    "reports": "Rapports",
+    "settings": "Paramètres"
+  },
+  "landing": {
+    "hero": {
+      "title": "Entraînez-vous intelligemment. Réussissez vos entretiens.",
+      "subtitle": "Prepwise est votre partenaire de pratique alimenté par l'IA pour les entretiens d'embauche réels. Obtenez des retours instantanés et bienveillants et suivez vos progrès au fil du temps.",
+      "cta": "Commencer la simulation d'entretien",
+      "loginPrompt": "Vous avez déjà un compte ?",
+      "loginLink": "Se connecter"
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin pour passer un entretien en toute confiance",
+      "aiPractice": {
+        "title": "Pratique et feedback par IA",
+        "description": "Vivez des entretiens réalistes avec des retours instantanés et exploitables pour vous aider à progresser en toute confiance."
+      },
+      "trackProgress": {
+        "title": "Suivez vos progrès",
+        "description": "Des tableaux de bord visuels montrent vos forces et vos axes d'amélioration, pour que vous sachiez toujours où vous en êtes."
+      },
+      "realWorld": {
+        "title": "Simulation du monde réel",
+        "description": "Pratiquez dans un environnement d'entretien réaliste pour renforcer votre confiance avant le vrai entretien."
+      }
+    },
+    "testimonials": {
+      "title": "Rejoignez des milliers d'étudiants qui ont réussi",
+      "sarah": {
+        "text": "PrepWise a transformé mes compétences en entretien. Je suis passée de nerveuse à confiante en seulement 2 semaines !",
+        "name": "Sarah Chen",
+        "role": "Étudiante MBA",
+        "school": "Wharton"
+      },
+      "michael": {
+        "text": "Les commentaires de l'IA étaient incroyablement détaillés. Cela m'a aidé à décrocher mon emploi de rêve en conseil.",
+        "name": "Michael Rodriguez",
+        "role": "Analyse commerciale",
+        "school": "Columbia"
+      },
+      "priya": {
+        "text": "Meilleur que tout service d'entretien simulé. La commodité et la qualité sont inégalées.",
+        "name": "Priya Patel",
+        "role": "Spécialisation finance",
+        "school": "Booth"
+      }
+    },
+    "cta": {
+      "title": "Prêt à décrocher l'emploi de vos rêves ?",
+      "subtitle": "Commencez à vous entraîner avec PrepWise aujourd'hui et passez vos entretiens en toute confiance.",
+      "button": "Commencer gratuitement"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "subtitle": "Connectez-vous à votre compte",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "rememberMe": "Se souvenir de moi",
+      "forgotPassword": "Mot de passe oublié ?",
+      "submit": "Connexion",
+      "or": "ou",
+      "google": "Continuer avec Google",
+      "linkedin": "Continuer avec LinkedIn",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "signUp": "S'inscrire",
+      "heroTitle": "Rejoignez plus de 50 000 étudiants qui se préparent intelligemment",
+      "heroSubtitle": "Renforcez votre prochain entretien avec les outils alimentés par l'IA de PrepWise."
+    },
+    "register": {
+      "title": "S'inscrire",
+      "subtitle": "Rejoignez des milliers d'étudiants qui ont réussi",
+      "userName": "Nom d'utilisateur",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "passwordAgain": "Mot de passe à nouveau",
+      "terms": "J'accepte les conditions générales",
+      "submit": "S'inscrire maintenant",
+      "or": "ou",
+      "google": "Google",
+      "linkedin": "LinkedIn",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "signIn": "Se connecter"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bon retour !",
+    "cta": "Entraînez-vous pour l'emploi de vos rêves",
+    "startPractice": "Commencer une session"
+  },
+  "upload": {
+    "title": "Téléchargez vos documents",
+    "subtitle": "Ajoutez votre CV、lettre de motivation ou description de poste pour aider Prepwise à personnaliser votre expérience d'entretien.",
+    "dragDrop": "Glissez-déposez pour télécharger",
+    "or": "ou",
+    "browse": "parcourir les fichiers",
+    "formats": "(PDF, DOCX)",
+    "uploadedFiles": "Fichiers téléchargés",
+    "next": "Suivant",
+    "progress": {
+      "upload": "Télécharger",
+      "review": "Réviser",
+      "interview": "Entretien"
+    }
+  },
+  "sessions": {
+    "welcome": "Bon retour, Alex !",
+    "subtitle": "Suivez vos progrès en entretien",
+    "ready": "Prêt à vous entraîner ?",
+    "readyDescription": "Commencez une nouvelle session d'entretien simulé pour améliorer vos compétences",
+    "startNew": "Nouvel entretien",
+    "recentSessions": "Sessions d'entretien récentes",
+    "table": {
+      "date": "Date",
+      "jobRole": "Poste",
+      "company": "Entreprise",
+      "score": "Score",
+      "actions": "Actions",
+      "viewDetails": "Voir détails"
+    }
+  },
+  "cvReview": {
+    "title": "Examen CV et lettre de motivation",
+    "tabs": {
+      "cv": "Examen CV",
+      "coverLetter": "Examen lettre de motivation"
+    },
+    "cvTab": {
+      "documentName": "Examen CV - Alex Taylor (avec points)",
+      "strengths": "Points forts",
+      "strengthsContent": "Conception d'ouverture solide avec une photo professionnelle et une mise en page moderne. Résumé clair et concis décrivant les objectifs de carrière, les compétences pertinentes et l'enthousiasme. Section d'expérience pertinente mettant en valeur les stages en marketing et le leadership au sein du gouvernement étudiant.\n\nCompétences bien choisies telles que les outils de marketing numérique et la communication.",
+      "areasForImprovement": "Points à améliorer",
+      "areasContent": "Multiples fautes de frappe et d'orthographe (p. ex., « solying », « oriemted », « initiaves »). Détails inexacts ou incomplets, tels que « Diplômé : mai 204 » au lieu de 2024. Formatage et ponctuation incohérents dans les puces et l'alignement des sections.\n\nErreurs mineures de noms de logiciels (p. ex., « Canva » devrait être « Canva », « Google » → « Google »).",
+      "overall": "Global",
+      "overallContent": "Un CV d'entrée de gamme solide avec un contenu substantiel et un aspect professionnel, mais il nécessite une relecture et un perfectionnement pour refléter l'attention aux détails du candidat."
+    },
+    "coverLetterTab": {
+      "greeting": "Cher recruteur,",
+      "content": {
+        "line1": "Je vous écris pour exprimer mon",
+        "interest": "intérêt",
+        "line1End": "pour le poste d'analyste marketing chez Acme Corp.",
+        "line2": "Mon rôle précédent",
+        "line2Mid": "impliquait diverses tâches, telles que la coordination de campagnes et la réalisation d'études de marché. Je crois que mes compétences seraient un excellent atout pour votre équipe",
+        "line3": "Dans mon CV, j'ai énuméré des réalisations, mais je n'ai pas inclus d'impact quantifiable.",
+        "closing": "Je vous remercie de l'attention portée à ma candidature.",
+        "signoff": "Cordialement",
+        "name": "Jamie Lee"
+      },
+      "tooltip": "Expression surutilisée : essayez de différencier votre introduction"
+    },
+    "sidebar": {
+      "title": "Aperçus de l'examen automatisé",
+      "clarityIssue": "Problème de clarté :",
+      "clarityContent": "Les phrases sont trop vagues ; incluez des exemples et des détails spécifiques.",
+      "impactMissing": "Impact manquant :",
+      "impactContent": "Votre CV manque de réalisations quantifiables ; ajoutez des chiffres/résultats.",
+      "repetitiveLanguage": "Langage répétitif :",
+      "repetitiveContent": "Évitez les phrases d'introduction surutilisées ; rendez votre ouverture unique.",
+      "formatting": "Formatage :",
+      "formattingContent": "La structure et la mise en page sont claires et faciles à lire.",
+      "suggestions": "Suggestions d'amélioration",
+      "suggestion1": "Remplacez les phrases génériques par un",
+      "suggestion1Link": "langage unique et spécifique au rôle",
+      "suggestion2": "Ajoutez des",
+      "suggestion2Link": "résultats mesurables spécifiques",
+      "suggestion2End": "pour chaque expérience.",
+      "suggestion3": "Utilisez des",
+      "suggestion3Link": "verbes actifs",
+      "suggestion3End": "pour transmettre clairement vos contributions.",
+      "suggestion4": "Mentionnez brièvement",
+      "suggestion4Link": "comment vos compétences s'alignent",
+      "suggestion4End": "avec les objectifs de l'entreprise."
+    },
+    "buttons": {
+      "uploadNew": "Télécharger un nouveau document",
+      "regenerate": "Régénérer l'examen",
+      "next": "Suivant"
+    }
+  },
+  "jobRole": {
+    "title": "Pour quel poste postulez-vous ?",
+    "subtitle": "Sélectionnez votre rôle professionnel pour personnaliser votre simulation d'entretien. Commencez à taper ou choisissez l'un des plus populaires ci-dessous.",
+    "placeholder": "ex. Chef de Produit",
+    "tooltip": "Vous n'avez pas téléchargé de description de poste avec votre CV et lettre de motivation",
+    "next": "Suivant",
+    "roles": {
+      "auditIntern": "Stagiaire en Audit",
+      "financialAnalyst": "Analyste Financier",
+      "productManager": "Chef de Produit",
+      "softwareEngineer": "Ingénieur Logiciel",
+      "marketingAssociate": "Associé Marketing"
+    }
+  },
+  "interview": {
+    "title": "Simulation d'entretien",
+    "endInterview": "Terminer l'entretien",
+    "behavioral": "Comportemental",
+    "typeResponse": "Tapez votre réponse ici...",
+    "recordAnswer": "Enregistrer votre réponse",
+    "submitAnswer": "Soumettre la réponse",
+    "interviewer": "Intervieweur",
+    "you": "Vous",
+    "messages": {
+      "greeting": "Bonjour Alex, j'espère que vous allez bien ! Êtes-vous prêt à commencer l'entretien ?",
+      "yes": "Oui",
+      "introduction": "Bonjour Alex, je vois que vous avez postulé pour le poste d'Associé Marketing. Je suis Lukas Schneider, Responsable Marketing chez Horizon Brands. Je suis ici depuis quelques années à diriger des campagnes numériques. Je vais mener l'entretien aujourd'hui. Il devrait durer entre 45 et 60 minutes. Si vous êtes d'accord, nous pouvons commencer. Pouvez-vous s'il vous plaît commencer par vous présenter ?",
+      "introResponse": "Bien sûr ! Je suis récemment diplômé en commerce de l'Université Riverside, où je me suis spécialisé en marketing et j'ai été vice-président de l'Association du gouvernement étudiant. J'ai effectué deux stages en marketing - l'un chez FreshFuel Beverages, axé sur la notoriété de la marque, et plus récemment chez BrightEye Media, où j'ai aidé avec les campagnes numériques et l'analyse. Je suis passionné par la stratégie créative et la communication, et je suis enthousiaste à l'idée d'apporter cette énergie dans un rôle à temps plein pour vous aider à contribuer à un véritable impact marketing.",
+      "teamwork": "C'est formidable à entendre. Parlons du travail d'équipe. Pouvez-vous me parler d'une fois où vous avez résolu un problème en groupe ?",
+      "teamworkResponse": "Absolument. Chez BrightEye Media, nous travaillions sur un délai serré pour lancer une campagne sur les réseaux sociaux. À mi-chemin, nous avons réalisé que notre calendrier de contenu ne correspondait pas aux heures de pointe d'engagement du public cible. J'ai suggéré de réanalyser les données dans Google Analytics et d'ajuster les horaires de publication. J'ai collaboré avec l'équipe pour réviser rapidement le calendrier et réaffecter les tâches. Malgré la période d'ajustement, en changeant pendant la campagne, le client était vraiment satisfait de notre réactivité.",
+      "whyInterested": "On dirait que vous êtes très axé sur les données - j'adore ça. Alors, pourquoi êtes-vous intéressé par ce poste d'Associé Marketing ?",
+      "whyInterestedResponse": "Ce qui m'enthousiasme vraiment dans ce rôle, c'est la chance de travailler sur des campagnes transversales et d'apprendre d'une équipe marketing chevronnée. Je suis attiré par les récents lancements de produits de votre marque et j'adore à quel point ils sont créatifs et cohérents sur tous les canaux. Ce rôle semble être la prochaine étape parfaite - un endroit où je peux continuer à apprendre, apporter de nouvelles idées et grandir au sein d'une entreprise en mouvement rapide.",
+      "priorities": "Une dernière question - en marketing, les priorités changent beaucoup. Comment gérez-vous plusieurs projets ou échéances à la fois ?"
+    }
+  },
+  "complete": {
+    "title": "Entretien terminé",
+    "message": "Félicitations pour avoir terminé votre entretien simulé ! Vous êtes un pas de plus vers l'emploi de vos rêves. 🎉",
+    "getFeedback": "Obtenir votre feedback"
+  },
+  "score": {
+    "title": "Résumé du feedback",
+    "subtitle": "Voici comment vous avez performé lors de cet entretien. Examinez vos points forts et vos axes de croissance.",
+    "overallScore": "Score global",
+    "greatJob": "Excellent travail ! Continuez à vous améliorer",
+    "viewDetails": "Voir les détails",
+    "newInterview": "Nouvel entretien",
+    "categories": {
+      "experienceClarity": "Clarté de l'expérience",
+      "fitMotivation": "Adéquation & Motivation",
+      "technicalStrength": "Force technique",
+      "communication": "Communication"
+    }
+  },
+  "suggestions": {
+    "title": "Détails du feedback",
+    "subtitle": "Voici votre feedback détaillé alimenté par l'IA pour chaque question d'entretien. Examinez les suggestions d'amélioration et voyez où vous pouvez progresser !",
+    "yourAnswer": "Votre réponse",
+    "aiFeedback": "Feedback IA",
+    "downloadPDF": "Télécharger PDF",
+    "questionTypes": {
+      "fit": "Question d'adéquation",
+      "behavioral": "Question comportementale"
+    },
+    "questions": {
+      "q1": {
+        "text": "Parlez-moi de vous",
+        "answer": "Je suis récemment diplômé en commerce de l'Université Riverside avec une expérience dans le gouvernement étudiant et deux stages en marketing. Je suis passionné par l'aide aux organisations pour leur croissance et enthousiaste à l'idée d'appliquer mes compétences dans un environnement réel.",
+        "feedback": "Bonne structure et formation académique claire. Vous avez mis en avant des expériences pertinentes et montré de l'enthousiasme. Envisagez de quantifier vos réalisations pour plus d'impact.",
+        "suggestions": [
+          "Incluez une réalisation avec des résultats (par exemple, \"augmentation de la participation aux événements de 30%\")",
+          "Reliez brièvement votre expérience au poste visé"
+        ]
+      },
+      "q2": {
+        "text": "Décrivez une fois où vous avez résolu un problème en équipe"
+      },
+      "q3": {
+        "text": "Qu'est-ce qui vous intéresse dans ce poste ?"
+      }
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "inviteStudents": "Inviter des étudiants",
+      "totalStudents": "Total étudiants",
+      "totalInterviews": "Total entretiens",
+      "avgScore": "Score moyen",
+      "platformUsage": "Utilisation de la plateforme (7 derniers jours)",
+      "dailyActive": "Étudiants actifs quotidiens et entretiens",
+      "activeStudents": "Étudiants actifs",
+      "interviews": "Entretiens"
+    },
+    "students": {
+      "title": "Gestion des étudiants",
+      "subtitle": "Surveiller et gérer les comptes étudiants",
+      "addStudent": "Ajouter étudiant",
+      "table": {
+        "name": "Nom",
+        "email": "Email",
+        "group": "Groupe",
+        "lastActive": "Dernière activité",
+        "interviewCount": "Nombre d'entretiens",
+        "actions": "Actions",
+        "resetPassword": "Réinitialiser MDP"
+      },
+      "groups": {
+        "business": "Commerce",
+        "engineering": "Ingénierie",
+        "law": "Droit",
+        "medicine": "Médecine"
+      },
+      "showing": "Affichage",
+      "of": "sur",
+      "students": "étudiants",
+      "hoursAgo": "heures"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 Prepwise. Tous droits réservés.",
+    "about": "À propos",
+    "privacy": "Confidentialité",
+    "contact": "Contact"
+  }
+}
