@@ -23,14 +23,22 @@ interface Message {
 
 interface InterviewContext {
   jobRole: string;
+  language: 'en' | 'fr';
   cvContent?: string;
   coverLetterContent?: string;
 }
 
 // System prompt for interview simulation
 const getSystemPrompt = (context: InterviewContext): string => {
-  return `You are an experienced professional interviewer conducting a job interview for a ${context.jobRole} position. Your role is to:
+  const languageInstruction = context.language === 'fr' 
+    ? 'IMPORTANT: You MUST conduct this entire interview in French. All your responses, questions, and feedback must be in French.'
+    : 'Conduct this interview in English.';
+    
+  return `You are an experienced professional interviewer conducting a job interview for a ${context.jobRole} position. 
 
+${languageInstruction}
+
+Your role is to:
 1. Ask relevant, professional interview questions appropriate for the ${context.jobRole} role
 2. Be conversational but professional in tone
 3. Ask follow-up questions based on the candidate's responses
@@ -52,7 +60,7 @@ export async function getInterviewResponse(
 ): Promise<string> {
   // If no API key, return a mock response
   if (!OPENAI_API_KEY) {
-    return getMockResponse(messages.length);
+    return getMockResponse(messages.length, context.language);
   }
 
   try {
@@ -88,13 +96,13 @@ export async function getInterviewResponse(
   } catch (error) {
     console.error('OpenAI API error:', error);
     // Fallback to mock response on error
-    return getMockResponse(messages.length);
+    return getMockResponse(messages.length, context.language);
   }
 }
 
 // Mock responses for development/fallback
-function getMockResponse(messageCount: number): string {
-  const mockResponses = [
+function getMockResponse(messageCount: number, language: 'en' | 'fr'): string {
+  const mockResponsesEn = [
     "Hello! Thank you for joining us today. I'm excited to learn more about your background. To start, could you tell me about yourself and what attracted you to this position?",
     "That's interesting! Can you share a specific example of a challenging project you've worked on and how you handled it?",
     "Great example! How do you typically approach working in a team environment? Can you describe your collaboration style?",
@@ -102,7 +110,17 @@ function getMockResponse(messageCount: number): string {
     "Thank you for sharing that. Do you have any questions for me about the role or our company?",
     "Those are excellent questions. Thank you for your time today. We'll be in touch soon with next steps."
   ];
+  
+  const mockResponsesFr = [
+    "Bonjour ! Merci de vous joindre à nous aujourd'hui. Je suis ravi d'en apprendre davantage sur votre parcours. Pour commencer, pourriez-vous vous présenter et nous dire ce qui vous a attiré vers ce poste ?",
+    "C'est intéressant ! Pouvez-vous partager un exemple spécifique d'un projet difficile sur lequel vous avez travaillé et comment vous l'avez géré ?",
+    "Excellent exemple ! Comment abordez-vous généralement le travail en équipe ? Pouvez-vous décrire votre style de collaboration ?",
+    "J'apprécie vos perspectives. Où vous voyez-vous professionnellement dans les 3 à 5 prochaines années ?",
+    "Merci de partager cela. Avez-vous des questions pour moi concernant le rôle ou notre entreprise ?",
+    "Ce sont d'excellentes questions. Merci pour votre temps aujourd'hui. Nous vous contacterons bientôt pour les prochaines étapes."
+  ];
 
+  const mockResponses = language === 'fr' ? mockResponsesFr : mockResponsesEn;
   const index = Math.floor(messageCount / 2) % mockResponses.length;
   return mockResponses[index];
 }

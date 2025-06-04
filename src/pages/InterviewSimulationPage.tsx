@@ -18,7 +18,7 @@ interface ChatMessage {
 }
 
 export function InterviewSimulationPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -29,6 +29,7 @@ export function InterviewSimulationPage() {
   const [isAIMode] = useState(isOpenAIConfigured());
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   
   // Get job role from navigation state (default to Software Engineer)
   const jobRole = location.state?.jobRole || 'Software Engineer';
@@ -316,6 +317,7 @@ export function InterviewSimulationPage() {
           // Get initial greeting from AI
           const aiGreeting = await getInterviewResponse([], {
             jobRole: jobRole,
+            language: language,
             cvContent: location.state?.cvContent,
             coverLetterContent: location.state?.coverLetterContent
           });
@@ -325,6 +327,11 @@ export function InterviewSimulationPage() {
             type: 'interviewer',
             content: aiGreeting
           }]);
+          
+          // Focus textarea after greeting
+          setTimeout(() => {
+            textAreaRef.current?.focus();
+          }, 100);
         } catch (error) {
           console.error('Failed to get initial AI greeting:', error);
           // Fallback to predefined greeting
@@ -333,6 +340,11 @@ export function InterviewSimulationPage() {
             type: 'interviewer',
             content: interviewFlow[0].interviewer
           }]);
+          
+          // Focus textarea after greeting
+          setTimeout(() => {
+            textAreaRef.current?.focus();
+          }, 100);
         } finally {
           setIsLoading(false);
         }
@@ -344,6 +356,11 @@ export function InterviewSimulationPage() {
             type: 'interviewer',
             content: interviewFlow[0].interviewer
           }]);
+          
+          // Focus textarea after greeting
+          setTimeout(() => {
+            textAreaRef.current?.focus();
+          }, 100);
         }, 1000);
         return () => clearTimeout(timer);
       }
@@ -389,6 +406,7 @@ export function InterviewSimulationPage() {
           // Get AI response
           const aiResponse = await getInterviewResponse(openAIMessages, {
             jobRole: jobRole,
+            language: language,
             cvContent: location.state?.cvContent,
             coverLetterContent: location.state?.coverLetterContent
           });
@@ -401,6 +419,11 @@ export function InterviewSimulationPage() {
           };
           
           setMessages(prev => [...prev, interviewerMessage]);
+          
+          // Focus the textarea after AI response
+          setTimeout(() => {
+            textAreaRef.current?.focus();
+          }, 100);
         } catch (error) {
           console.error('Failed to get AI response:', error);
           // Fallback to predefined flow
@@ -429,6 +452,11 @@ export function InterviewSimulationPage() {
         };
         
         setMessages(prev => [...prev, interviewerMessage]);
+        
+        // Focus the textarea after response
+        setTimeout(() => {
+          textAreaRef.current?.focus();
+        }, 100);
       }, 1500);
     }
   };
@@ -510,8 +538,9 @@ export function InterviewSimulationPage() {
 
           <div style={inputContainerStyle}>
             <textarea
+              ref={textAreaRef}
               style={textAreaStyle}
-              placeholder={isLoading ? t('interview.waitingForResponse') || 'Waiting for response...' : t('interview.typeResponse')}
+              placeholder={isLoading ? t('interview.messages.waitingForResponse') : t('interview.typeResponse')}
               value={currentResponse}
               onChange={(e) => setCurrentResponse(e.target.value)}
               onKeyDown={(e) => {
