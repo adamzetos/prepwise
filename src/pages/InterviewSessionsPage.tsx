@@ -239,7 +239,7 @@ export function InterviewSessionsPage() {
               </tr>
             </thead>
             <tbody>
-              {recentSessions.map((session, index) => (
+              {recentSessions.map((session) => (
                 <tr key={session.id}>
                   <td style={tdStyle}>{session.date}</td>
                   <td style={tdStyle}>{session.role}</td>

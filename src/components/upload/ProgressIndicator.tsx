@@ -34,10 +34,7 @@ export function ProgressIndicator({ currentStep }: ProgressIndicatorProps) {
     gap: '2rem',
   };
 
-  const getStepStyle = (stepNumber: number) => {
-    const isActive = stepNumber === currentStep;
-    const isPast = stepNumber < currentStep;
-    
+  const getStepStyle = () => {
     return {
       display: 'flex',
       alignItems: 'center',
@@ -83,7 +80,7 @@ export function ProgressIndicator({ currentStep }: ProgressIndicatorProps) {
     <div style={containerStyle}>
       {steps.map((step, index) => (
         <div key={step.number} style={stepContainerStyle}>
-          <div style={getStepStyle(step.number)}>
+          <div style={getStepStyle()}>
             <div style={getCircleStyle(step.number)}>
               {step.number}
             </div>

@@ -6,7 +6,8 @@
  * Why Needed: Collect user documents for personalized interview experience
  */
 
-import { useState, useRef, DragEvent } from 'react';
+import { useState, useRef } from 'react';
+import type { DragEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoggedInNavigation } from '../components/landing/LoggedInNavigation';
 import { ProgressIndicator } from '../components/upload/ProgressIndicator';
