@@ -208,26 +208,6 @@ export function InterviewSimulationPage() {
     lineHeight: '1.5',
   });
 
-  const currentQuestionStyle = {
-    backgroundColor: '#f9fafb',
-    border: '1px solid #e5e7eb',
-    borderRadius: '8px',
-    padding: '1rem',
-    marginBottom: '1.5rem',
-  };
-
-  const questionLabelStyle = {
-    fontSize: '12px',
-    fontWeight: '600',
-    color: '#17B0A7',
-    marginBottom: '0.5rem',
-  };
-
-  const questionTextStyle = {
-    fontSize: '16px',
-    fontWeight: '600',
-    color: '#1a4d8c',
-  };
 
   const inputContainerStyle = {
     borderTop: '1px solid #e5e7eb',
@@ -461,12 +441,6 @@ export function InterviewSimulationPage() {
     }
   };
 
-  const getCurrentQuestion = () => {
-    if (currentQuestionIndex < interviewFlow.length) {
-      return interviewFlow[currentQuestionIndex].interviewer;
-    }
-    return '';
-  };
 
   return (
     <div style={pageStyle}>
