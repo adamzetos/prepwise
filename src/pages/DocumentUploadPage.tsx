@@ -8,7 +8,7 @@
 
 import { useState, useRef } from 'react';
 import type { DragEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { LoggedInNavigation } from '../components/landing/LoggedInNavigation';
 import { ProgressIndicator } from '../components/upload/ProgressIndicator';
 import { Footer } from '../components/landing/Footer';
@@ -20,6 +20,10 @@ export function DocumentUploadPage() {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Get job role from navigation state
+  const jobRole = location.state?.jobRole || 'Software Engineer';
 
   const pageStyle = {
     minHeight: '100vh',
@@ -191,8 +195,8 @@ export function DocumentUploadPage() {
 
   const handleNext = () => {
     if (uploadedFiles.length > 0) {
-      // Navigate to the CV review page
-      navigate('/cv-review');
+      // Navigate to the CV review page with job role
+      navigate('/cv-review', { state: { jobRole } });
     }
   };
 

@@ -1,8 +1,9 @@
 # 🎓 PrepWise AI Mock Interview Platform - Cursor Rules
 # Classification: ADAMCHINS-CONFIDENTIAL ▲
 # Project: PrepWise - AI-powered mock interview platform for business schools
-# Version: 1.0
+# Version: 2.0 Beta.02
 # Created: 2025-01-27
+# Last Updated: January 2025 - Production Deployment
 # Purpose: AI coding assistant rules for consistent development
 
 ## 📚 Project Context
@@ -16,32 +17,33 @@ You are working on **PrepWise**, an AI-powered mock interview and job preparatio
 - **Data-Driven**: Analytics and insights for career services departments
 
 ### Technical Stack:
-- **Frontend**: React 18.x with TypeScript, Zustand, React Query
-- **Styling**: Tailwind CSS + Shadcn/ui components
-- **AI/ML**: OpenAI API / Custom LLMs for interview simulation
-- **Backend**: FastAPI (Python) for API services
-- **Database**: PostgreSQL with Prisma ORM
-- **Real-time**: WebSockets for live interview sessions
-- **Authentication**: Auth0 for B2B multi-tenant setup
-- **Infrastructure**: AWS/Vercel for deployment
+- **Frontend**: React 18.x with TypeScript
+- **Styling**: Inline styles (NO Tailwind) - exact Figma values
+- **Build Tool**: Vite with path aliases
+- **Routing**: React Router v6
+- **i18n**: Custom LanguageContext (French/English)
+- **AI/ML**: OpenAI API (GPT-3.5-turbo) for interview simulation
+- **Backend**: Currently frontend-only (API integration planned)
+- **Authentication**: Login/Register UI ready (backend pending)
+- **Infrastructure**: AWS EC2 + Nginx + SSL
+- **CI/CD**: GitHub Actions (master branch deployment)
 
 ## 🏗️ Architecture Patterns
 
 ### 1. Domain-Driven Design Structure
 ```
 src/
-├── modules/                    # Feature modules
-│   ├── auth/                  # Authentication & authorization
-│   ├── interviews/            # Core interview functionality  
-│   ├── analytics/             # Performance tracking
-│   ├── schools/               # B2B tenant management
-│   └── students/              # User management
-├── design-system/             # Design system from Figma
-├── components/                # Shared components
-├── lib/                       # Utility libraries
-├── hooks/                     # Global hooks
-├── stores/                    # Global state (Zustand)
-└── types/                     # Global TypeScript types
+├── components/                # Feature components
+│   ├── admin/                # Admin-specific components
+│   ├── common/               # Shared components (LanguageSelector)
+│   ├── landing/              # Landing page components
+│   ├── login/                # Auth components
+│   └── upload/               # File upload components
+├── contexts/                 # React contexts (LanguageContext)
+├── pages/                    # All 15 page components
+├── services/                 # API services (openai.ts)
+├── translations/             # i18n files (en.json, fr.json)
+└── design-system/           # Figma tokens and colors
 ```
 
 ### 2. Component Architecture
@@ -51,10 +53,11 @@ src/
 - Use **React.memo** for performance optimization
 
 ### 3. State Management
-- **Zustand** for global state (simple, performant)
-- **React Query** for server state management
-- **Local state** for component-specific data
-- **Context** only for theme/auth providers
+- **useState** for local component state
+- **Context API** for language selection
+- **Route state** for passing data between pages
+- **Local storage** for language preference
+- **No external state libraries** currently
 
 ## 📝 Coding Standards
 
@@ -70,11 +73,12 @@ src/
 ```
 
 ### 2. TypeScript Requirements
-- **ALWAYS** use TypeScript with strict mode
+- **ALWAYS** use TypeScript
 - **MANDATORY** type hints for all functions
 - Use **interfaces** for object shapes
 - Use **union types** for controlled values
-- Prefer **type** over **interface** for simple shapes
+- Fix all TypeScript errors before deployment
+- Remove unused variables to avoid build failures
 
 ### 3. Component Structure
 ```typescript
@@ -145,37 +149,31 @@ import { INTERVIEW_TYPES } from '@/lib/constants';
 
 ## 🎨 Design System Integration
 
-### 1. Figma Design Tokens
-- Use **CSS custom properties** from design tokens
-- Follow **design system components** exactly
-- Implement **responsive design** patterns
-- Use **Tailwind CSS** with design system classes
+### 1. Figma Implementation Rules
+- Use **inline styles ONLY** - NO Tailwind CSS
+- Copy **exact values** from Figma (colors, spacing, fonts)
+- Implement **pixel-perfect** designs
+- Use **vh units** for hero sections
+- Always verify assets exist before coding
 
-### 2. Component Variants
+### 2. Styling Patterns
 ```typescript
-// Use class-variance-authority for component variants
-import { cva, type VariantProps } from 'class-variance-authority';
+// Use inline style objects
+const buttonStyle = {
+  backgroundColor: '#1a4d8c',
+  color: '#ffffff',
+  padding: '14px 36px',
+  borderRadius: '40px',
+  border: 'none',
+  fontSize: '16px',
+  fontWeight: '600',
+  cursor: 'pointer',
+  transition: 'all 0.2s ease',
+};
 
-const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors',
-  {
-    variants: {
-      variant: {
-        primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-      },
-      size: {
-        sm: 'h-9 px-3',
-        md: 'h-10 px-4 py-2',
-        lg: 'h-11 px-8',
-      },
-    },
-    defaultVariants: {
-      variant: 'primary',
-      size: 'md',
-    },
-  }
-);
+// Hover effects with event handlers
+onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#163e70'}
+onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1a4d8c'}
 ```
 
 ### 3. Accessibility Requirements
@@ -185,26 +183,35 @@ const buttonVariants = cva(
 - Add **ARIA labels** and descriptions
 - Test with **screen readers**
 
-## 🤖 AI/ML Integration Patterns
+## 🤖 AI/ML Integration (IMPLEMENTED)
 
-### 1. Interview AI Service
+### 1. OpenAI Integration
 ```typescript
-// Real-time AI feedback with WebSocket
-class InterviewAIService {
-  private wsService: WebSocketService;
-  
-  async startInterview(params: InterviewParams): Promise<InterviewSession> {
-    const session = await api.post('/api/interviews/start', params);
-    await this.wsService.connect(`/interviews/${session.id}`);
-    return session;
-  }
-  
-  async submitResponse(sessionId: string, response: StudentResponse): Promise<AIFeedback> {
-    this.wsService.emit('response:submit', { sessionId, ...response });
-    return new Promise((resolve) => {
-      this.wsService.once('feedback:ready', resolve);
-    });
-  }
+// Current implementation with OpenAI GPT-3.5
+import axios from 'axios';
+
+const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+
+export async function getInterviewResponse(
+  messages: Message[],
+  context: InterviewContext
+): Promise<string> {
+  const response = await axios.post(
+    'https://api.openai.com/v1/chat/completions',
+    {
+      model: 'gpt-3.5-turbo',
+      messages: apiMessages,
+      temperature: 0.7,
+      max_tokens: 150,
+    },
+    {
+      headers: {
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  return response.data.choices[0].message.content.trim();
 }
 ```
 
@@ -231,48 +238,57 @@ class InterviewErrorBoundary extends Component {
 }
 ```
 
-## 🏢 B2B SaaS Considerations
+## 🌍 Internationalization (IMPLEMENTED)
 
-### 1. Multi-Tenant Architecture
+### 1. Language Support
 ```typescript
-// Tenant context throughout the app
-interface TenantContext {
-  school: School;
-  features: FeatureFlags;
-  branding: BrandingConfig;
+// Custom LanguageContext for i18n
+interface LanguageContextType {
+  language: 'en' | 'fr';
+  setLanguage: (lang: 'en' | 'fr') => void;
+  t: (key: string) => string;
 }
 
-// Apply tenant-specific styling
-function applyTenantBranding(school: School) {
-  document.documentElement.style.setProperty('--primary-color', school.primaryColor);
-  document.documentElement.style.setProperty('--secondary-color', school.secondaryColor);
-}
+// Browser language detection
+const browserLang = navigator.language || navigator.languages?.[0] || 'en';
+const defaultLanguage = browserLang.toLowerCase().startsWith('fr') ? 'fr' : 'en';
 ```
 
-### 2. Feature Flags
-```typescript
-// Feature availability based on subscription
-function useFeatureFlag(feature: string): boolean {
-  const { currentTenant } = useTenantStore();
-  return currentTenant?.features[feature] ?? false;
-}
-
-// Conditional rendering
-function AdvancedAnalytics() {
-  const hasAdvancedAnalytics = useFeatureFlag('advancedAnalytics');
-  
-  if (!hasAdvancedAnalytics) {
-    return <UpgradePrompt feature="Advanced Analytics" />;
+### 2. Translation Structure
+```json
+// translations/en.json & fr.json
+{
+  "nav": {
+    "features": "Features",
+    "howItWorks": "How it Works",
+    "testimonials": "Testimonials",
+    "login": "Login",
+    "signUp": "Sign Up for Free"
+  },
+  "hero": {
+    "title": "Master Your Interview Skills with AI-Powered Practice",
+    "subtitle": "PrepWise provides personalized mock interviews..."
   }
-  
-  return <AnalyticsDashboard />;
 }
 ```
 
-### 3. SSO Integration
-- Support **SAML 2.0**, **OAuth 2.0**, and **LDAP**
-- Implement **seamless authentication** flows
-- Handle **tenant-specific** auth configurations
+### 3. Dynamic Language Switching
+```typescript
+// LanguageSelector component
+function LanguageSelector() {
+  const { language, setLanguage } = useLanguage();
+  
+  return (
+    <select 
+      value={language} 
+      onChange={(e) => setLanguage(e.target.value as 'en' | 'fr')}
+    >
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+    </select>
+  );
+}
+```
 
 ## 🧪 Testing Requirements
 
@@ -363,19 +379,25 @@ function sanitizeInput(input: string): string {
 </picture>
 ```
 
-## 🚀 Development Workflow
+## 🚀 Development & Deployment
 
 ### 1. Git Workflow
 ```bash
-# Branch naming
-feature/PREP-123-add-video-analysis
-bugfix/PREP-456-fix-login-error
-hotfix/PREP-789-security-patch
+# Current branch structure
+develop    # Active development
+preprod    # Pre-production testing
+master     # Production (triggers CI/CD)
 
-# Commit messages (Conventional Commits)
-feat(interviews): add facial expression analysis
-fix(auth): resolve token refresh issue
-docs(readme): update setup instructions
+# Deployment flow
+git checkout develop
+# make changes
+git add -A
+git commit -m "feat: your feature"
+git push origin develop
+
+# Merge to production
+git checkout preprod && git merge develop && git push
+git checkout master && git merge preprod && git push  # Triggers deployment
 ```
 
 ### 2. Code Quality Gates
@@ -414,45 +436,71 @@ docs(readme): update setup instructions
 - Discuss **trade-offs** and alternatives
 - Provide **context** for architectural decisions
 
-## 📋 Quick Reference Checklist
+## 📋 Current Status & Next Steps
 
-### Before Starting Any Task:
-- [ ] Understand the **business context**
-- [ ] Check **existing patterns** in codebase
-- [ ] Verify **design system** components available
-- [ ] Consider **multi-tenant** implications
-- [ ] Plan **testing strategy**
+### Completed Features:
+- [✓] All 15 pages imported from Figma
+- [✓] French/English internationalization
+- [✓] OpenAI integration for interviews
+- [✓] Production deployment on AWS EC2
+- [✓] CI/CD pipeline with GitHub Actions
+- [✓] SSL certificates configured
+- [✓] Browser language detection
+- [✓] Beta.02 version deployed
 
-### For New Components:
-- [ ] Add proper **file header**
-- [ ] Use **TypeScript** with full typing
-- [ ] Follow **component structure** pattern
-- [ ] Implement **accessibility** features
-- [ ] Add **unit tests**
-- [ ] Update **Storybook** if applicable
+### Pending Development:
+- [ ] Backend API implementation
+- [ ] Real authentication system
+- [ ] Database integration
+- [ ] File upload to S3
+- [ ] Email notifications
+- [ ] Payment integration
+- [ ] Analytics dashboard
+- [ ] Mobile app version
 
-### For API Integration:
-- [ ] Use **React Query** for server state
-- [ ] Implement **error handling**
-- [ ] Add **loading states**
-- [ ] Consider **caching strategy**
-- [ ] Handle **tenant context**
+### Environment Setup:
+```bash
+# Local development
+cp .env.example .env
+# Add: VITE_OPENAI_API_KEY=your-key
+npm install
+npm run dev
 
-### For Styling:
-- [ ] Use **design system** components first
-- [ ] Follow **Tailwind CSS** patterns
-- [ ] Implement **responsive design**
-- [ ] Test **accessibility**
-- [ ] Verify **brand consistency**
+# Production server
+ssh -i key.pem ubuntu@prepwise.adamchins.com
+cd /var/www/prepwise
+sudo nano .env  # Add API key
+npm run build
+```
 
-## 🎓 Remember: This is an Educational Platform
+### Design Implementation Rules:
+- [ ] Use **inline styles ONLY** (no Tailwind)
+- [ ] Copy **exact values** from Figma
+- [ ] Export all **assets first** before coding
+- [ ] Use **underscores** in filenames (no spaces)
+- [ ] Match **exact hex colors** from design
+- [ ] Test **hover states** and animations
 
-Always consider:
-- **Student privacy** and data protection
-- **School administrator** needs and workflows
-- **Scalability** for multiple institutions
-- **Accessibility** for diverse users
-- **Performance** for global usage
-- **Security** for sensitive educational data
+## 🎆 Key URLs & Resources
 
-When in doubt, ask questions and explain your reasoning. The goal is to build a robust, scalable, and user-friendly platform that truly helps students succeed in their career preparation. 
+### Production
+- **Live Site**: https://prepwise.adamchins.com
+- **GitHub**: https://github.com/adamzetos/prepwise
+- **EC2 Server**: AWS us-east-1 region
+
+### Design Colors
+- Primary Blue: `#1a4d8c`
+- Secondary Teal: `#17B0A7`
+- Text Dark: `#1f2d3d`
+- Text Light: `#6b7b8f`
+- Background: `#f9fafb`
+
+### Common Issues & Fixes
+- **TypeScript errors**: Remove unused variables
+- **Build failures**: Check for unused imports
+- **Assets not loading**: Verify file paths start with /
+- **API not working**: Check .env file on server
+
+## 🎓 PrepWise Mission
+
+PrepWise helps students succeed in job interviews through AI-powered practice. Currently in Beta.02, the platform offers bilingual support and realistic interview simulations. The goal is to make quality interview preparation accessible to all students, regardless of their school's resources. 

@@ -7,7 +7,10 @@
  */
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { AuthProvider } from './contexts/AuthContext';
+import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -24,27 +27,40 @@ import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { StudentManagementPage } from './pages/StudentManagementPage';
 
 function App() {
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  if (!googleClientId) {
+    console.warn('Google Client ID not found. Please check GOOGLE_OAUTH_SETUP.md for setup instructions.');
+  }
+
   return (
-    <LanguageProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/dashboard" element={<LoggedInLandingPage />} />
-          <Route path="/upload" element={<DocumentUploadPage />} />
-          <Route path="/sessions" element={<InterviewSessionsPage />} />
-          <Route path="/cv-review" element={<CVReviewPage />} />
-          <Route path="/job-role-selection" element={<JobRoleSelectionPage />} />
-          <Route path="/interview" element={<InterviewSimulationPage />} />
-          <Route path="/interview-complete" element={<InterviewCompletePage />} />
-          <Route path="/score-breakdown" element={<ScoreBreakdownPage />} />
-          <Route path="/detailed-suggestions" element={<DetailedSuggestionsPage />} />
-          <Route path="/admin" element={<AdminDashboardPage />} />
-          <Route path="/admin/students" element={<StudentManagementPage />} />
-        </Routes>
-      </Router>
-    </LanguageProvider>
+    <GoogleOAuthProvider clientId={googleClientId || ''}>
+      <AuthProvider>
+        <LanguageProvider>
+          <Router>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              
+              {/* Protected routes - require authentication */}
+              <Route path="/dashboard" element={<ProtectedRoute><LoggedInLandingPage /></ProtectedRoute>} />
+              <Route path="/upload" element={<ProtectedRoute><DocumentUploadPage /></ProtectedRoute>} />
+              <Route path="/sessions" element={<ProtectedRoute><InterviewSessionsPage /></ProtectedRoute>} />
+              <Route path="/cv-review" element={<ProtectedRoute><CVReviewPage /></ProtectedRoute>} />
+              <Route path="/job-role-selection" element={<ProtectedRoute><JobRoleSelectionPage /></ProtectedRoute>} />
+              <Route path="/interview" element={<ProtectedRoute><InterviewSimulationPage /></ProtectedRoute>} />
+              <Route path="/interview-complete" element={<ProtectedRoute><InterviewCompletePage /></ProtectedRoute>} />
+              <Route path="/score-breakdown" element={<ProtectedRoute><ScoreBreakdownPage /></ProtectedRoute>} />
+              <Route path="/detailed-suggestions" element={<ProtectedRoute><DetailedSuggestionsPage /></ProtectedRoute>} />
+              <Route path="/admin" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
+              <Route path="/admin/students" element={<ProtectedRoute><StudentManagementPage /></ProtectedRoute>} />
+            </Routes>
+          </Router>
+        </LanguageProvider>
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 }
 

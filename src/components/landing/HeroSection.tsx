@@ -9,7 +9,11 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-export function HeroSection() {
+interface HeroSectionProps {
+  ctaDestination?: string;
+}
+
+export function HeroSection({ ctaDestination = '/job-role-selection' }: HeroSectionProps = {}) {
   const { t } = useLanguage();
   const sectionStyle = {
     position: 'relative' as const,
@@ -119,7 +123,7 @@ export function HeroSection() {
           {t('landing.hero.subtitle')}
         </p>
         <Link
-          to="/upload"
+          to={ctaDestination}
           style={ctaButtonStyle}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#15a097';

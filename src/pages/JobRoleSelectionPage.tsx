@@ -190,7 +190,9 @@ export function JobRoleSelectionPage() {
 
   const handleNext = () => {
     if (selectedRoles.length > 0) {
-      navigate('/interview');
+      // Pass selected job role to the interview page
+      const selectedRole = jobRoles.find(role => selectedRoles.includes(role.id));
+      navigate('/interview', { state: { jobRole: selectedRole?.name || 'Software Engineer' } });
     }
   };
 

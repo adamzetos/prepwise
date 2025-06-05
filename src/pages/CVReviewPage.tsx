@@ -18,6 +18,10 @@ export function CVReviewPage() {
   const [activeTab, setActiveTab] = useState<'cv' | 'cover'>('cv');
   const [showTooltip, setShowTooltip] = useState(false);
 
+  const handleNext = () => {
+    navigate('/job-role-selection');
+  };
+
   const pageStyle = {
     minHeight: '100vh',
     backgroundColor: '#f9fafb',
@@ -201,10 +205,6 @@ export function CVReviewPage() {
     fontWeight: '500',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
-  };
-
-  const handleNext = () => {
-    navigate('/job-role-selection');
   };
 
   const handleUploadNew = () => {

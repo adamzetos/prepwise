@@ -25,7 +25,7 @@ export function LoggedInLandingPage() {
   return (
     <div style={pageStyle}>
       <LoggedInNavigation />
-      <HeroSection />
+      <HeroSection ctaDestination="/upload" />
       <FeaturesSection />
       <Footer />
     </div>

@@ -84,7 +84,8 @@
       "emailPlaceholder": "Please enter",
       "passwordPlaceholder": "Please enter",
       "heroTitle": "Join 50,000+<br />students<br />preparing smarter",
-      "heroSubtitle": "Empower your next interview with PrepWise's AI-driven tools."
+      "heroSubtitle": "Empower your next interview with PrepWise's AI-driven tools.",
+      "googleLocale": "en"
     },
     "register": {
       "title": "Register",
@@ -232,7 +233,15 @@
       "whyInterestedResponse": "What really excites me about this role is the chance to work on cross-functional campaigns and learn from a seasoned marketing team. I'm drawn to your brand's recent product launches and love how creative and cohesive they are across channels. This role feels like the perfect next step — a place where I can keep learning, contribute new ideas, and grow within a fast-moving company.",
       "priorities": "One more — in marketing, priorities shift a lot. How do you manage multiple projects or deadlines at once?",
       "waitingForResponse": "Waiting for interviewer response..."
-    }
+    },
+    "previewTitle": "Interview Setup",
+    "camera": "Camera",
+    "microphone": "Microphone",
+    "cameraDisabled": "Camera is disabled",
+    "startInterview": "Start Interview",
+    "startRecording": "Start voice recording",
+    "stopRecording": "Stop voice recording",
+    "voiceError": "Unable to activate vocal input. Please proceed with textual communication with the interviewer, it won't impact your performance evaluation."
   },
   "complete": {
     "title": "Interview Completed",

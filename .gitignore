@@ -43,3 +43,8 @@ Thumbs.db
 # Figma tokens (keep secure)
 figma_token
 figma_token.md
+
+# Sensitive files
+client_secret_*.json
+Prepwise_openai_key.md
+Prepwise_VITE_GOOGLE_CLIENT_ID.md

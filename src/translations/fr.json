@@ -84,7 +84,8 @@
       "emailPlaceholder": "Veuillez saisir",
       "passwordPlaceholder": "Veuillez saisir",
       "heroTitle": "Rejoignez plus de 50 000<br />étudiants qui se<br />préparent intelligemment",
-      "heroSubtitle": "Renforcez votre prochain entretien avec les outils alimentés par l'IA de PrepWise."
+      "heroSubtitle": "Renforcez votre prochain entretien avec les outils alimentés par l'IA de PrepWise.",
+      "googleLocale": "fr"
     },
     "register": {
       "title": "S'inscrire",
@@ -232,7 +233,15 @@
       "whyInterestedResponse": "Ce qui m'enthousiasme vraiment dans ce rôle, c'est la chance de travailler sur des campagnes transversales et d'apprendre d'une équipe marketing chevronnée. Je suis attiré par les récents lancements de produits de votre marque et j'adore à quel point ils sont créatifs et cohérents sur tous les canaux. Ce rôle semble être la prochaine étape parfaite - un endroit où je peux continuer à apprendre, apporter de nouvelles idées et grandir au sein d'une entreprise en mouvement rapide.",
       "priorities": "Une dernière question - en marketing, les priorités changent beaucoup. Comment gérez-vous plusieurs projets ou échéances à la fois ?",
       "waitingForResponse": "En attente de la réponse de l'intervieweur..."
-    }
+    },
+    "previewTitle": "Configuration de l'entretien",
+    "camera": "Caméra",
+    "microphone": "Microphone", 
+    "cameraDisabled": "La caméra est désactivée",
+    "startInterview": "Commencer l'entretien",
+    "startRecording": "Commencer l'enregistrement vocal",
+    "stopRecording": "Arrêter l'enregistrement vocal",
+    "voiceError": "Impossible d'activer l'entrée vocale. Veuillez continuer avec la communication textuelle avec l'intervieweur, cela n'affectera pas votre évaluation de performance."
   },
   "complete": {
     "title": "Entretien terminé",

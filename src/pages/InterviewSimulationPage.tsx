@@ -17,19 +17,72 @@ interface ChatMessage {
   content: string;
 }
 
+// Add Web Speech API types
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start(): void;
+  stop(): void;
+  abort(): void;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: ((event: any) => void) | null;
+  onend: (() => void) | null;
+}
+
+interface SpeechRecognitionEvent extends Event {
+  resultIndex: number;
+  results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionResultList {
+  length: number;
+  item(index: number): SpeechRecognitionResult;
+  [index: number]: SpeechRecognitionResult;
+}
+
+interface SpeechRecognitionResult {
+  isFinal: boolean;
+  length: number;
+  item(index: number): SpeechRecognitionAlternative;
+  [index: number]: SpeechRecognitionAlternative;
+}
+
+interface SpeechRecognitionAlternative {
+  transcript: string;
+  confidence: number;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition: new () => SpeechRecognition;
+    webkitSpeechRecognition: new () => SpeechRecognition;
+  }
+}
+
 export function InterviewSimulationPage() {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentResponse, setCurrentResponse] = useState('');
-  const [isRecording, setIsRecording] = useState(false);
   const [time, setTime] = useState(252); // 4:12 in seconds
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isAIMode] = useState(isOpenAIConfigured());
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  
+  // Camera and microphone states
+  const [showPreview, setShowPreview] = useState(true);
+  const [cameraEnabled, setCameraEnabled] = useState(false);
+  const [micEnabled, setMicEnabled] = useState(false);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const [voiceRecognition, setVoiceRecognition] = useState<SpeechRecognition | null>(null);
+  const [isVoiceRecording, setIsVoiceRecording] = useState(false);
+  const [voiceError, setVoiceError] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const previewVideoRef = useRef<HTMLVideoElement>(null);
   
   // Get job role from navigation state (default to Software Engineer)
   const jobRole = location.state?.jobRole || 'Software Engineer';
@@ -234,21 +287,6 @@ export function InterviewSimulationPage() {
     marginTop: '1rem',
   };
 
-  const recordButtonStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    color: '#17B0A7',
-    fontSize: '14px',
-    fontWeight: '500',
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    padding: '8px 12px',
-    borderRadius: '8px',
-    transition: 'background-color 0.2s ease',
-  };
-
   const submitButtonStyle = {
     backgroundColor: '#a5b4c3',
     color: '#ffffff',
@@ -272,6 +310,218 @@ export function InterviewSimulationPage() {
     fontSize: '13px',
     color: '#6b7b8f',
   };
+
+  // Preview modal styles
+  const previewModalStyle = {
+    position: 'fixed' as const,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+  };
+
+  const previewContainerStyle = {
+    backgroundColor: '#ffffff',
+    borderRadius: '16px',
+    padding: '2rem',
+    maxWidth: '600px',
+    width: '90%',
+  };
+
+  const previewTitleStyle = {
+    fontSize: '24px',
+    fontWeight: '600',
+    color: '#1f2d3d',
+    marginBottom: '1rem',
+    textAlign: 'center' as const,
+  };
+
+  const previewVideoStyle = {
+    width: '100%',
+    height: '300px',
+    backgroundColor: '#000000',
+    borderRadius: '8px',
+    marginBottom: '1.5rem',
+  };
+
+  const previewButtonsStyle = {
+    display: 'flex',
+    gap: '1rem',
+    justifyContent: 'center',
+  };
+
+  const toggleButtonStyle = (enabled: boolean) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '12px 24px',
+    borderRadius: '8px',
+    border: '1px solid #e5e7eb',
+    backgroundColor: enabled ? '#17B0A7' : '#ffffff',
+    color: enabled ? '#ffffff' : '#6b7280',
+    fontSize: '14px',
+    fontWeight: '500',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+  });
+
+  const startButtonStyle = {
+    backgroundColor: '#1a4d8c',
+    color: '#ffffff',
+    padding: '14px 36px',
+    borderRadius: '40px',
+    border: 'none',
+    fontSize: '16px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    marginTop: '1.5rem',
+    width: '100%',
+  };
+
+  const micIconStyle = {
+    width: '20px',
+    height: '20px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    marginRight: '8px',
+  };
+
+  const pulsingStyle = `
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  `;
+
+  // Camera functions
+  const requestCameraPermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      setCameraStream(stream);
+      setCameraEnabled(true);
+      
+      // Set video stream to preview video
+      if (previewVideoRef.current) {
+        previewVideoRef.current.srcObject = stream;
+      }
+    } catch (error) {
+      console.error('Camera permission denied:', error);
+      setCameraEnabled(false);
+    }
+  };
+
+  const toggleCamera = async () => {
+    if (cameraEnabled && cameraStream) {
+      cameraStream.getTracks().forEach(track => track.stop());
+      setCameraStream(null);
+      setCameraEnabled(false);
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+    } else {
+      await requestCameraPermission();
+    }
+  };
+
+  const toggleMic = () => {
+    setMicEnabled(!micEnabled);
+  };
+
+  // Voice recognition setup
+  const setupVoiceRecognition = () => {
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognitionAPI) {
+      setVoiceError(t('interview.voiceError'));
+      return;
+    }
+
+    const recognition = new SpeechRecognitionAPI();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = language === 'fr' ? 'fr-FR' : 'en-US';
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      let finalTranscript = '';
+      let interimTranscript = '';
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript;
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+
+      if (finalTranscript) {
+        setCurrentResponse(prev => prev + finalTranscript);
+      } else if (interimTranscript) {
+        // Optionally show interim results
+        setCurrentResponse(prev => {
+          const lastFinalIndex = prev.lastIndexOf(finalTranscript) + finalTranscript.length;
+          return prev.substring(0, lastFinalIndex) + interimTranscript;
+        });
+      }
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      setIsVoiceRecording(false);
+      setVoiceError(t('interview.voiceError'));
+    };
+
+    recognition.onend = () => {
+      setIsVoiceRecording(false);
+    };
+
+    setVoiceRecognition(recognition);
+  };
+
+  // Toggle voice recording
+  const toggleVoiceRecording = () => {
+    if (!voiceRecognition) {
+      setupVoiceRecognition();
+      return;
+    }
+
+    if (isVoiceRecording) {
+      voiceRecognition.stop();
+      setIsVoiceRecording(false);
+    } else {
+      setVoiceError(null);
+      voiceRecognition.start();
+      setIsVoiceRecording(true);
+    }
+  };
+
+  // Start interview (close preview and apply settings)
+  const startInterview = () => {
+    setShowPreview(false);
+    
+    // Move camera stream to main video
+    if (cameraEnabled && cameraStream && videoRef.current) {
+      videoRef.current.srcObject = cameraStream;
+    }
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+      if (voiceRecognition) {
+        voiceRecognition.abort();
+      }
+    };
+  }, [cameraStream, voiceRecognition]);
 
   // Timer effect
   useEffect(() => {
@@ -444,6 +694,69 @@ export function InterviewSimulationPage() {
 
   return (
     <div style={pageStyle}>
+      <style>{pulsingStyle}</style>
+      
+      {/* Camera/Mic Preview Modal */}
+      {showPreview && (
+        <div style={previewModalStyle}>
+          <div style={previewContainerStyle}>
+            <h2 style={previewTitleStyle}>{t('interview.previewTitle')}</h2>
+            
+            <div style={previewVideoStyle}>
+              {cameraEnabled ? (
+                <video
+                  ref={previewVideoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
+                />
+              ) : (
+                <div style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  color: '#6b7280',
+                  fontSize: '16px'
+                }}>
+                  {t('interview.cameraDisabled')}
+                </div>
+              )}
+            </div>
+            
+            <div style={previewButtonsStyle}>
+              <button
+                style={toggleButtonStyle(cameraEnabled)}
+                onClick={toggleCamera}
+                type="button"
+              >
+                <span style={{ fontSize: '18px' }}>{cameraEnabled ? '📹' : '📷'}</span>
+                {t('interview.camera')}
+              </button>
+              
+              <button
+                style={toggleButtonStyle(micEnabled)}
+                onClick={toggleMic}
+                type="button"
+              >
+                <span style={{ fontSize: '18px' }}>{micEnabled ? '🎙️' : '🎤'}</span>
+                {t('interview.microphone')}
+              </button>
+            </div>
+            
+            <button
+              style={startButtonStyle}
+              onClick={startInterview}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#163e70'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#1a4d8c'}
+            >
+              {t('interview.startInterview')}
+            </button>
+          </div>
+        </div>
+      )}
       <header style={headerStyle}>
         <div style={logoContainerStyle}>
           <img src="/logo.svg" alt="PrepWise" style={logoStyle} />
@@ -479,11 +792,72 @@ export function InterviewSimulationPage() {
           </div>
           
           <div style={videoBoxStyle}>
-            <img src="/You.jpg" alt="You" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            {cameraEnabled && !showPreview ? (
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            ) : (
+              <img src="/You.jpg" alt="You" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            )}
             <div style={videoLabelStyle}>
               <img src="/icons/You_icon.svg" alt="You" style={{ width: '16px', height: '16px', filter: 'brightness(0) invert(1)' }} />
               {t('interview.you')}
             </div>
+            
+            {/* Camera/Mic Controls */}
+            {!showPreview && (
+              <div style={{ 
+                position: 'absolute', 
+                bottom: '40px', 
+                left: '8px',
+                display: 'flex',
+                gap: '8px'
+              }}>
+                <button
+                  style={{
+                    backgroundColor: cameraEnabled ? '#17B0A7' : '#6b7280',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '32px',
+                    height: '32px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                  }}
+                  onClick={toggleCamera}
+                  title={cameraEnabled ? 'Turn off camera' : 'Turn on camera'}
+                >
+                  {cameraEnabled ? '📹' : '📷'}
+                </button>
+                
+                <button
+                  style={{
+                    backgroundColor: micEnabled ? '#17B0A7' : '#6b7280',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '32px',
+                    height: '32px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                  }}
+                  onClick={toggleMic}
+                  title={micEnabled ? 'Turn off microphone' : 'Turn on microphone'}
+                >
+                  {micEnabled ? '🎙️' : '🎤'}
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -522,17 +896,40 @@ export function InterviewSimulationPage() {
             />
             
             <div style={actionButtonsStyle}>
-              <button
-                style={recordButtonStyle}
-                onClick={() => setIsRecording(!isRecording)}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f0fdfa'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zM8 12a4 4 0 0 0 8 0M12 19v4M8 23h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                </svg>
-                {t('interview.recordAnswer')}
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {/* Voice Input Microphone */}
+                <button
+                  type="button"
+                  onClick={toggleVoiceRecording}
+                  style={{
+                    ...micIconStyle,
+                    backgroundColor: isVoiceRecording ? '#17B0A7' : 'transparent',
+                    border: isVoiceRecording ? 'none' : '2px solid #17B0A7',
+                    borderRadius: '50%',
+                    padding: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    animation: isVoiceRecording ? 'pulse 1.5s infinite' : 'none',
+                  }}
+                  title={isVoiceRecording ? t('interview.stopRecording') : t('interview.startRecording')}
+                >
+                  <svg 
+                    width="20" 
+                    height="20" 
+                    viewBox="0 0 24 24" 
+                    fill={isVoiceRecording ? '#ffffff' : '#17B0A7'}
+                  >
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zM8 12a4 4 0 0 0 8 0M12 19v4M8 23h8" stroke={isVoiceRecording ? '#ffffff' : '#17B0A7'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                  </svg>
+                </button>
+                
+                {voiceError && (
+                  <span style={{ color: '#ef4444', fontSize: '12px' }}>
+                    {voiceError}
+                  </span>
+                )}
+              </div>
               
               <button
                 style={{

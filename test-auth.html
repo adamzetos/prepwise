@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Auth Token Formats</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Authentication Token Format Tests</h1>
+    
+    <div class="test-section">
+        <h3>Test 1: JWT Token Format (Google Sign-In)</h3>
+        <p>This simulates the token from GoogleLogin component</p>
+        <pre id="jwt-input"></pre>
+        <div id="jwt-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 2: Base64 JSON Format (Mock Login)</h3>
+        <p>This simulates the old mock login format</p>
+        <pre id="base64-input"></pre>
+        <div id="base64-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 3: Direct User Object (OAuth2 Flow)</h3>
+        <p>This simulates the GoogleSignInCustomButton format</p>
+        <pre id="direct-input"></pre>
+        <div id="direct-result" class="result"></div>
+    </div>
+
+    <script>
+        // Test JWT decoding
+        function testJWT() {
+            const mockPayload = {
+                email: "test@example.com",
+                name: "Test User",
+                picture: "https://example.com/photo.jpg",
+                sub: "123456789"
+            };
+            
+            // Create a mock JWT (header.payload.signature)
+            const header = btoa(JSON.stringify({alg: "RS256", typ: "JWT"}));
+            const payload = btoa(JSON.stringify(mockPayload));
+            const signature = "mock-signature";
+            const mockJWT = `${header}.${payload}.${signature}`;
+            
+            document.getElementById('jwt-input').textContent = `{ credential: "${mockJWT}" }`;
+            
+            try {
+                const decoded = JSON.parse(atob(mockJWT.split('.')[1]));
+                document.getElementById('jwt-result').className = 'result success';
+                document.getElementById('jwt-result').innerHTML = 
+                    '<strong>✓ Success!</strong><br>Decoded: ' + JSON.stringify(decoded, null, 2);
+            } catch (error) {
+                document.getElementById('jwt-result').className = 'result error';
+                document.getElementById('jwt-result').innerHTML = 
+                    '<strong>✗ Error:</strong> ' + error.message;
+            }
+        }
+        
+        // Test Base64 JSON
+        function testBase64() {
+            const mockUser = {
+                email: "test@example.com",
+                name: "Test User",
+                picture: "/icons/avatar.svg",
+                sub: "123456789"
+            };
+            
+            const base64Token = btoa(JSON.stringify(mockUser));
+            
+            document.getElementById('base64-input').textContent = `{ credential: "${base64Token}" }`;
+            
+            try {
+                // This will fail trying to split by '.'
+                const decoded = JSON.parse(atob(base64Token.split('.')[1]));
+                document.getElementById('base64-result').className = 'result success';
+                document.getElementById('base64-result').innerHTML = 
+                    '<strong>✓ Success!</strong><br>Decoded: ' + JSON.stringify(decoded, null, 2);
+            } catch (error) {
+                // Fallback to direct decode
+                try {
+                    const decoded = JSON.parse(atob(base64Token));
+                    document.getElementById('base64-result').className = 'result success';
+                    document.getElementById('base64-result').innerHTML = 
+                        '<strong>✓ Success (fallback)!</strong><br>Decoded: ' + JSON.stringify(decoded, null, 2);
+                } catch (error2) {
+                    document.getElementById('base64-result').className = 'result error';
+                    document.getElementById('base64-result').innerHTML = 
+                        '<strong>✗ Error:</strong> ' + error2.message;
+                }
+            }
+        }
+        
+        // Test Direct Object
+        function testDirect() {
+            const directUser = {
+                email: "test@example.com",
+                name: "Test User",
+                picture: "https://example.com/photo.jpg",
+                id: "123456789"
+            };
+            
+            document.getElementById('direct-input').textContent = JSON.stringify(directUser, null, 2);
+            
+            // This format should work directly
+            document.getElementById('direct-result').className = 'result success';
+            document.getElementById('direct-result').innerHTML = 
+                '<strong>✓ Success!</strong><br>Direct object can be used as-is';
+        }
+        
+        // Run all tests
+        testJWT();
+        testBase64();
+        testDirect();
+    </script>
+</body>
+</html>

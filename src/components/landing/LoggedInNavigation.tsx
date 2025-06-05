@@ -6,12 +6,42 @@
  * Why Needed: Display user-specific navigation with avatar
  */
 
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useAuth } from '../../contexts/AuthContext';
 import { LanguageSelector } from '../common/LanguageSelector';
 
 export function LoggedInNavigation() {
   const { t } = useLanguage();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    // Navigate first to ensure we go to home page before logout clears auth
+    navigate('/', { replace: true });
+    // Then logout after navigation is initiated
+    setTimeout(() => {
+      logout();
+    }, 0);
+  };
+
   const navStyle = {
     position: 'relative' as const,
     backgroundColor: '#ffffff',
@@ -59,6 +89,54 @@ export function LoggedInNavigation() {
     borderRadius: '50%',
     cursor: 'pointer',
     transition: 'opacity 0.2s',
+    objectFit: 'cover' as const,
+  };
+
+  const dropdownContainerStyle = {
+    position: 'relative' as const,
+  };
+
+  const dropdownStyle = {
+    position: 'absolute' as const,
+    top: '100%',
+    right: '0',
+    marginTop: '8px',
+    backgroundColor: '#ffffff',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    minWidth: '200px',
+    zIndex: 10,
+    overflow: 'hidden',
+  };
+
+  const dropdownHeaderStyle = {
+    padding: '16px',
+    borderBottom: '1px solid #e5e7eb',
+  };
+
+  const dropdownNameStyle = {
+    fontWeight: '600',
+    fontSize: '14px',
+    color: '#1f2d3d',
+    marginBottom: '4px',
+  };
+
+  const dropdownEmailStyle = {
+    fontSize: '12px',
+    color: '#6b7280',
+  };
+
+  const dropdownButtonStyle = {
+    width: '100%',
+    padding: '12px 16px',
+    backgroundColor: 'transparent',
+    border: 'none',
+    textAlign: 'left' as const,
+    fontSize: '14px',
+    color: '#374151',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s',
   };
 
   return (
@@ -114,14 +192,38 @@ export function LoggedInNavigation() {
           
           <LanguageSelector />
           
-          {/* User Avatar */}
-          <img 
-            src="/icons/avatar.svg" 
-            alt="User profile" 
-            style={avatarStyle}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-          />
+          {/* User Avatar with Dropdown */}
+          <div style={dropdownContainerStyle} ref={dropdownRef}>
+            <img 
+              src={user?.picture || "/icons/avatar.svg"} 
+              alt="User profile" 
+              style={avatarStyle}
+              onClick={() => setShowDropdown(!showDropdown)}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              onError={(e) => {
+                // Fallback to default avatar if Google image fails to load
+                e.currentTarget.src = '/icons/avatar.svg';
+              }}
+            />
+            
+            {showDropdown && (
+              <div style={dropdownStyle}>
+                <div style={dropdownHeaderStyle}>
+                  <div style={dropdownNameStyle}>{user?.name || 'User'}</div>
+                  <div style={dropdownEmailStyle}>{user?.email || ''}</div>
+                </div>
+                <button
+                  style={dropdownButtonStyle}
+                  onClick={handleLogout}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  Sign out
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>

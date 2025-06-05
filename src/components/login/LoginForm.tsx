@@ -6,18 +6,57 @@
  * Why Needed: User authentication functionality
  */
 
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { GoogleSignInCustomButton } from './GoogleSignInCustomButton';
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useLanguage();
+  const { login, isAuthenticated } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      const from = location.state?.from?.pathname || '/dashboard';
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, location]);
+
+  // Email validation regex
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Check if email is valid format and password exists
+    if (isValidEmail(email) && password) {
+      // Create a mock user for email/password login
+      const mockUser = {
+        email: email,
+        name: email.split('@')[0], // Use email prefix as name
+        picture: '/icons/avatar.svg', // Default avatar
+        id: Date.now().toString(), // Mock user ID
+      };
+      const success = login(mockUser);
+      if (success) {
+        // Use setTimeout to ensure state update completes before navigation
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 100);
+      }
+    }
+  };
 
   const containerStyle = {
     width: '100%',
@@ -221,7 +260,7 @@ export function LoginForm() {
       </div>
 
       {/* Form */}
-      <form style={formStyle} onSubmit={(e) => e.preventDefault()}>
+      <form style={formStyle} onSubmit={handleSubmit}>
         <div style={inputGroupStyle}>
           <label style={labelStyle}>{t('auth.login.email')}</label>
           <input
@@ -279,9 +318,22 @@ export function LoginForm() {
 
         <button
           type="submit"
-          style={loginButtonStyle}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#7a9bc0'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#9bb3d0'}
+          style={{
+            ...loginButtonStyle,
+            backgroundColor: isValidEmail(email) && password ? '#9bb3d0' : '#e5e7eb',
+            cursor: isValidEmail(email) && password ? 'pointer' : 'not-allowed',
+          }}
+          disabled={!isValidEmail(email) || !password}
+          onMouseEnter={(e) => {
+            if (isValidEmail(email) && password) {
+              e.currentTarget.style.backgroundColor = '#7a9bc0';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (isValidEmail(email) && password) {
+              e.currentTarget.style.backgroundColor = '#9bb3d0';
+            }
+          }}
         >
           {t('navigation.login')}
         </button>
@@ -294,27 +346,15 @@ export function LoginForm() {
         <div style={dividerLineStyle}></div>
       </div>
 
-      {/* Social Login */}
+      {/* Social Login Buttons */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <button
-          style={socialButtonStyle}
-          onClick={() => navigate('/dashboard')}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#f9fafb';
-            e.currentTarget.style.borderColor = '#d1d5db';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#ffffff';
-            e.currentTarget.style.borderColor = '#e5e7eb';
-          }}
-        >
-          <img src="/icons/google_icon.svg" alt="Google" style={socialIconStyle} />
-          {t('auth.login.google')}
-        </button>
+        {/* Google Sign In */}
+        <GoogleSignInCustomButton />
 
+        {/* LinkedIn Button (placeholder for future implementation) */}
         <button
           style={socialButtonStyle}
-          onClick={() => navigate('/dashboard')}
+          onClick={() => {/* Future LinkedIn implementation */}}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#f9fafb';
             e.currentTarget.style.borderColor = '#d1d5db';
@@ -323,6 +363,8 @@ export function LoginForm() {
             e.currentTarget.style.backgroundColor = '#ffffff';
             e.currentTarget.style.borderColor = '#e5e7eb';
           }}
+          disabled
+          title="LinkedIn sign-in coming soon"
         >
           <img src="/icons/linkedin_icon.svg" alt="LinkedIn" style={socialIconStyle} />
           {t('auth.login.linkedin')}

@@ -1,6 +1,6 @@
 # CLAUDE.md - PrepWise Project Guidelines
 **Classification: ADAMCHINS-CONFIDENTIAL ▲**
-**Last Updated: Complete Website Implementation - All Pages Imported**
+**Last Updated: January 2025 - Full Production Deployment with OpenAI Integration**
 
 ## 🎉 PROJECT COMPLETION SUMMARY
 
@@ -268,12 +268,208 @@ Before marking any page complete:
 7. **Performance** - Lazy loading and code splitting
 8. **SEO** - Meta tags and structured data
 
-## 🎉 CELEBRATION
-We successfully imported 15 complex pages from Figma to React in one session! The PrepWise platform is now fully functional with:
-- Complete user journey from landing to interview completion
-- Full admin dashboard with student management
-- Smooth animations and transitions
-- Pixel-perfect design implementation
-- Logical navigation flow
+## 🚀 RECENT ACCOMPLISHMENTS (June 2025)
 
-**Great job on completing the entire PrepWise website!** 🚀
+### Google SSO Integration ✅
+- Integrated Google OAuth 2.0 authentication
+- Session-based auth with React Context (no localStorage)
+- User profile picture replaces avatar throughout app
+- Protected routes with automatic login redirects
+- Logout functionality via avatar dropdown menu
+
+### Enhanced Interview Simulation ✅
+- **Camera/Microphone Integration**:
+  - Pre-interview setup modal with permissions
+  - Live video feed replaces static image
+  - Real-time camera/mic toggle controls
+  - Graceful fallback when permissions denied
+  
+- **Voice-to-Text Input**:
+  - Web Speech API integration
+  - Bilingual support (English/French)
+  - Visual feedback with pulsing animation
+  - Error handling with user-friendly messages
+  - Seamless text replacement while speaking
+
+### UI/UX Refinements ✅
+- Fixed SSO button layout (Google and LinkedIn aligned)
+- Removed redundant dividers in login flow
+- Added camera/mic status indicators
+- Improved interview page interactions
+
+## 🚀 PREVIOUS ACCOMPLISHMENTS (January 2025)
+
+### Production Deployment ✅
+- Successfully deployed to AWS EC2 at **prepwise.adamchins.com**
+- Configured Nginx with SSL certificates (Let's Encrypt)
+- Set up GitHub Actions CI/CD pipeline (deploys from master branch)
+- Implemented proper git workflow: develop → preprod → master
+
+### Internationalization (i18n) ✅
+- Full French/English language support
+- Language selector in navigation
+- Browser language auto-detection
+- All 15 pages fully translated
+- Dynamic placeholders in forms
+
+### OpenAI Integration ✅
+- Integrated GPT-3.5-turbo for interview simulation
+- Bilingual AI responses (French/English)
+- Secure API key management with .env
+- Fallback to mock responses when API unavailable
+- Auto-focus textarea after AI responses
+- Real-time conversation flow
+
+### UI/UX Improvements ✅
+- Fixed French line breaks in hero section
+- Added Beta.02 version in footer
+- Removed redundant behavioral section from interview
+- Fixed all TypeScript build errors
+- Improved form placeholders
+
+### Technical Infrastructure ✅
+- Vite configuration with @public alias
+- Environment variables for API keys
+- Proper .gitignore for sensitive files
+- Clean project structure (removed duplicate directories)
+- Responsive design implementation
+
+## 🔧 CURRENT TECH STACK
+
+### Frontend
+- **React 18** with TypeScript
+- **Vite** build tool
+- **React Router** for navigation
+- **Inline styles** (no Tailwind/CSS frameworks)
+- Custom **LanguageContext** for i18n
+
+### Backend/Services
+- **OpenAI API** (GPT-3.5-turbo)
+- **Axios** for API calls
+- Mock data fallbacks
+
+### Deployment
+- **AWS EC2** (Amazon Linux)
+- **Nginx** web server
+- **Let's Encrypt** SSL
+- **GitHub Actions** CI/CD
+- **Route 53** DNS
+
+### Version Control
+- **Git** with branch protection
+- Workflow: develop → preprod → master
+- Automated deployments from master
+
+## 📁 PROJECT STRUCTURE
+```
+prepwise/
+├── src/
+│   ├── components/
+│   │   ├── admin/         # Admin-specific components
+│   │   ├── common/        # Shared components (LanguageSelector)
+│   │   ├── landing/       # Landing page components
+│   │   ├── login/         # Auth components
+│   │   └── upload/        # File upload components
+│   ├── contexts/          # React contexts (LanguageContext)
+│   ├── pages/             # All 15 page components
+│   ├── services/          # API services (openai.ts)
+│   └── translations/      # i18n files (en.json, fr.json)
+├── public/                # Static assets
+│   ├── icons/            # SVG icons
+│   └── images/           # JPG/PNG images
+├── .env                  # Environment variables (not in git)
+├── .env.example          # Example env file
+└── vite.config.ts        # Build configuration
+```
+
+## 🔑 ENVIRONMENT VARIABLES
+
+### Local Development
+Create `.env` file:
+```
+VITE_OPENAI_API_KEY=sk-...your-key-here...
+```
+
+### Production Server
+On EC2, create `/var/www/prepwise/.env`:
+```bash
+sudo nano /var/www/prepwise/.env
+# Add: VITE_OPENAI_API_KEY=your-key
+sudo chmod 644 .env
+sudo chown ec2-user:ec2-user .env
+```
+
+## 🚦 DEPLOYMENT PROCESS
+
+### Automatic (via CI/CD)
+1. Make changes in develop branch
+2. Push to GitHub
+3. Merge: develop → preprod → master
+4. GitHub Actions automatically deploys from master
+
+### Manual (if needed)
+```bash
+# On EC2 server
+cd /var/www/prepwise
+git pull origin master
+npm install
+npm run build
+sudo systemctl restart nginx
+```
+
+## 🎯 COMPLETED FEATURES
+
+### User Journey
+1. ✅ Landing page with language selection
+2. ✅ Login/Register with validation
+3. ✅ Job role selection
+4. ✅ Document upload (CV/Cover Letter)
+5. ✅ CV quality review
+6. ✅ AI-powered interview simulation
+7. ✅ Interview completion screen
+8. ✅ Score breakdown with animations
+9. ✅ Detailed feedback suggestions
+
+### Admin Features
+1. ✅ Admin dashboard with statistics
+2. ✅ Student management interface
+3. ✅ Animated charts and metrics
+
+### Technical Features
+1. ✅ Bilingual support (FR/EN)
+2. ✅ OpenAI integration
+3. ✅ Responsive design
+4. ✅ Smooth animations
+5. ✅ Form validations
+6. ✅ Error handling
+
+## 🐛 KNOWN ISSUES & SOLUTIONS
+
+| Issue | Solution |
+|-------|----------|
+| TypeScript build errors | Remove unused variables |
+| Assets not loading | Check filenames (no spaces) |
+| OpenAI not working | Verify .env file on server |
+| French placeholders | Use nested translation keys |
+| CI/CD not triggering | Push to master branch |
+
+## 📋 NEXT STEPS (Future Development)
+
+1. **Backend API** - Build REST/GraphQL API
+2. **Database** - PostgreSQL/MongoDB integration
+3. **Authentication** - JWT/OAuth implementation
+4. **File Storage** - S3 for document uploads
+5. **Email Service** - SendGrid/SES integration
+6. **Analytics** - Google Analytics/Mixpanel
+7. **Testing** - Jest/Cypress test suites
+8. **Mobile App** - React Native version
+
+## 🎉 CELEBRATION
+We successfully:
+- Built and deployed a complete 15-page application
+- Implemented full internationalization
+- Integrated OpenAI for intelligent interviews
+- Set up production infrastructure
+- Created a scalable, maintainable codebase
+
+**PrepWise Beta.02 is LIVE at prepwise.adamchins.com!** 🚀
