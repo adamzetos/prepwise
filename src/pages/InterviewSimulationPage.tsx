@@ -202,6 +202,7 @@ export function InterviewSimulationPage() {
     height: '210px',
     borderRadius: '8px',
     overflow: 'hidden',
+    backgroundColor: '#1a1a1a',
   };
 
   const videoLabelStyle = {
@@ -402,13 +403,36 @@ export function InterviewSimulationPage() {
   // Camera functions
   const requestCameraPermission = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      console.log('Requesting camera permission...');
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: {
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        }, 
+        audio: false 
+      });
+      console.log('Camera stream obtained:', stream);
+      console.log('Stream tracks:', stream.getTracks());
+      
       setCameraStream(stream);
       setCameraEnabled(true);
       
-      // Set video stream to preview video
+      // Set video stream to both preview and main video elements
       if (previewVideoRef.current) {
+        console.log('Setting stream to preview video');
         previewVideoRef.current.srcObject = stream;
+        // Force play
+        previewVideoRef.current.play().catch(err => {
+          console.error('Preview video play error:', err);
+        });
+      }
+      if (videoRef.current) {
+        console.log('Setting stream to main video');
+        videoRef.current.srcObject = stream;
+        // Force play
+        videoRef.current.play().catch(err => {
+          console.error('Main video play error:', err);
+        });
       }
     } catch (error) {
       console.error('Camera permission denied:', error);
@@ -423,6 +447,9 @@ export function InterviewSimulationPage() {
       setCameraEnabled(false);
       if (videoRef.current) {
         videoRef.current.srcObject = null;
+      }
+      if (previewVideoRef.current) {
+        previewVideoRef.current.srcObject = null;
       }
     } else {
       await requestCameraPermission();
@@ -508,8 +535,27 @@ export function InterviewSimulationPage() {
     // Move camera stream to main video
     if (cameraEnabled && cameraStream && videoRef.current) {
       videoRef.current.srcObject = cameraStream;
+      // Ensure video starts playing
+      videoRef.current.play().catch(err => {
+        console.error('Error playing video:', err);
+      });
     }
   };
+
+  // Handle camera stream changes
+  useEffect(() => {
+    if (cameraStream && cameraEnabled) {
+      console.log('Camera stream changed, updating video elements');
+      if (previewVideoRef.current && showPreview) {
+        previewVideoRef.current.srcObject = cameraStream;
+        previewVideoRef.current.play().catch(err => console.error('Preview play error in effect:', err));
+      }
+      if (videoRef.current && !showPreview) {
+        videoRef.current.srcObject = cameraStream;
+        videoRef.current.play().catch(err => console.error('Main video play error in effect:', err));
+      }
+    }
+  }, [cameraStream, cameraEnabled, showPreview]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -706,10 +752,26 @@ export function InterviewSimulationPage() {
               {cameraEnabled ? (
                 <video
                   ref={previewVideoRef}
-                  autoPlay
-                  playsInline
-                  muted
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
+                  autoPlay={true}
+                  playsInline={true}
+                  muted={true}
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'cover', 
+                    borderRadius: '8px',
+                    backgroundColor: '#000000',
+                    display: 'block'
+                  }}
+                  onLoadedMetadata={(e) => {
+                    console.log('Preview video metadata loaded');
+                    const video = e.target as HTMLVideoElement;
+                    console.log('Video dimensions:', video.videoWidth, 'x', video.videoHeight);
+                    video.play().catch(err => console.error('Preview play error:', err));
+                  }}
+                  onError={(e) => {
+                    console.error('Video error:', e);
+                  }}
                 />
               ) : (
                 <div style={{ 
@@ -795,10 +857,25 @@ export function InterviewSimulationPage() {
             {cameraEnabled && !showPreview ? (
               <video
                 ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                autoPlay={true}
+                playsInline={true}
+                muted={true}
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover',
+                  backgroundColor: '#000000',
+                  display: 'block'
+                }}
+                onLoadedMetadata={(e) => {
+                  console.log('Main video metadata loaded');
+                  const video = e.target as HTMLVideoElement;
+                  console.log('Main video dimensions:', video.videoWidth, 'x', video.videoHeight);
+                  video.play().catch(err => console.error('Main video play error:', err));
+                }}
+                onError={(e) => {
+                  console.error('Main video error:', e);
+                }}
               />
             ) : (
               <img src="/You.jpg" alt="You" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
