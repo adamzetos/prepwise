@@ -34,12 +34,12 @@ export function LoggedInNavigation() {
   }, []);
 
   const handleLogout = () => {
-    // Navigate first to ensure we go to home page before logout clears auth
+    // Navigate to home page first
     navigate('/', { replace: true });
-    // Then logout after navigation is initiated
+    // Use longer timeout to ensure navigation completes before clearing auth
     setTimeout(() => {
       logout();
-    }, 0);
+    }, 100);
   };
 
   const navStyle = {
@@ -143,14 +143,14 @@ export function LoggedInNavigation() {
     <nav style={navStyle}>
       <div style={containerStyle}>
         {/* Logo */}
-        <Link to="/" style={logoStyle}>
+        <Link to="/dashboard" style={logoStyle}>
           <img src="/logo.svg" alt="Prepwise" style={logoImgStyle} />
         </Link>
 
         {/* Menu Items */}
         <div style={menuStyle}>
           <Link 
-            to="/" 
+            to="/dashboard" 
             style={linkStyle}
             onMouseEnter={(e) => e.currentTarget.style.color = '#1f2d3d'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#6b7b8f'}

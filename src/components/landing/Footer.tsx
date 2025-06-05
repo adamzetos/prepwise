@@ -56,7 +56,7 @@ export function Footer() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <img src="/logo.svg" alt="Prepwise" style={logoImgStyle} />
-            <span style={{ fontSize: '8px', color: '#6b7b8f', marginTop: '2px' }}>Beta.03</span>
+            <span style={{ fontSize: '8px', color: '#6b7b8f', marginTop: '2px' }}>Beta.03.1</span>
           </div>
           <span style={copyrightStyle}>
             {t('footer.copyright')}
