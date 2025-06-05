@@ -28,6 +28,7 @@ interface SpeechRecognition extends EventTarget {
   onresult: ((event: SpeechRecognitionEvent) => void) | null;
   onerror: ((event: any) => void) | null;
   onend: (() => void) | null;
+  onstart: (() => void) | null;
 }
 
 interface SpeechRecognitionEvent extends Event {
@@ -81,6 +82,7 @@ export function InterviewSimulationPage() {
   const [voiceRecognition, setVoiceRecognition] = useState<SpeechRecognition | null>(null);
   const [isVoiceRecording, setIsVoiceRecording] = useState(false);
   const [voiceError, setVoiceError] = useState<string | null>(null);
+  const [voiceLanguage, setVoiceLanguage] = useState<'en' | 'fr'>('en');
   const videoRef = useRef<HTMLVideoElement>(null);
   const previewVideoRef = useRef<HTMLVideoElement>(null);
   
@@ -442,7 +444,10 @@ export function InterviewSimulationPage() {
 
   const toggleCamera = async () => {
     if (cameraEnabled && cameraStream) {
-      cameraStream.getTracks().forEach(track => track.stop());
+      cameraStream.getTracks().forEach(track => {
+        console.log(`Stopping ${track.kind} track`);
+        track.stop();
+      });
       setCameraStream(null);
       setCameraEnabled(false);
       if (videoRef.current) {
@@ -460,70 +465,64 @@ export function InterviewSimulationPage() {
     setMicEnabled(!micEnabled);
   };
 
-  // Voice recognition setup
-  const setupVoiceRecognition = () => {
-    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
-    
-    if (!SpeechRecognitionAPI) {
-      setVoiceError(t('interview.voiceError'));
-      return;
-    }
-
-    const recognition = new SpeechRecognitionAPI();
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.lang = language === 'fr' ? 'fr-FR' : 'en-US';
-
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
-      let finalTranscript = '';
-      let interimTranscript = '';
-
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const transcript = event.results[i][0].transcript;
-        if (event.results[i].isFinal) {
-          finalTranscript += transcript;
-        } else {
-          interimTranscript += transcript;
-        }
-      }
-
-      if (finalTranscript) {
-        setCurrentResponse(prev => prev + finalTranscript);
-      } else if (interimTranscript) {
-        // Optionally show interim results
-        setCurrentResponse(prev => {
-          const lastFinalIndex = prev.lastIndexOf(finalTranscript) + finalTranscript.length;
-          return prev.substring(0, lastFinalIndex) + interimTranscript;
-        });
-      }
-    };
-
-    recognition.onerror = (event: any) => {
-      console.error('Speech recognition error:', event.error);
-      setIsVoiceRecording(false);
-      setVoiceError(t('interview.voiceError'));
-    };
-
-    recognition.onend = () => {
-      setIsVoiceRecording(false);
-    };
-
-    setVoiceRecognition(recognition);
-  };
 
   // Toggle voice recording
   const toggleVoiceRecording = () => {
-    if (!voiceRecognition) {
-      setupVoiceRecognition();
-      return;
-    }
-
     if (isVoiceRecording) {
-      voiceRecognition.stop();
+      if (voiceRecognition) {
+        voiceRecognition.stop();
+      }
       setIsVoiceRecording(false);
     } else {
+      // Create new recognition instance
+      const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+      
+      if (!SpeechRecognitionAPI) {
+        setVoiceError(t('interview.voiceError'));
+        return;
+      }
+
+      const recognition = new SpeechRecognitionAPI();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = voiceLanguage === 'fr' ? 'fr-FR' : 'en-US';
+
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
+        let finalTranscript = '';
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          }
+        }
+
+        if (finalTranscript) {
+          setCurrentResponse(prev => {
+            // Add space if there's existing text
+            return prev ? prev + ' ' + finalTranscript : finalTranscript;
+          });
+        }
+      };
+      
+      recognition.onstart = () => {
+        console.log('Speech recognition started');
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        setIsVoiceRecording(false);
+        setVoiceError(t('interview.voiceError'));
+      };
+
+      recognition.onend = () => {
+        setIsVoiceRecording(false);
+      };
+
+      setVoiceRecognition(recognition);
       setVoiceError(null);
-      voiceRecognition.start();
+      
+      recognition.start();
       setIsVoiceRecording(true);
     }
   };
@@ -557,11 +556,32 @@ export function InterviewSimulationPage() {
     }
   }, [cameraStream, cameraEnabled, showPreview]);
 
+  // Handle video resume after voice recording stops
+  useEffect(() => {
+    if (!isVoiceRecording && cameraEnabled && !showPreview && cameraStream && videoRef.current) {
+      console.log('Voice recording stopped, resuming video stream in useEffect');
+      // Small delay to ensure DOM is fully updated
+      const timer = setTimeout(() => {
+        if (videoRef.current && cameraStream) {
+          console.log('Re-attaching video stream after voice recording');
+          videoRef.current.srcObject = cameraStream;
+          videoRef.current.play().catch(err => console.error('Video resume error in useEffect:', err));
+        }
+      }, 50);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isVoiceRecording, cameraEnabled, showPreview, cameraStream]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (cameraStream) {
-        cameraStream.getTracks().forEach(track => track.stop());
+        console.log('Cleaning up camera stream...');
+        cameraStream.getTracks().forEach(track => {
+          console.log(`Stopping ${track.kind} track on cleanup`);
+          track.stop();
+        });
       }
       if (voiceRecognition) {
         voiceRecognition.abort();
@@ -854,7 +874,7 @@ export function InterviewSimulationPage() {
           </div>
           
           <div style={videoBoxStyle}>
-            {cameraEnabled && !showPreview ? (
+            {cameraEnabled && !showPreview && !isVoiceRecording ? (
               <video
                 ref={videoRef}
                 autoPlay={true}
@@ -877,6 +897,40 @@ export function InterviewSimulationPage() {
                   console.error('Main video error:', e);
                 }}
               />
+            ) : cameraEnabled && !showPreview && isVoiceRecording ? (
+              <div style={{ 
+                width: '100%', 
+                height: '100%', 
+                backgroundColor: '#6b7280',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '16px'
+              }}>
+                <svg 
+                  width="48" 
+                  height="48" 
+                  viewBox="0 0 24 24" 
+                  fill="none"
+                >
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zM8 12a4 4 0 0 0 8 0M12 19v4M8 23h8" 
+                    stroke="#ffffff" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <div style={{
+                  color: '#ffffff',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  textAlign: 'center',
+                  padding: '0 20px'
+                }}>
+                  Video streaming interrupted
+                </div>
+              </div>
             ) : (
               <img src="/You.jpg" alt="You" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             )}
@@ -1001,6 +1055,50 @@ export function InterviewSimulationPage() {
                   </svg>
                 </button>
                 
+                {/* Language Switcher for Voice Recognition */}
+                <div style={{ 
+                  display: 'flex', 
+                  backgroundColor: '#f3f4f6', 
+                  borderRadius: '20px',
+                  padding: '2px',
+                  gap: '2px'
+                }}>
+                  <button
+                    type="button"
+                    onClick={() => setVoiceLanguage('en')}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '18px',
+                      border: 'none',
+                      backgroundColor: voiceLanguage === 'en' ? '#17B0A7' : 'transparent',
+                      color: voiceLanguage === 'en' ? '#ffffff' : '#6b7280',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    EN
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVoiceLanguage('fr')}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '18px',
+                      border: 'none',
+                      backgroundColor: voiceLanguage === 'fr' ? '#17B0A7' : 'transparent',
+                      color: voiceLanguage === 'fr' ? '#ffffff' : '#6b7280',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    FR
+                  </button>
+                </div>
+                
                 {voiceError && (
                   <span style={{ color: '#ef4444', fontSize: '12px' }}>
                     {voiceError}
@@ -1011,18 +1109,18 @@ export function InterviewSimulationPage() {
               <button
                 style={{
                   ...submitButtonStyle,
-                  backgroundColor: currentResponse.trim() || currentQuestionIndex < interviewFlow.length ? '#17B0A7' : '#a5b4c3',
-                  cursor: currentResponse.trim() || currentQuestionIndex < interviewFlow.length ? 'pointer' : 'not-allowed'
+                  backgroundColor: currentResponse.trim() ? '#17B0A7' : '#a5b4c3',
+                  cursor: currentResponse.trim() ? 'pointer' : 'not-allowed'
                 }}
                 onClick={handleSubmit}
-                disabled={(!currentResponse.trim() && currentQuestionIndex >= interviewFlow.length) || isLoading}
+                disabled={!currentResponse.trim() || isLoading}
                 onMouseEnter={(e) => {
-                  if (currentResponse.trim() || currentQuestionIndex < interviewFlow.length) {
+                  if (currentResponse.trim()) {
                     e.currentTarget.style.backgroundColor = '#15a097';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (currentResponse.trim() || currentQuestionIndex < interviewFlow.length) {
+                  if (currentResponse.trim()) {
                     e.currentTarget.style.backgroundColor = '#17B0A7';
                   }
                 }}
