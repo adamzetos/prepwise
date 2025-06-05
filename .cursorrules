@@ -1,9 +1,9 @@
 # 🎓 PrepWise AI Mock Interview Platform - Cursor Rules
 # Classification: ADAMCHINS-CONFIDENTIAL ▲
 # Project: PrepWise - AI-powered mock interview platform for business schools
-# Version: 2.0 Beta.02
+# Version: 2.0 Beta 0.3.2
 # Created: 2025-01-27
-# Last Updated: January 2025 - Production Deployment
+# Last Updated: June 2025 - Multi-Site Deployment
 # Purpose: AI coding assistant rules for consistent development
 
 ## 📚 Project Context
@@ -446,7 +446,14 @@ git checkout master && git merge preprod && git push  # Triggers deployment
 - [✓] CI/CD pipeline with GitHub Actions
 - [✓] SSL certificates configured
 - [✓] Browser language detection
-- [✓] Beta.02 version deployed
+- [✓] Beta 0.2 version deployed
+- [✓] Google SSO authentication integration
+- [✓] Session-based auth with React Context
+- [✓] Camera/microphone permissions for interviews
+- [✓] Voice-to-text with Web Speech API
+- [✓] Multi-site deployment (prod & staging)
+- [✓] Preprod CI/CD pipeline
+- [✓] Beta 0.3.2 on staging environment
 
 ### Pending Development:
 - [ ] Backend API implementation
@@ -484,9 +491,11 @@ npm run build
 ## 🎆 Key URLs & Resources
 
 ### Production
-- **Live Site**: https://prepwise.adamchins.com
+- **Live Site (Beta 0.2)**: https://prepwise.adamchins.com
+- **Staging Site (Beta 0.3.2)**: https://prep.adamchins.com
 - **GitHub**: https://github.com/adamzetos/prepwise
 - **EC2 Server**: AWS us-east-1 region
+- **CI/CD**: GitHub Actions (master → prod, preprod → staging)
 
 ### Design Colors
 - Primary Blue: `#1a4d8c`
@@ -503,4 +512,25 @@ npm run build
 
 ## 🎓 PrepWise Mission
 
-PrepWise helps students succeed in job interviews through AI-powered practice. Currently in Beta.02, the platform offers bilingual support and realistic interview simulations. The goal is to make quality interview preparation accessible to all students, regardless of their school's resources. 
+PrepWise helps students succeed in job interviews through AI-powered practice. Currently in Beta 0.3.2 on staging (Beta 0.2 in production), the platform offers bilingual support, Google SSO authentication, camera/mic integration, voice-to-text input, and realistic interview simulations. The goal is to make quality interview preparation accessible to all students, regardless of their school's resources.
+
+## 🔑 Key Development Patterns
+
+### Authentication Flow
+- Google SSO via @react-oauth/google
+- Session-based auth (sessionStorage)
+- Protected routes with ProtectedRoute component
+- AuthContext for session management
+
+### Interview Simulation
+- Camera/mic preview modal before interview
+- Live video feed during interview
+- Voice-to-text with language selection (EN/FR)
+- Real-time OpenAI responses
+- Graceful fallbacks for permissions/API failures
+
+### Deployment Strategy
+- Production: prepwise.adamchins.com (stable releases)
+- Staging: prep.adamchins.com (beta testing)
+- Git flow: develop → preprod → master
+- Automated deployments via GitHub Actions 

@@ -472,4 +472,50 @@ We successfully:
 - Set up production infrastructure
 - Created a scalable, maintainable codebase
 
-**PrepWise Beta.02 is LIVE at prepwise.adamchins.com!** 🚀
+**PrepWise Beta 0.2 is LIVE at prepwise.adamchins.com!** 🚀
+
+## 🚀 LATEST UPDATES (June 2025 - Day 2)
+
+### Multi-Site Deployment Strategy ✅
+- Set up staging environment at **prep.adamchins.com**
+- Production (Beta 0.2) remains at **prepwise.adamchins.com**
+- Staging (Beta 0.3.2) deployed to **prep.adamchins.com**
+- Both sites running on same EC2 instance with Nginx
+
+### CI/CD Enhancement ✅
+- **New Preprod Pipeline**:
+  - Created `.github/workflows/deploy-preprod.yml`
+  - Auto-deploys to prep.adamchins.com on push to preprod branch
+  - Supports tag-based deployments (Beta-*, v*)
+  - Manual trigger available via workflow_dispatch
+
+### Version Management ✅
+- Implemented proper version numbering: Beta 0.3.2
+- Created git tags for version tracking
+- Established rollback strategy with tagged releases
+
+### Google OAuth Multi-Domain Fix ✅
+- Documented solution for redirect_uri_mismatch error
+- Need to add prep.adamchins.com to Google OAuth settings:
+  - https://prep.adamchins.com
+  - https://prep.adamchins.com/login
+  - https://prep.adamchins.com/dashboard
+
+### Deployment Documentation ✅
+- Created `PREP_SITE_DEPLOYMENT.md` - Manual deployment guide
+- Created `PREPROD_CICD_GUIDE.md` - CI/CD documentation
+- Created `GOOGLE_OAUTH_MULTI_DOMAIN_FIX.md` - OAuth setup guide
+- Created `deploy-prep-site.sh` - Automated deployment script
+
+### Technical Achievements ✅
+- Fixed video streaming black screen issue
+- Resolved voice-to-text video pause problem
+- Implemented efficient debugging approach
+- Created comprehensive prompt handbooks for auth
+
+### Best Practices Established ✅
+1. **Efficient Debugging**: Focus on specific issues, avoid over-engineering
+2. **Clear Communication**: Ask for clarification before assuming
+3. **Version Control**: Use semantic versioning with proper tags
+4. **Documentation**: Create guides for complex processes
+5. **CI/CD**: Automate deployments for consistency
